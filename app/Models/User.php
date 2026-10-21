@@ -57,6 +57,11 @@ class User extends Authenticatable
         return $this->role === self::ROLE_OWNER;
     }
 
+    public function homeRouteName(): string
+    {
+        return $this->isOwner() ? 'owner.dashboard' : 'staff.dashboard';
+    }
+
     public function canAccessBranch(int $branchId): bool
     {
         return $this->isOwner() || (int) $this->branch_id === $branchId;

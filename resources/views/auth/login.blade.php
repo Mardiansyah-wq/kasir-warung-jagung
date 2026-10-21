@@ -3,32 +3,36 @@
 @section('title', 'Masuk - Kasir Warung Jagung')
 
 @section('content')
-    <div class="card auth">
-        <h1>Warung Jagung Bakar</h1>
-        <p class="muted">Masuk untuk mulai mengelola transaksi.</p>
-
-        @if ($errors->any())
-            <div class="errors">
-                @foreach ($errors->all() as $error)
-                    <div>{{ $error }}</div>
-                @endforeach
+    <div class="auth-page">
+        <div class="card auth-card">
+            <div class="login-brand">
+                <h1>Warung Jagung Bakar</h1>
+                <p class="muted">Sistem Informasi Kasir</p>
             </div>
-        @endif
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+            @if ($errors->any())
+                <div class="errors">
+                    @foreach ($errors->all() as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
+                </div>
+            @endif
 
-            <label>
-                Username
-                <input type="text" name="username" value="{{ old('username') }}" required autofocus autocomplete="username">
-            </label>
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
 
-            <label>
-                Password
-                <input type="password" name="password" required autocomplete="current-password">
-            </label>
+                <label>
+                    Username
+                    <input type="text" name="username" value="{{ old('username') }}" required autofocus autocomplete="username">
+                </label>
 
-            <button type="submit">Masuk</button>
-        </form>
+                <label>
+                    Password
+                    <input type="password" name="password" required autocomplete="current-password">
+                </label>
+
+                <button type="submit" class="btn btn-block">Masuk</button>
+            </form>
+        </div>
     </div>
 @endsection

@@ -5,25 +5,18 @@ namespace Tests\Feature;
 use App\Models\Branch;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Route::middleware(['web', 'auth', 'role:owner'])
-            ->get('/_test/owner-only', fn () => 'ok');
-    }
-
     public function test_guest_is_redirected_to_login(): void
     {
         $this->get('/')->assertRedirect('/login');
         $this->get('/dashboard')->assertRedirect('/login');
+        $this->get('/owner/dashboard')->assertRedirect('/login');
+        $this->get('/staff/dashboard')->assertRedirect('/login');
     }
 
     public function test_login_page_can_be_rendered(): void
@@ -34,19 +27,33 @@ class AuthTest extends TestCase
             ->assertSee('Username');
     }
 
-    public function test_owner_can_login_with_username_and_password(): void
+    public function test_owner_is_redirected_to_owner_dashboard(): void
     {
         $user = User::factory()->owner()->create([
             'username' => 'owner',
             'password_hash' => 'owner123',
         ]);
 
-        $response = $this->post('/login', [
+        $this->post('/login', [
             'username' => 'owner',
             'password' => 'owner123',
+        ])->assertRedirect('/owner/dashboard');
+
+        $this->assertAuthenticatedAs($user);
+    }
+
+    public function test_staff_is_redirected_to_staff_dashboard(): void
+    {
+        $user = User::factory()->create([
+            'username' => 'staff',
+            'password_hash' => 'staff123',
         ]);
 
-        $response->assertRedirect('/dashboard');
+        $this->post('/login', [
+            'username' => 'staff',
+            'password' => 'staff123',
+        ])->assertRedirect('/staff/dashboard');
+
         $this->assertAuthenticatedAs($user);
     }
 
@@ -91,22 +98,58 @@ class AuthTest extends TestCase
         $this->assertGuest();
     }
 
-    public function test_staff_cannot_access_owner_only_route(): void
-    {
-        $staff = User::factory()->create(['role' => User::ROLE_STAFF]);
-
-        $this->actingAs($staff)
-            ->get('/_test/owner-only')
-            ->assertForbidden();
-    }
-
-    public function test_owner_can_access_owner_only_route(): void
+    public function test_owner_can_open_owner_dashboard(): void
     {
         $owner = User::factory()->owner()->create();
 
         $this->actingAs($owner)
-            ->get('/_test/owner-only')
-            ->assertOk();
+            ->get('/owner/dashboard')
+            ->assertOk()
+            ->assertSee('Dashboard Owner');
+    }
+
+    public function test_staff_can_open_staff_dashboard(): void
+    {
+        $branch = Branch::create(['name' => 'Cabang Pusat']);
+        $staff = User::factory()->forBranch($branch)->create();
+
+        $this->actingAs($staff)
+            ->get('/staff/dashboard')
+            ->assertOk()
+            ->assertSee('Dashboard Staff')
+            ->assertSee('Cabang Pusat');
+    }
+
+    public function test_staff_cannot_open_owner_dashboard(): void
+    {
+        $staff = User::factory()->create();
+
+        $this->actingAs($staff)
+            ->get('/owner/dashboard')
+            ->assertForbidden();
+    }
+
+    public function test_owner_cannot_open_staff_dashboard(): void
+    {
+        $owner = User::factory()->owner()->create();
+
+        $this->actingAs($owner)
+            ->get('/staff/dashboard')
+            ->assertForbidden();
+    }
+
+    public function test_dashboard_route_redirects_by_role(): void
+    {
+        $owner = User::factory()->owner()->create();
+        $staff = User::factory()->create();
+
+        $this->actingAs($owner)
+            ->get('/dashboard')
+            ->assertRedirect('/owner/dashboard');
+
+        $this->actingAs($staff)
+            ->get('/dashboard')
+            ->assertRedirect('/staff/dashboard');
     }
 
     public function test_staff_can_only_access_their_own_branch(): void
