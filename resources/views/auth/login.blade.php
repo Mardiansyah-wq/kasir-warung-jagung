@@ -21,18 +21,41 @@
             <form method="POST" action="{{ route('login') }}">
                 @csrf
 
-                <label>
-                    Username
-                    <input type="text" name="username" value="{{ old('username') }}" required autofocus autocomplete="username">
-                </label>
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input
+                        id="email"
+                        type="email"
+                        name="email"
+                        value="{{ old('email') }}"
+                        placeholder="nama@gmail.com"
+                        inputmode="email"
+                        autocomplete="email"
+                        required
+                        autofocus
+                    >
+                </div>
 
-                <label>
-                    Password
-                    <input type="password" name="password" required autocomplete="current-password">
-                </label>
+                <div class="field">
+                    <label for="password">Password</label>
+                    <div class="input-wrap">
+                        <input
+                            id="password"
+                            type="password"
+                            name="password"
+                            autocomplete="current-password"
+                            required
+                        >
+                        @include('partials.password-toggle', ['target' => 'password'])
+                    </div>
+                </div>
 
                 <button type="submit" class="btn btn-block">Masuk</button>
             </form>
+
+            <p class="auth-footer">
+                Belum punya akun? <a href="{{ route('register') }}">Daftar sekarang</a>
+            </p>
         </div>
     </div>
 @endsection

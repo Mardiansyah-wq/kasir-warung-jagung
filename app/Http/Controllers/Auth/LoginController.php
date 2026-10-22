@@ -19,7 +19,7 @@ class LoginController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
-            'username' => ['required', 'string'],
+            'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
         ]);
 
@@ -27,7 +27,7 @@ class LoginController extends Controller
 
         if (! Auth::attempt($credentials)) {
             throw ValidationException::withMessages([
-                'username' => 'Username atau password salah, atau akun sedang tidak aktif.',
+                'email' => 'Email atau password salah, atau akun sedang tidak aktif.',
             ]);
         }
 

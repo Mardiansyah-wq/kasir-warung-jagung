@@ -24,18 +24,20 @@ class AuthTest extends TestCase
         $this->get('/login')
             ->assertOk()
             ->assertSee('Warung Jagung Bakar')
-            ->assertSee('Username');
+            ->assertSee('Email')
+            ->assertSee('Daftar sekarang')
+            ->assertSee('data-password-toggle="password"', false);
     }
 
     public function test_owner_is_redirected_to_owner_dashboard(): void
     {
         $user = User::factory()->owner()->create([
-            'username' => 'owner',
+            'email' => 'owner@warungjagung.test',
             'password_hash' => 'owner123',
         ]);
 
         $this->post('/login', [
-            'username' => 'owner',
+            'email' => 'owner@warungjagung.test',
             'password' => 'owner123',
         ])->assertRedirect('/owner/dashboard');
 
@@ -45,12 +47,12 @@ class AuthTest extends TestCase
     public function test_staff_is_redirected_to_staff_dashboard(): void
     {
         $user = User::factory()->create([
-            'username' => 'staff',
+            'email' => 'staff@warungjagung.test',
             'password_hash' => 'staff123',
         ]);
 
         $this->post('/login', [
-            'username' => 'staff',
+            'email' => 'staff@warungjagung.test',
             'password' => 'staff123',
         ])->assertRedirect('/staff/dashboard');
 
@@ -60,14 +62,14 @@ class AuthTest extends TestCase
     public function test_login_fails_with_wrong_password(): void
     {
         User::factory()->create([
-            'username' => 'staff',
+            'email' => 'staff@warungjagung.test',
             'password_hash' => 'staff123',
         ]);
 
         $this->post('/login', [
-            'username' => 'staff',
+            'email' => 'staff@warungjagung.test',
             'password' => 'salah',
-        ])->assertSessionHasErrors('username');
+        ])->assertSessionHasErrors('email');
 
         $this->assertGuest();
     }
@@ -75,14 +77,14 @@ class AuthTest extends TestCase
     public function test_inactive_user_cannot_login(): void
     {
         User::factory()->inactive()->create([
-            'username' => 'staff',
+            'email' => 'staff@warungjagung.test',
             'password_hash' => 'staff123',
         ]);
 
         $this->post('/login', [
-            'username' => 'staff',
+            'email' => 'staff@warungjagung.test',
             'password' => 'staff123',
-        ])->assertSessionHasErrors('username');
+        ])->assertSessionHasErrors('email');
 
         $this->assertGuest();
     }

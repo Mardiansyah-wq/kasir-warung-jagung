@@ -333,14 +333,19 @@
 
         label {
             display: block;
-            margin-bottom: 14px;
+            margin-bottom: 6px;
             font-size: 14px;
             font-weight: 600;
         }
 
-        input {
+        .field {
+            margin-bottom: 14px;
+        }
+
+        input,
+        textarea {
             width: 100%;
-            margin-top: 6px;
+            margin-top: 0;
             padding: 12px;
             border: 1px solid #cfc7bb;
             border-radius: 8px;
@@ -349,10 +354,90 @@
             font-size: 16px;
         }
 
-        input:focus {
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus {
             border-color: var(--brand);
             outline: 2px solid #f0c38a;
             outline-offset: 1px;
+        }
+
+        .input-wrap {
+            position: relative;
+            margin-top: 0;
+        }
+
+        .input-wrap input {
+            margin-top: 0;
+            padding-right: 48px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transform: translateY(-50%);
+        }
+
+        .toggle-password:hover {
+            background: #f5f5f4;
+            color: var(--text);
+        }
+
+        .toggle-password svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .toggle-password .eye-off {
+            display: none;
+        }
+
+        .toggle-password[aria-pressed="true"] .eye {
+            display: none;
+        }
+
+        .toggle-password[aria-pressed="true"] .eye-off {
+            display: block;
+        }
+
+        .auth-footer {
+            margin: 16px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .auth-footer a {
+            color: var(--brand);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .hint {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 12px;
         }
 
         .errors {
@@ -427,5 +512,27 @@
             </form>
         </nav>
     @endauth
+
+    <script>
+        document.addEventListener('click', function (event) {
+            const toggle = event.target.closest('[data-password-toggle]');
+
+            if (!toggle) {
+                return;
+            }
+
+            const input = document.getElementById(toggle.dataset.passwordToggle);
+
+            if (!input) {
+                return;
+            }
+
+            const show = input.type === 'password';
+
+            input.type = show ? 'text' : 'password';
+            toggle.setAttribute('aria-pressed', show ? 'true' : 'false');
+            toggle.setAttribute('aria-label', show ? 'Sembunyikan password' : 'Tampilkan password');
+        });
+    </script>
 </body>
 </html>

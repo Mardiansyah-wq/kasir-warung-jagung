@@ -26,7 +26,10 @@ class UserFactory extends Factory
         return [
             'branch_id' => null,
             'name' => fake()->name(),
-            'username' => fake()->unique()->userName(),
+            'email' => fake()->unique()->safeEmail(),
+            'phone' => fake()->numerify('08##########'),
+            'address' => fake()->address(),
+            'username' => null,
             'password_hash' => static::$password ??= 'password',
             'role' => User::ROLE_STAFF,
             'is_active' => true,
