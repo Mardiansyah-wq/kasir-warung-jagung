@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard Owner - Kasir Warung Jagung')
+@section('title', 'Dashboard Owner - Hotmad')
 
 @section('content')
     <div class="page-head">
@@ -26,7 +26,7 @@
 
         <div class="card stat">
             <span class="stat-label">Stok Menipis</span>
-            <strong class="stat-value">0</strong>
+            <strong class="stat-value">{{ $lowStockCount }}</strong>
             <span class="muted">Perlu restock</span>
         </div>
 
@@ -44,10 +44,10 @@
                 <strong>Kelola Cabang</strong>
                 <span class="muted">Segera hadir</span>
             </div>
-            <div class="quick">
+            <a href="{{ route('owner.menus.index') }}" class="quick quick-link">
                 <strong>Kelola Menu</strong>
-                <span class="muted">Segera hadir</span>
-            </div>
+                <span class="muted">{{ $menuCount }} menu aktif</span>
+            </a>
             <div class="quick">
                 <strong>Kelola Stok</strong>
                 <span class="muted">Segera hadir</span>

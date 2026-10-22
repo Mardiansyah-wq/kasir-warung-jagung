@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard Staff - Kasir Warung Jagung')
+@section('title', 'Dashboard Staff - Hotmad')
 
 @section('content')
     <div class="page-head">
@@ -19,6 +19,12 @@
         </div>
 
         <div class="card stat">
+            <span class="stat-label">Menu Aktif</span>
+            <strong class="stat-value">{{ $menuCount }}</strong>
+            <span class="muted">Siap dijual</span>
+        </div>
+
+        <div class="card stat">
             <span class="stat-label">Transaksi Hari Ini</span>
             <strong class="stat-value">0</strong>
             <span class="muted">Cabang ini</span>
@@ -26,12 +32,18 @@
 
         <div class="card stat">
             <span class="stat-label">Stok Cabang</span>
-            <strong class="stat-value">0</strong>
-            <span class="muted">Item terdaftar</span>
+            <strong class="stat-value">{{ $stockCount }}</strong>
+            <span class="muted">Total item</span>
         </div>
     </div>
 
     <div class="card">
+        <h2>Menu Hotmad</h2>
+        <p class="muted">Lihat daftar menu, varian, harga, dan stok cabang.</p>
+        <a href="{{ route('staff.menus.index') }}" class="btn btn-block">Lihat Menu</a>
+    </div>
+
+    <div class="card" style="margin-top: 16px">
         <h2>Mulai Transaksi</h2>
         <p class="muted">Fitur kasir akan tersedia pada tahap berikutnya.</p>
         <button type="button" class="btn btn-block" disabled>Mulai Transaksi (segera)</button>

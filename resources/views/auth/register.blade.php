@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Daftar Akun - Kasir Warung Jagung')
+@section('title', 'Daftar Akun - Hotmad')
 
 @section('content')
     <div class="auth-page">
         <div class="card auth-card">
             <div class="login-brand">
                 <h1>Daftar Akun</h1>
-                <p class="muted">Buat akun untuk mulai menggunakan kasir.</p>
+                <p class="muted">Buat akun untuk mulai menggunakan Hotmad.</p>
             </div>
 
             @if ($errors->any())
