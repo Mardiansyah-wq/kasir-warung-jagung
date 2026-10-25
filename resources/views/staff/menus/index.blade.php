@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Menu - Hotmad')
+@section('title', 'Menu - Jagung Bakar WJT')
 
 @section('content')
     <div class="page-head">
@@ -17,7 +17,7 @@
             <a
                 href="{{ route('staff.menus.index', ['category' => $item]) }}"
                 class="chip {{ $category === $item ? 'active' : '' }}"
-            >{{ ucfirst($item) }}</a>
+            >{{ \App\Models\Menu::categoryLabelFor($item) }}</a>
         @endforeach
     </div>
 

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard Owner - Hotmad')
+@section('title', 'Dashboard Owner - Jagung Bakar WJT')
 
 @section('content')
     <div class="page-head">

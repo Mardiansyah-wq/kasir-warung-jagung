@@ -23,7 +23,7 @@ class AuthTest extends TestCase
     {
         $this->get('/login')
             ->assertOk()
-            ->assertSee('Hotmad')
+            ->assertSee('Jagung Bakar WJT')
             ->assertSee('Email')
             ->assertSee('Daftar sekarang')
             ->assertSee('data-password-toggle="password"', false);

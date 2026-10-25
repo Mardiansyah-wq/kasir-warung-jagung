@@ -86,7 +86,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'Keripik Singkong',
-                'description' => 'Cemilan renyah untuk teman ngobrol.',
+                'description' => 'Camilan renyah untuk teman ngobrol.',
                 'category' => Menu::CATEGORY_CEMILAN,
                 'variants' => [
                     'Original' => ['price' => 8000, 'stock' => 50],
@@ -130,6 +130,6 @@ class DatabaseSeeder extends Seeder
 
         $this->command?->info('Akun owner: owner@warungjagung.test / owner123');
         $this->command?->info('Akun staff: staff@warungjagung.test / staff123');
-        $this->command?->info('Menu contoh Hotmad berhasil disiapkan.');
+        $this->command?->info('Menu contoh Jagung Bakar WJT berhasil disiapkan.');
     }
 }

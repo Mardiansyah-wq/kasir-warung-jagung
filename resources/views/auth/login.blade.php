@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Masuk - Hotmad')
+@section('title', 'Masuk - Jagung Bakar WJT')
 
 @section('content')
     <div class="auth-page">
         <div class="card auth-card">
             <div class="login-brand">
-                <h1>Hotmad</h1>
+                <h1>Jagung Bakar WJT</h1>
                 <p class="muted">Warung Jagung Bakar & Pisang</p>
             </div>
 

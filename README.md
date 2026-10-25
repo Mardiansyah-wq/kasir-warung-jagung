@@ -1,6 +1,6 @@
-# Hotmad
+# Jagung Bakar WJT
 
-Aplikasi kasir **Hotmad** (warung jagung bakar & pisang) berbasis Laravel, dirancang mobile-first untuk Android.
+Aplikasi kasir **Jagung Bakar WJT** (warung jagung bakar & pisang) berbasis Laravel, dirancang mobile-first untuk Android.
 
 ## Menjalankan
 
@@ -17,7 +17,8 @@ Akun demo:
 
 ## Catatan
 
+- Kategori `cemilan` tetap disimpan dengan nilai itu di database, tetapi label yang tampil di UI adalah **Hotmad**.
 - Foto menu disimpan privat di `storage/app/private/menus/` dan disajikan lewat route yang membutuhkan login.
 - Upload foto dikompres di browser, lalu dinormalisasi di server menjadi WebP (maksimal 1200 px) dengan thumbnail 480 × 480.
 - Server membutuhkan `ffmpeg` dengan dukungan WebP. Lokasi binary bisa diatur lewat `FFMPEG_PATH`.
-- Harga topping untuk semua menu kategori **makanan** diatur lewat `HOTMAD_TOPPING_PRICE` (default Rp2.000).
+- Harga topping untuk semua menu kategori **makanan** diatur lewat `MENU_TOPPING_PRICE` (default Rp2.000).

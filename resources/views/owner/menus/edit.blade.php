@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Menu - Hotmad')
+@section('title', 'Edit Menu - Jagung Bakar WJT')
 
 @section('content')
     <div class="page-head">

@@ -24,7 +24,7 @@ class MenuImageService
      */
     public function store(UploadedFile $file): array
     {
-        $workDir = sys_get_temp_dir().'/hotmad-menu-'.Str::uuid();
+        $workDir = sys_get_temp_dir().'/menu-image-'.Str::uuid();
         File::ensureDirectoryExists($workDir);
 
         $input = $file->getRealPath();
@@ -85,7 +85,7 @@ class MenuImageService
         bool $disableAutorotate = false,
     ): void {
         $command = [
-            (string) config('hotmad.ffmpeg_path', 'ffmpeg'),
+            (string) config('menu.ffmpeg_path', 'ffmpeg'),
             '-hide_banner',
             '-loglevel', 'error',
             '-y',

@@ -18,7 +18,7 @@
         <select id="category" name="category" required>
             @foreach (\App\Models\Menu::CATEGORIES as $item)
                 <option value="{{ $item }}" @selected(old('category', $menu?->category ?? 'makanan') === $item)>
-                    {{ ucfirst($item) }}
+                    {{ \App\Models\Menu::categoryLabelFor($item) }}
                 </option>
             @endforeach
         </select>

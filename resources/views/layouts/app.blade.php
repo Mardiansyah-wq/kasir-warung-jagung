@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#b45309">
-    <title>@yield('title', 'Hotmad')</title>
+    <title>@yield('title', 'Jagung Bakar WJT')</title>
     <style>
         :root {
             --brand: #b45309;
@@ -66,9 +66,12 @@
         }
 
         .brand {
+            min-width: 0;
+            overflow: hidden;
             font-size: 16px;
             font-weight: 700;
             white-space: nowrap;
+            text-overflow: ellipsis;
         }
 
         .header-user {
@@ -76,9 +79,17 @@
             flex-direction: column;
             align-items: flex-end;
             gap: 1px;
+            min-width: 0;
             font-size: 13px;
             line-height: 1.3;
             text-align: right;
+        }
+
+        .header-user > span {
+            max-width: 40vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .header-user .role {
@@ -522,6 +533,7 @@
 
         .chips {
             display: flex;
+            flex-wrap: wrap;
             gap: 8px;
             margin-bottom: 14px;
             padding-bottom: 4px;
@@ -936,7 +948,7 @@
     @auth
         <header>
             <div class="header-inner">
-                <div class="brand">{{ config('app.name', 'Hotmad') }}</div>
+                <div class="brand">{{ config('app.name', 'Jagung Bakar WJT') }}</div>
 
                 <nav class="desktop-nav">
                     <a href="{{ route(auth()->user()->homeRouteName()) }}" class="{{ request()->routeIs('*.dashboard') ? 'active' : '' }}">Dashboard</a>

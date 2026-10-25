@@ -50,16 +50,21 @@ class Menu extends Model
 
     public function toppingPrice(): int
     {
-        return (int) config('hotmad.topping_price', 2000);
+        return (int) config('menu.topping_price', 2000);
+    }
+
+    public static function categoryLabelFor(?string $category): string
+    {
+        return match ($category) {
+            self::CATEGORY_MINUMAN => 'Minuman',
+            self::CATEGORY_CEMILAN => 'Hotmad',
+            default => 'Makanan',
+        };
     }
 
     public function categoryLabel(): string
     {
-        return match ($this->category) {
-            self::CATEGORY_MINUMAN => 'Minuman',
-            self::CATEGORY_CEMILAN => 'Cemilan',
-            default => 'Makanan',
-        };
+        return self::categoryLabelFor($this->category);
     }
 
     public function categoryEmoji(): string

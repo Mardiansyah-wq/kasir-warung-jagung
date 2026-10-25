@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard Staff - Hotmad')
+@section('title', 'Dashboard Staff - Jagung Bakar WJT')
 
 @section('content')
     <div class="page-head">
@@ -38,7 +38,7 @@
     </div>
 
     <div class="card">
-        <h2>Menu Hotmad</h2>
+        <h2>Menu Jagung Bakar WJT</h2>
         <p class="muted">Lihat daftar menu, varian, harga, dan stok cabang.</p>
         <a href="{{ route('staff.menus.index') }}" class="btn btn-block">Lihat Menu</a>
     </div>

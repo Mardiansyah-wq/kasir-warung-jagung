@@ -242,6 +242,42 @@ class MenuManagementTest extends TestCase
         $this->assertSame(1, substr_count($content, 'data-menu-topping="0"'));
     }
 
+    public function test_snack_category_is_labelled_hotmad(): void
+    {
+        $owner = User::factory()->owner()->create();
+        $staff = User::factory()->create();
+
+        $this->createMenu();
+
+        Menu::create([
+            'name' => 'Keripik Singkong',
+            'category' => 'cemilan',
+            'is_active' => true,
+        ])->variants()->create([
+            'variant_name' => 'Original',
+            'selling_price' => 8000,
+            'is_active' => true,
+        ]);
+
+        $this->actingAs($owner)
+            ->get(route('owner.menus.index'))
+            ->assertOk()
+            ->assertSee('Hotmad')
+            ->assertDontSee('Cemilan');
+
+        $this->actingAs($owner)
+            ->get(route('owner.menus.create'))
+            ->assertOk()
+            ->assertSee('Hotmad')
+            ->assertDontSee('Cemilan');
+
+        $this->actingAs($staff)
+            ->get(route('staff.menus.index'))
+            ->assertOk()
+            ->assertSee('Hotmad')
+            ->assertDontSee('Cemilan');
+    }
+
     public function test_staff_can_filter_menus_by_category(): void
     {
         $staff = User::factory()->create();
@@ -262,7 +298,7 @@ class MenuManagementTest extends TestCase
             ->get(route('staff.menus.index', ['category' => 'minuman']))
             ->assertOk()
             ->assertSee('Es Teh')
-            ->assertDontSee('Jagung Bakar');
+            ->assertDontSee('data-menu-name="Jagung Bakar"', false);
     }
 
     private function createMenu(): Menu

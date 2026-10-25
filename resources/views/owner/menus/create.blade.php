@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Menu - Hotmad')
+@section('title', 'Tambah Menu - Jagung Bakar WJT')
 
 @section('content')
     <div class="page-head">
