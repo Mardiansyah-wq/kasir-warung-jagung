@@ -56,23 +56,50 @@ class DatabaseSeeder extends Seeder
             ],
         );
 
+        $jagungFlavours = [
+            'Original',
+            'Manis',
+            'Asin',
+            'BBQ',
+            'Coklat',
+            'Pedas',
+            'Pedas Manis',
+            'Pedas Asin',
+            'Pedas Manis Asin Coklat',
+            'Sambal Bangkok',
+            'Gula Jawa Pedas Manis',
+            'Jasuke',
+            'Coklat Keju Susu',
+        ];
+
+        $jagungVariants = [];
+
+        foreach ($jagungFlavours as $flavour) {
+            $jagungVariants[] = ['name' => 'Utuh', 'type' => $flavour, 'price' => 15000, 'stock' => 20];
+            $jagungVariants[] = ['name' => 'Serut', 'type' => $flavour, 'price' => 10000, 'stock' => 20];
+        }
+
         $menus = [
             [
                 'name' => 'Jagung Bakar',
-                'description' => 'Jagung bakar manis, tersedia serut dan utuh.',
+                'description' => 'Jagung bakar dengan pilihan rasa, disajikan utuh atau serut.',
+                'category' => Menu::CATEGORY_MAKANAN,
+                'variants' => $jagungVariants,
+            ],
+            [
+                'name' => 'Pisang Bakar',
+                'description' => 'Pisang bakar manis, cocok untuk camilan hangat.',
                 'category' => Menu::CATEGORY_MAKANAN,
                 'variants' => [
-                    ['name' => 'Serut', 'price' => 10000, 'stock' => 40],
-                    ['name' => 'Utuh', 'price' => 15000, 'stock' => 30],
+                    ['name' => 'Normal', 'price' => 10000, 'stock' => 30],
                 ],
             ],
             [
-                'name' => 'Pisang Goreng',
-                'description' => 'Pisang goreng renyah dengan pilihan pisang raja atau kepok.',
+                'name' => 'Roti Bakar',
+                'description' => 'Roti bakar isi manis, disajikan hangat.',
                 'category' => Menu::CATEGORY_MAKANAN,
                 'variants' => [
-                    ['name' => 'Normal', 'type' => 'Pisang Raja', 'price' => 12000, 'stock' => 25],
-                    ['name' => 'Normal', 'type' => 'Pisang Kepok', 'price' => 10000, 'stock' => 35],
+                    ['name' => 'Normal', 'price' => 12000, 'stock' => 30],
                 ],
             ],
             [
