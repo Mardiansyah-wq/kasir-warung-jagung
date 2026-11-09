@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['menu_id', 'variant_name', 'sku', 'selling_price', 'is_active'])]
+#[Fillable(['menu_id', 'type', 'variant_name', 'sku', 'selling_price', 'is_active'])]
 class MenuVariant extends Model
 {
     /**

@@ -6,6 +6,7 @@ use App\Models\Branch;
 use App\Models\BranchStock;
 use App\Models\Menu;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -299,6 +300,68 @@ class MenuManagementTest extends TestCase
             ->assertOk()
             ->assertSee('Es Teh')
             ->assertDontSee('data-menu-name="Jagung Bakar"', false);
+    }
+
+    public function test_same_variant_name_is_allowed_across_different_types(): void
+    {
+        $menu = Menu::create([
+            'name' => 'Pisang Goreng',
+            'category' => 'makanan',
+            'is_active' => true,
+        ]);
+
+        $raja = $menu->variants()->create([
+            'type' => 'Pisang Raja',
+            'variant_name' => 'Normal',
+            'selling_price' => 12000,
+            'is_active' => true,
+        ]);
+
+        $kepok = $menu->variants()->create([
+            'type' => 'Pisang Kepok',
+            'variant_name' => 'Normal',
+            'selling_price' => 10000,
+            'is_active' => true,
+        ]);
+
+        $this->assertDatabaseHas('menu_variants', [
+            'id' => $raja->id,
+            'type' => 'Pisang Raja',
+            'variant_name' => 'Normal',
+        ]);
+
+        $this->assertDatabaseHas('menu_variants', [
+            'id' => $kepok->id,
+            'type' => 'Pisang Kepok',
+            'variant_name' => 'Normal',
+        ]);
+
+        $this->assertSame(2, $menu->variants()->where('variant_name', 'Normal')->count());
+    }
+
+    public function test_duplicate_variant_name_and_type_is_rejected(): void
+    {
+        $menu = Menu::create([
+            'name' => 'Pisang Goreng',
+            'category' => 'makanan',
+            'is_active' => true,
+        ]);
+
+        $menu->variants()->create([
+            'type' => 'Pisang Raja',
+            'variant_name' => 'Normal',
+            'selling_price' => 12000,
+            'is_active' => true,
+        ]);
+
+        $this->expectException(QueryException::class);
+
+        $menu->variants()->create([
+            'type' => 'Pisang Raja',
+            'variant_name' => 'Normal',
+            'selling_price' => 13000,
+            'is_active' => true,
+        ]);
     }
 
     private function createMenu(): Menu

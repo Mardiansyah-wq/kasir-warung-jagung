@@ -62,8 +62,8 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Jagung bakar manis, tersedia serut dan utuh.',
                 'category' => Menu::CATEGORY_MAKANAN,
                 'variants' => [
-                    'Serut' => ['price' => 10000, 'stock' => 40],
-                    'Utuh' => ['price' => 15000, 'stock' => 30],
+                    ['name' => 'Serut', 'price' => 10000, 'stock' => 40],
+                    ['name' => 'Utuh', 'price' => 15000, 'stock' => 30],
                 ],
             ],
             [
@@ -71,8 +71,8 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Pisang goreng renyah dengan pilihan pisang raja atau kepok.',
                 'category' => Menu::CATEGORY_MAKANAN,
                 'variants' => [
-                    'Pisang Raja' => ['price' => 12000, 'stock' => 25],
-                    'Pisang Kepok' => ['price' => 10000, 'stock' => 35],
+                    ['name' => 'Normal', 'type' => 'Pisang Raja', 'price' => 12000, 'stock' => 25],
+                    ['name' => 'Normal', 'type' => 'Pisang Kepok', 'price' => 10000, 'stock' => 35],
                 ],
             ],
             [
@@ -80,8 +80,8 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Es teh manis atau tawar.',
                 'category' => Menu::CATEGORY_MINUMAN,
                 'variants' => [
-                    'Manis' => ['price' => 5000, 'stock' => 100],
-                    'Tawar' => ['price' => 5000, 'stock' => 100],
+                    ['name' => 'Manis', 'price' => 5000, 'stock' => 100],
+                    ['name' => 'Tawar', 'price' => 5000, 'stock' => 100],
                 ],
             ],
             [
@@ -89,7 +89,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Camilan renyah untuk teman ngobrol.',
                 'category' => Menu::CATEGORY_CEMILAN,
                 'variants' => [
-                    'Original' => ['price' => 8000, 'stock' => 50],
+                    ['name' => 'Original', 'price' => 8000, 'stock' => 50],
                 ],
             ],
         ];
@@ -104,14 +104,15 @@ class DatabaseSeeder extends Seeder
                 ],
             );
 
-            foreach ($data['variants'] as $variantName => $variantData) {
+            foreach ($data['variants'] as $v) {
                 $variant = MenuVariant::updateOrCreate(
                     [
                         'menu_id' => $menu->id,
-                        'variant_name' => $variantName,
+                        'type' => $v['type'] ?? null,
+                        'variant_name' => $v['name'],
                     ],
                     [
-                        'selling_price' => $variantData['price'],
+                        'selling_price' => $v['price'],
                         'is_active' => true,
                     ],
                 );
@@ -122,7 +123,7 @@ class DatabaseSeeder extends Seeder
                         'menu_variant_id' => $variant->id,
                     ],
                     [
-                        'quantity' => $variantData['stock'],
+                        'quantity' => $v['stock'],
                     ],
                 );
             }
