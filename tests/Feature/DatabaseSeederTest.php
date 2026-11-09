@@ -123,6 +123,82 @@ class DatabaseSeederTest extends TestCase
         }
     }
 
+    public function test_seeder_builds_drinks_with_es_panas_and_single_variants(): void
+    {
+        $this->seed();
+
+        $drinkNames = Menu::where('category', Menu::CATEGORY_MINUMAN)
+            ->orderBy('name')
+            ->pluck('name')
+            ->all();
+
+        $this->assertSame([
+            'Air Mineral',
+            'Cappucino',
+            'Chocolatos',
+            'Jahe Geprek',
+            'Jahe Sere Aren',
+            'Jahe Susu',
+            'Jeruk Peras',
+            'Kopi',
+            'Kopi Susu',
+            'Leci Squash',
+            'Lemon Squash',
+            'Lemon Tea',
+            'Milo',
+            'Moka Squash',
+            'Nutrisari',
+            'Soda Gembira',
+            'Teh',
+            'Teh Tarik',
+        ], $drinkNames);
+
+        $this->assertDatabaseMissing('menus', ['name' => 'Es Teh']);
+
+        $esPanasDrinks = [
+            'Milo',
+            'Chocolatos',
+            'Cappucino',
+            'Jeruk Peras',
+            'Nutrisari',
+            'Teh Tarik',
+            'Teh',
+            'Lemon Tea',
+        ];
+
+        foreach ($esPanasDrinks as $name) {
+            $menu = Menu::where('name', $name)->firstOrFail();
+
+            $this->assertSame(2, $menu->variants()->count(), $name);
+            $this->assertDatabaseHas('menu_variants', ['menu_id' => $menu->id, 'variant_name' => 'Es']);
+            $this->assertDatabaseHas('menu_variants', ['menu_id' => $menu->id, 'variant_name' => 'Panas']);
+        }
+
+        $singleDrinks = [
+            'Leci Squash',
+            'Lemon Squash',
+            'Moka Squash',
+            'Soda Gembira',
+            'Kopi',
+            'Kopi Susu',
+            'Jahe Geprek',
+            'Jahe Susu',
+            'Jahe Sere Aren',
+            'Air Mineral',
+        ];
+
+        foreach ($singleDrinks as $name) {
+            $menu = Menu::where('name', $name)->firstOrFail();
+
+            $this->assertSame(1, $menu->variants()->count(), $name);
+            $this->assertDatabaseHas('menu_variants', ['menu_id' => $menu->id, 'variant_name' => 'Normal']);
+        }
+
+        $minumanIds = Menu::where('category', Menu::CATEGORY_MINUMAN)->pluck('id');
+
+        $this->assertSame(26, MenuVariant::whereIn('menu_id', $minumanIds)->count());
+    }
+
     public function test_seeder_builds_every_hotmad_item_with_every_flavour(): void
     {
         $this->seed();

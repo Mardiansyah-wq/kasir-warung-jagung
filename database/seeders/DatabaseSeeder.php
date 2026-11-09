@@ -149,6 +149,56 @@ class DatabaseSeeder extends Seeder
             ),
         ], $hotmadItems);
 
+        $esPanasDrinks = [
+            'Milo',
+            'Chocolatos',
+            'Cappucino',
+            'Jeruk Peras',
+            'Nutrisari',
+            'Teh Tarik',
+            'Teh',
+            'Lemon Tea',
+        ];
+
+        // Harga placeholder; nanti diisi lewat halaman menu.
+        $singleDrinks = [
+            'Leci Squash' => 10000,
+            'Lemon Squash' => 10000,
+            'Moka Squash' => 10000,
+            'Soda Gembira' => 10000,
+            'Kopi' => 8000,
+            'Kopi Susu' => 10000,
+            'Jahe Geprek' => 8000,
+            'Jahe Susu' => 10000,
+            'Jahe Sere Aren' => 10000,
+            'Air Mineral' => 5000,
+        ];
+
+        $minumanMenus = [];
+
+        foreach ($esPanasDrinks as $drink) {
+            $minumanMenus[] = [
+                'name' => $drink,
+                'description' => $drink.' tersedia dalam pilihan es atau panas.',
+                'category' => Menu::CATEGORY_MINUMAN,
+                'variants' => [
+                    ['name' => 'Es', 'price' => 8000, 'stock' => 50],
+                    ['name' => 'Panas', 'price' => 8000, 'stock' => 50],
+                ],
+            ];
+        }
+
+        foreach ($singleDrinks as $drink => $price) {
+            $minumanMenus[] = [
+                'name' => $drink,
+                'description' => 'Minuman '.$drink.'.',
+                'category' => Menu::CATEGORY_MINUMAN,
+                'variants' => [
+                    ['name' => 'Normal', 'price' => $price, 'stock' => 50],
+                ],
+            ];
+        }
+
         $menus = [
             [
                 'name' => 'Jagung Bakar',
@@ -168,15 +218,7 @@ class DatabaseSeeder extends Seeder
                 'category' => Menu::CATEGORY_MAKANAN,
                 'variants' => $rotiVariants,
             ],
-            [
-                'name' => 'Es Teh',
-                'description' => 'Es teh manis atau tawar.',
-                'category' => Menu::CATEGORY_MINUMAN,
-                'variants' => [
-                    ['name' => 'Manis', 'price' => 5000, 'stock' => 100],
-                    ['name' => 'Tawar', 'price' => 5000, 'stock' => 100],
-                ],
-            ],
+            ...$minumanMenus,
             ...$hotmadMenus,
         ];
 
