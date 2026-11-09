@@ -126,6 +126,7 @@ class DatabaseSeederTest extends TestCase
                 'menu_id' => $roti->id,
                 'type' => null,
                 'variant_name' => $flavour,
+                'selling_price' => 10000,
                 'is_active' => 1,
             ]);
         }

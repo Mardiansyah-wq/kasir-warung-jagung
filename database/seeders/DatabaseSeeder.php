@@ -115,9 +115,8 @@ class DatabaseSeeder extends Seeder
             'Telur',
         ];
 
-        // Harga placeholder; nanti diisi lewat halaman menu.
         $rotiVariants = array_map(
-            fn (string $flavour): array => ['name' => $flavour, 'price' => 12000, 'stock' => 20],
+            fn (string $flavour): array => ['name' => $flavour, 'price' => 10000, 'stock' => 20],
             $rotiFlavours,
         );
 
