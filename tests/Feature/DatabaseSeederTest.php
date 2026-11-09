@@ -31,36 +31,38 @@ class DatabaseSeederTest extends TestCase
 
         $jagung = Menu::where('name', 'Jagung Bakar')->firstOrFail();
 
-        $flavours = [
-            'Original',
-            'Manis',
-            'Asin',
-            'BBQ',
-            'Coklat',
-            'Pedas',
-            'Pedas Manis',
-            'Pedas Asin',
-            'Pedas Manis Asin Coklat',
-            'Sambal Bangkok',
-            'Gula Jawa Pedas Manis',
-            'Jasuke',
-            'Coklat Keju Susu',
+        $prices = [
+            'Original' => 8000,
+            'Manis' => 8000,
+            'Asin' => 8000,
+            'BBQ' => 8000,
+            'Coklat' => 8000,
+            'Pedas' => 8000,
+            'Pedas Manis' => 8000,
+            'Pedas Asin' => 8000,
+            'Pedas Manis Asin' => 8000,
+            'Pedas Manis Asin Coklat' => 8000,
+            'Sambal Bangkok' => 8000,
+            'Gula Jawa Pedas Manis' => 8000,
+            'Jasuke' => 10000,
+            'Coklat Keju Susu' => 10000,
         ];
 
-        $this->assertSame(26, $jagung->variants()->count());
+        $this->assertSame(28, $jagung->variants()->count());
 
-        foreach ($flavours as $flavour) {
+        foreach ($prices as $flavour => $price) {
             foreach (['Utuh', 'Serut'] as $serving) {
                 $this->assertDatabaseHas('menu_variants', [
                     'menu_id' => $jagung->id,
                     'type' => $flavour,
                     'variant_name' => $serving,
+                    'selling_price' => $price,
                     'is_active' => 1,
                 ]);
             }
         }
 
-        $this->assertSame(13, $jagung->variants()->distinct()->count('type'));
+        $this->assertSame(14, $jagung->variants()->distinct()->count('type'));
     }
 
     public function test_pisang_bakar_has_every_flavour_for_both_banana_types(): void

@@ -56,27 +56,28 @@ class DatabaseSeeder extends Seeder
             ],
         );
 
-        $jagungFlavours = [
-            'Original',
-            'Manis',
-            'Asin',
-            'BBQ',
-            'Coklat',
-            'Pedas',
-            'Pedas Manis',
-            'Pedas Asin',
-            'Pedas Manis Asin Coklat',
-            'Sambal Bangkok',
-            'Gula Jawa Pedas Manis',
-            'Jasuke',
-            'Coklat Keju Susu',
+        $jagungPrices = [
+            'Original' => 8000,
+            'Manis' => 8000,
+            'Asin' => 8000,
+            'BBQ' => 8000,
+            'Coklat' => 8000,
+            'Pedas' => 8000,
+            'Pedas Manis' => 8000,
+            'Pedas Asin' => 8000,
+            'Pedas Manis Asin' => 8000,
+            'Pedas Manis Asin Coklat' => 8000,
+            'Sambal Bangkok' => 8000,
+            'Gula Jawa Pedas Manis' => 8000,
+            'Jasuke' => 10000,
+            'Coklat Keju Susu' => 10000,
         ];
 
         $jagungVariants = [];
 
-        foreach ($jagungFlavours as $flavour) {
-            $jagungVariants[] = ['name' => 'Utuh', 'type' => $flavour, 'price' => 15000, 'stock' => 20];
-            $jagungVariants[] = ['name' => 'Serut', 'type' => $flavour, 'price' => 10000, 'stock' => 20];
+        foreach ($jagungPrices as $flavour => $price) {
+            $jagungVariants[] = ['name' => 'Utuh', 'type' => $flavour, 'price' => $price, 'stock' => 20];
+            $jagungVariants[] = ['name' => 'Serut', 'type' => $flavour, 'price' => $price, 'stock' => 20];
         }
 
         $pisangFlavours = [
