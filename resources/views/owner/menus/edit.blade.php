@@ -42,6 +42,10 @@
             <div class="variant-list">
                 @foreach ($menu->variants as $variant)
                     <div class="variant-edit">
+                        @if ($variant->type)
+                            <p class="variant-type">{{ $variant->type }}</p>
+                        @endif
+
                         <form
                             method="POST"
                             action="{{ route('owner.menus.variants.update', [$menu, $variant]) }}"

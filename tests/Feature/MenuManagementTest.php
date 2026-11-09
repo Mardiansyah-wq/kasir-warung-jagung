@@ -302,6 +302,30 @@ class MenuManagementTest extends TestCase
             ->assertDontSee('data-menu-name="Jagung Bakar"', false);
     }
 
+    public function test_owner_edit_page_labels_variant_type(): void
+    {
+        $owner = User::factory()->owner()->create();
+
+        $menu = Menu::create([
+            'name' => 'Pisang Bakar',
+            'category' => 'makanan',
+            'is_active' => true,
+        ]);
+
+        $menu->variants()->create([
+            'type' => 'Pisang Raja',
+            'variant_name' => 'Original',
+            'selling_price' => 12000,
+            'is_active' => true,
+        ]);
+
+        $this->actingAs($owner)
+            ->get(route('owner.menus.edit', $menu))
+            ->assertOk()
+            ->assertSee('Pisang Raja')
+            ->assertSee('Original');
+    }
+
     public function test_same_variant_name_is_allowed_across_different_types(): void
     {
         $menu = Menu::create([

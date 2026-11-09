@@ -35,6 +35,7 @@
             @foreach ($menus as $menu)
                 @php
                     $variants = $menu->variants->map(fn ($variant) => [
+                        'type' => $variant->type,
                         'name' => $variant->variant_name,
                         'price' => (float) $variant->selling_price,
                         'stock' => $variant->stockFor($branch?->id),
@@ -160,7 +161,9 @@
 
                         const name = document.createElement('div');
                         name.className = 'variant-name';
-                        name.textContent = variant.name;
+                        name.textContent = variant.type
+                            ? variant.type + ' · ' + variant.name
+                            : variant.name;
 
                         const meta = document.createElement('div');
                         meta.className = 'variant-meta';

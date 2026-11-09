@@ -775,6 +775,15 @@
             background: #fafaf9;
         }
 
+        .variant-type {
+            margin: 0 0 8px;
+            font-size: .8rem;
+            font-weight: 600;
+            color: var(--muted);
+            letter-spacing: .02em;
+            text-transform: uppercase;
+        }
+
         .variant-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
