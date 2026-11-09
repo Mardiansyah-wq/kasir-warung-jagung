@@ -89,10 +89,15 @@ class DatabaseSeeder extends Seeder
             'Coklat Keju Susu',
         ];
 
+        // Harga per jenis pisang; semua rasa dalam satu jenis harganya sama.
+        $pisangPrices = [
+            'Pisang Raja' => 13000,
+            'Pisang Kepok' => 9000,
+        ];
+
         $pisangVariants = [];
 
-        // Harga placeholder per jenis pisang; nanti diisi lewat halaman menu.
-        foreach (['Pisang Raja' => 12000, 'Pisang Kepok' => 10000] as $type => $price) {
+        foreach ($pisangPrices as $type => $price) {
             foreach ($pisangFlavours as $flavour) {
                 $pisangVariants[] = ['name' => $flavour, 'type' => $type, 'price' => $price, 'stock' => 20];
             }

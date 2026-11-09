@@ -83,12 +83,18 @@ class DatabaseSeederTest extends TestCase
         $this->assertSame(12, $pisang->variants()->count());
         $this->assertSame(2, $pisang->variants()->distinct()->count('type'));
 
-        foreach (['Pisang Raja', 'Pisang Kepok'] as $type) {
+        $prices = [
+            'Pisang Raja' => 13000,
+            'Pisang Kepok' => 9000,
+        ];
+
+        foreach ($prices as $type => $price) {
             foreach ($flavours as $flavour) {
                 $this->assertDatabaseHas('menu_variants', [
                     'menu_id' => $pisang->id,
                     'type' => $type,
                     'variant_name' => $flavour,
+                    'selling_price' => $price,
                     'is_active' => 1,
                 ]);
             }
