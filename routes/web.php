@@ -5,8 +5,12 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\MenuImageController;
 use App\Http\Controllers\Owner\DashboardController as OwnerDashboardController;
 use App\Http\Controllers\Owner\MenuController as OwnerMenuController;
+use App\Http\Controllers\Owner\OrderController as OwnerOrderController;
 use App\Http\Controllers\Staff\DashboardController as StaffDashboardController;
 use App\Http\Controllers\Staff\MenuController as StaffMenuController;
+use App\Http\Controllers\Staff\OrderController as StaffOrderController;
+use App\Http\Controllers\Staff\PosController as StaffPosController;
+use App\Http\Controllers\Staff\StockController as StaffStockController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -51,6 +55,11 @@ Route::middleware('auth')->group(function () {
             ->name('owner.menus.variants.update');
         Route::patch('/owner/menus/{menu}/variants/{variant}/toggle', [OwnerMenuController::class, 'toggleVariant'])
             ->name('owner.menus.variants.toggle');
+
+        Route::get('/owner/orders', [OwnerOrderController::class, 'index'])
+            ->name('owner.orders.index');
+        Route::get('/owner/orders/{order}', [OwnerOrderController::class, 'show'])
+            ->name('owner.orders.show');
     });
 
     Route::middleware('role:staff')->group(function () {
@@ -58,6 +67,35 @@ Route::middleware('auth')->group(function () {
             ->name('staff.dashboard');
         Route::get('/staff/menus', [StaffMenuController::class, 'index'])
             ->name('staff.menus.index');
+
+        Route::get('/staff/pos', [StaffPosController::class, 'index'])
+            ->name('staff.pos.index');
+
+        Route::get('/staff/orders', [StaffOrderController::class, 'index'])
+            ->name('staff.orders.index');
+        Route::get('/staff/orders/{order}', [StaffOrderController::class, 'show'])
+            ->name('staff.orders.show');
+
+        Route::post('/staff/orders/items', [StaffOrderController::class, 'storeItem'])
+            ->name('staff.orders.items.store');
+        Route::patch('/staff/orders/items/{item}', [StaffOrderController::class, 'updateItem'])
+            ->name('staff.orders.items.update');
+        Route::delete('/staff/orders/items/{item}', [StaffOrderController::class, 'destroyItem'])
+            ->name('staff.orders.items.destroy');
+
+        Route::patch('/staff/orders/discount', [StaffOrderController::class, 'applyDiscount'])
+            ->name('staff.orders.discount');
+        Route::patch('/staff/orders/notes', [StaffOrderController::class, 'updateNotes'])
+            ->name('staff.orders.notes');
+        Route::post('/staff/orders/finalize', [StaffOrderController::class, 'finalize'])
+            ->name('staff.orders.finalize');
+        Route::post('/staff/orders/cancel', [StaffOrderController::class, 'cancel'])
+            ->name('staff.orders.cancel');
+
+        Route::get('/staff/stock', [StaffStockController::class, 'index'])
+            ->name('staff.stock.index');
+        Route::post('/staff/stock', [StaffStockController::class, 'store'])
+            ->name('staff.stock.store');
     });
 
     Route::get('/media/menus/{menu}/{size}', [MenuImageController::class, 'show'])

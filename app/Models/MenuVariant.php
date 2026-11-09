@@ -28,6 +28,13 @@ class MenuVariant extends Model
         return $this->belongsTo(Menu::class);
     }
 
+    public function displayName(): string
+    {
+        return $this->type
+            ? $this->type.' · '.$this->variant_name
+            : $this->variant_name;
+    }
+
     public function stocks(): HasMany
     {
         return $this->hasMany(BranchStock::class);

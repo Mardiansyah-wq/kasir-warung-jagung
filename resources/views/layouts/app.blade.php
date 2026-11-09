@@ -951,7 +951,431 @@
                 border-radius: 16px;
             }
         }
+
+        /* POS & transaction styles */
+        .pos-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            align-items: start;
+        }
+
+        .pos-menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .pos-menu-card {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface);
+            color: inherit;
+            font: inherit;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .pos-menu-card:hover {
+            border-color: var(--brand);
+            background: #fffbf5;
+        }
+
+        .pos-menu-card:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+        }
+
+        .pos-menu-card strong {
+            font-size: 14px;
+            line-height: 1.25;
+        }
+
+        .pos-menu-card .price {
+            color: var(--brand-dark);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .stock-pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: #eef2f7;
+            color: #475569;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .stock-pill.low {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        .cart {
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface);
+        }
+
+        .cart h2 {
+            margin-bottom: 4px;
+        }
+
+        .cart-item {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cart-item-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .cart-item-top strong {
+            font-size: 14px;
+        }
+
+        .cart-item-top .line-total {
+            color: var(--brand-dark);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .cart-controls {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .cart-controls input[type="number"] {
+            width: 68px;
+            min-height: 36px;
+            padding: 6px 8px;
+            font-size: 14px;
+        }
+
+        .cart-controls .check {
+            min-height: 36px;
+            font-size: 12px;
+        }
+
+        .cart-summary {
+            margin-top: 14px;
+        }
+
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 3px 0;
+            font-size: 14px;
+        }
+
+        .summary-line.total {
+            margin-top: 8px;
+            padding-top: 10px;
+            border-top: 1px dashed var(--border);
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .inline-form {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .inline-form .field {
+            flex: 1 1 120px;
+            margin: 0;
+        }
+
+        .inline-form input,
+        .inline-form select {
+            min-height: 40px;
+            padding: 8px 10px;
+            font-size: 14px;
+        }
+
+        .inline-form .btn {
+            min-height: 40px;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        .pos-variant-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pos-variant-row:last-child {
+            border-bottom: 0;
+        }
+
+        .pos-variant-row .qty-add {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 6px;
+            min-width: 96px;
+        }
+
+        .pos-variant-row .qty-add input {
+            min-height: 36px;
+            padding: 6px 8px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table.data {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        table.data th,
+        table.data td {
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        table.data th {
+            color: var(--muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .03em;
+            white-space: nowrap;
+        }
+
+        table.data td.amount,
+        table.data th.amount {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .02em;
+            text-transform: uppercase;
+        }
+
+        .status-draft {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-finalized {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .filter-bar .field {
+            margin: 0;
+        }
+
+        .filter-bar input,
+        .filter-bar select {
+            width: auto;
+            min-width: 150px;
+            min-height: 40px;
+            padding: 8px 10px;
+            font-size: 14px;
+        }
+
+        .filter-bar .btn {
+            min-height: 40px;
+            padding: 8px 14px;
+            font-size: 14px;
+        }
+
+        .receipt {
+            max-width: 460px;
+            margin: 0 auto;
+            padding: 22px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
+        }
+
+        .receipt-head {
+            text-align: center;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .receipt-head h1 {
+            margin-bottom: 2px;
+            font-size: 1.35rem;
+        }
+
+        .receipt-meta {
+            display: grid;
+            gap: 2px;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .receipt-items {
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .receipt-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 4px 0;
+            font-size: 14px;
+        }
+
+        .receipt-line.total {
+            margin-top: 8px;
+            padding-top: 10px;
+            border-top: 1px dashed var(--border);
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .receipt-foot {
+            margin-top: 14px;
+            color: var(--muted);
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .pager {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 14px;
+            font-size: 14px;
+        }
+
+        .pager a {
+            color: var(--brand);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .group-title {
+            margin: 22px 0 10px;
+            font-size: 1rem;
+        }
+
+        .stock-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stock-row:last-child {
+            border-bottom: 0;
+        }
+
+        .stock-row form {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stock-row input[type="number"] {
+            width: 76px;
+            min-height: 38px;
+            padding: 6px 8px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .stock-row .btn {
+            min-height: 38px;
+            padding: 6px 10px;
+            font-size: 13px;
+        }
+
+        @media (min-width: 900px) {
+            .pos-layout {
+                grid-template-columns: minmax(0, 1fr) 370px;
+            }
+
+            .pos-cart {
+                position: sticky;
+                top: 86px;
+            }
+        }
+
+        @media print {
+            header,
+            .mobile-nav,
+            .no-print,
+            .flash,
+            .errors {
+                display: none !important;
+            }
+
+            body {
+                background: #fff;
+            }
+
+            main {
+                max-width: none;
+                padding: 0;
+            }
+
+            .receipt {
+                max-width: none;
+                padding: 0;
+                border: 0;
+                border-radius: 0;
+                box-shadow: none;
+            }
+        }
     </style>
+    @stack('styles')
 </head>
 <body class="@auth is-auth @else is-guest @endauth">
     @auth
@@ -962,8 +1386,12 @@
                 <nav class="desktop-nav">
                     <a href="{{ route(auth()->user()->homeRouteName()) }}" class="{{ request()->routeIs('*.dashboard') ? 'active' : '' }}">Dashboard</a>
                     @if (auth()->user()->isOwner())
+                        <a href="{{ route('owner.orders.index') }}" class="{{ request()->routeIs('owner.orders.*') ? 'active' : '' }}">Transaksi</a>
                         <a href="{{ route('owner.menus.index') }}" class="{{ request()->routeIs('owner.menus.*') ? 'active' : '' }}">Menu</a>
                     @else
+                        <a href="{{ route('staff.pos.index') }}" class="{{ request()->routeIs('staff.pos.*') ? 'active' : '' }}">Kasir</a>
+                        <a href="{{ route('staff.orders.index') }}" class="{{ request()->routeIs('staff.orders.*') ? 'active' : '' }}">Transaksi</a>
+                        <a href="{{ route('staff.stock.index') }}" class="{{ request()->routeIs('staff.stock.*') ? 'active' : '' }}">Stok</a>
                         <a href="{{ route('staff.menus.index') }}" class="{{ request()->routeIs('staff.menus.*') ? 'active' : '' }}">Menu</a>
                     @endif
                     <form method="POST" action="{{ route('logout') }}">
@@ -988,8 +1416,12 @@
         <nav class="mobile-nav">
             <a href="{{ route(auth()->user()->homeRouteName()) }}" class="{{ request()->routeIs('*.dashboard') ? 'active' : '' }}">Dashboard</a>
             @if (auth()->user()->isOwner())
+                <a href="{{ route('owner.orders.index') }}" class="{{ request()->routeIs('owner.orders.*') ? 'active' : '' }}">Transaksi</a>
                 <a href="{{ route('owner.menus.index') }}" class="{{ request()->routeIs('owner.menus.*') ? 'active' : '' }}">Menu</a>
             @else
+                <a href="{{ route('staff.pos.index') }}" class="{{ request()->routeIs('staff.pos.*') ? 'active' : '' }}">Kasir</a>
+                <a href="{{ route('staff.orders.index') }}" class="{{ request()->routeIs('staff.orders.*') ? 'active' : '' }}">Transaksi</a>
+                <a href="{{ route('staff.stock.index') }}" class="{{ request()->routeIs('staff.stock.*') ? 'active' : '' }}">Stok</a>
                 <a href="{{ route('staff.menus.index') }}" class="{{ request()->routeIs('staff.menus.*') ? 'active' : '' }}">Menu</a>
             @endif
             <form method="POST" action="{{ route('logout') }}">
