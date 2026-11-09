@@ -79,6 +79,24 @@ class DatabaseSeeder extends Seeder
             $jagungVariants[] = ['name' => 'Serut', 'type' => $flavour, 'price' => 10000, 'stock' => 20];
         }
 
+        $pisangFlavours = [
+            'Original',
+            'Coklat',
+            'Madu',
+            'Coklat Susu',
+            'Keju Susu',
+            'Coklat Keju Susu',
+        ];
+
+        $pisangVariants = [];
+
+        // Harga placeholder per jenis pisang; nanti diisi lewat halaman menu.
+        foreach (['Pisang Raja' => 12000, 'Pisang Kepok' => 10000] as $type => $price) {
+            foreach ($pisangFlavours as $flavour) {
+                $pisangVariants[] = ['name' => $flavour, 'type' => $type, 'price' => $price, 'stock' => 20];
+            }
+        }
+
         $menus = [
             [
                 'name' => 'Jagung Bakar',
@@ -88,11 +106,9 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'Pisang Bakar',
-                'description' => 'Pisang bakar manis, cocok untuk camilan hangat.',
+                'description' => 'Pisang bakar dengan pilihan jenis pisang dan rasa.',
                 'category' => Menu::CATEGORY_MAKANAN,
-                'variants' => [
-                    ['name' => 'Normal', 'price' => 10000, 'stock' => 30],
-                ],
+                'variants' => $pisangVariants,
             ],
             [
                 'name' => 'Roti Bakar',

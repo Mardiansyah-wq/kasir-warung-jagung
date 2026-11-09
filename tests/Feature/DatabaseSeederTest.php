@@ -63,6 +63,36 @@ class DatabaseSeederTest extends TestCase
         $this->assertSame(13, $jagung->variants()->distinct()->count('type'));
     }
 
+    public function test_pisang_bakar_has_every_flavour_for_both_banana_types(): void
+    {
+        $this->seed();
+
+        $pisang = Menu::where('name', 'Pisang Bakar')->firstOrFail();
+
+        $flavours = [
+            'Original',
+            'Coklat',
+            'Madu',
+            'Coklat Susu',
+            'Keju Susu',
+            'Coklat Keju Susu',
+        ];
+
+        $this->assertSame(12, $pisang->variants()->count());
+        $this->assertSame(2, $pisang->variants()->distinct()->count('type'));
+
+        foreach (['Pisang Raja', 'Pisang Kepok'] as $type) {
+            foreach ($flavours as $flavour) {
+                $this->assertDatabaseHas('menu_variants', [
+                    'menu_id' => $pisang->id,
+                    'type' => $type,
+                    'variant_name' => $flavour,
+                    'is_active' => 1,
+                ]);
+            }
+        }
+    }
+
     public function test_every_seeded_variant_has_a_branch_stock(): void
     {
         $this->seed();
