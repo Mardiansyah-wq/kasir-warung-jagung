@@ -158,41 +158,41 @@ class DatabaseSeeder extends Seeder
             ];
         }
 
-        $esPanasDrinks = [
-            'Milo',
-            'Chocolatos',
-            'Cappucino',
-            'Jeruk Peras',
-            'Nutrisari',
-            'Teh Tarik',
-            'Teh',
-            'Lemon Tea',
+        // Harga per menu; varian Es dan Panas harganya sama.
+        $esPanasPrices = [
+            'Milo' => 5000,
+            'Chocolatos' => 5000,
+            'Cappucino' => 5000,
+            'Jeruk Peras' => 5000,
+            'Nutrisari' => 5000,
+            'Teh Tarik' => 6000,
+            'Teh' => 4000,
+            'Lemon Tea' => 5000,
         ];
 
-        // Harga placeholder; nanti diisi lewat halaman menu.
         $singleDrinks = [
             'Leci Squash' => 10000,
             'Lemon Squash' => 10000,
             'Moka Squash' => 10000,
-            'Soda Gembira' => 10000,
-            'Kopi' => 8000,
-            'Kopi Susu' => 10000,
-            'Jahe Geprek' => 8000,
-            'Jahe Susu' => 10000,
-            'Jahe Sere Aren' => 10000,
-            'Air Mineral' => 5000,
+            'Soda Gembira' => 12000,
+            'Kopi' => 5000,
+            'Kopi Susu' => 6000,
+            'Jahe Geprek' => 5000,
+            'Jahe Susu' => 6000,
+            'Jahe Sere Aren' => 8000,
+            'Air Mineral' => 4000,
         ];
 
         $minumanMenus = [];
 
-        foreach ($esPanasDrinks as $drink) {
+        foreach ($esPanasPrices as $drink => $price) {
             $minumanMenus[] = [
                 'name' => $drink,
                 'description' => $drink.' tersedia dalam pilihan es atau panas.',
                 'category' => Menu::CATEGORY_MINUMAN,
                 'variants' => [
-                    ['name' => 'Es', 'price' => 8000, 'stock' => 50],
-                    ['name' => 'Panas', 'price' => 8000, 'stock' => 50],
+                    ['name' => 'Es', 'price' => $price, 'stock' => 50],
+                    ['name' => 'Panas', 'price' => $price, 'stock' => 50],
                 ],
             ];
         }

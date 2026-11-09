@@ -164,43 +164,55 @@ class DatabaseSeederTest extends TestCase
 
         $this->assertDatabaseMissing('menus', ['name' => 'Es Teh']);
 
-        $esPanasDrinks = [
-            'Milo',
-            'Chocolatos',
-            'Cappucino',
-            'Jeruk Peras',
-            'Nutrisari',
-            'Teh Tarik',
-            'Teh',
-            'Lemon Tea',
+        $esPanasPrices = [
+            'Milo' => 5000,
+            'Chocolatos' => 5000,
+            'Cappucino' => 5000,
+            'Jeruk Peras' => 5000,
+            'Nutrisari' => 5000,
+            'Teh Tarik' => 6000,
+            'Teh' => 4000,
+            'Lemon Tea' => 5000,
         ];
 
-        foreach ($esPanasDrinks as $name) {
+        foreach ($esPanasPrices as $name => $price) {
             $menu = Menu::where('name', $name)->firstOrFail();
 
             $this->assertSame(2, $menu->variants()->count(), $name);
-            $this->assertDatabaseHas('menu_variants', ['menu_id' => $menu->id, 'variant_name' => 'Es']);
-            $this->assertDatabaseHas('menu_variants', ['menu_id' => $menu->id, 'variant_name' => 'Panas']);
+            $this->assertDatabaseHas('menu_variants', [
+                'menu_id' => $menu->id,
+                'variant_name' => 'Es',
+                'selling_price' => $price,
+            ]);
+            $this->assertDatabaseHas('menu_variants', [
+                'menu_id' => $menu->id,
+                'variant_name' => 'Panas',
+                'selling_price' => $price,
+            ]);
         }
 
         $singleDrinks = [
-            'Leci Squash',
-            'Lemon Squash',
-            'Moka Squash',
-            'Soda Gembira',
-            'Kopi',
-            'Kopi Susu',
-            'Jahe Geprek',
-            'Jahe Susu',
-            'Jahe Sere Aren',
-            'Air Mineral',
+            'Leci Squash' => 10000,
+            'Lemon Squash' => 10000,
+            'Moka Squash' => 10000,
+            'Soda Gembira' => 12000,
+            'Kopi' => 5000,
+            'Kopi Susu' => 6000,
+            'Jahe Geprek' => 5000,
+            'Jahe Susu' => 6000,
+            'Jahe Sere Aren' => 8000,
+            'Air Mineral' => 4000,
         ];
 
-        foreach ($singleDrinks as $name) {
+        foreach ($singleDrinks as $name => $price) {
             $menu = Menu::where('name', $name)->firstOrFail();
 
             $this->assertSame(1, $menu->variants()->count(), $name);
-            $this->assertDatabaseHas('menu_variants', ['menu_id' => $menu->id, 'variant_name' => 'Normal']);
+            $this->assertDatabaseHas('menu_variants', [
+                'menu_id' => $menu->id,
+                'variant_name' => 'Normal',
+                'selling_price' => $price,
+            ]);
         }
 
         $minumanIds = Menu::where('category', Menu::CATEGORY_MINUMAN)->pluck('id');
