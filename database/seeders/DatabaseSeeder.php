@@ -115,6 +115,40 @@ class DatabaseSeeder extends Seeder
             $rotiFlavours,
         );
 
+        $hotmadFlavours = [
+            'Original',
+            'BBQ',
+            'Balado',
+            'Pedas Level 1',
+            'Pedas Level 2',
+            'Pedas Level 3',
+            'Pedas Level 4',
+            'Pedas Level 5',
+        ];
+
+        $hotmadItems = [
+            'Chicken',
+            'Sosis',
+            'Bakso',
+            'Nugget',
+            'Kentang',
+            'Jamur',
+            'Kulit',
+            'Cireng',
+            'Tahu',
+        ];
+
+        // Harga placeholder; nanti diisi lewat halaman menu.
+        $hotmadMenus = array_map(fn (string $item): array => [
+            'name' => $item,
+            'description' => 'Hotmad '.$item.' dengan pilihan rasa original, BBQ, balado, dan level pedas.',
+            'category' => Menu::CATEGORY_CEMILAN,
+            'variants' => array_map(
+                fn (string $flavour): array => ['name' => $flavour, 'price' => 10000, 'stock' => 20],
+                $hotmadFlavours,
+            ),
+        ], $hotmadItems);
+
         $menus = [
             [
                 'name' => 'Jagung Bakar',
@@ -143,14 +177,7 @@ class DatabaseSeeder extends Seeder
                     ['name' => 'Tawar', 'price' => 5000, 'stock' => 100],
                 ],
             ],
-            [
-                'name' => 'Keripik Singkong',
-                'description' => 'Camilan renyah untuk teman ngobrol.',
-                'category' => Menu::CATEGORY_CEMILAN,
-                'variants' => [
-                    ['name' => 'Original', 'price' => 8000, 'stock' => 50],
-                ],
-            ],
+            ...$hotmadMenus,
         ];
 
         foreach ($menus as $data) {

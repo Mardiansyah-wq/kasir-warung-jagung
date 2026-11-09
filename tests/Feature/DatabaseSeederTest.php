@@ -123,6 +123,47 @@ class DatabaseSeederTest extends TestCase
         }
     }
 
+    public function test_seeder_builds_every_hotmad_item_with_every_flavour(): void
+    {
+        $this->seed();
+
+        $hotmadNames = Menu::where('category', Menu::CATEGORY_CEMILAN)
+            ->orderBy('name')
+            ->pluck('name')
+            ->all();
+
+        $this->assertSame(
+            ['Bakso', 'Chicken', 'Cireng', 'Jamur', 'Kentang', 'Kulit', 'Nugget', 'Sosis', 'Tahu'],
+            $hotmadNames,
+        );
+
+        $this->assertDatabaseMissing('menus', ['name' => 'Keripik Singkong']);
+
+        $flavours = [
+            'Original',
+            'BBQ',
+            'Balado',
+            'Pedas Level 1',
+            'Pedas Level 2',
+            'Pedas Level 3',
+            'Pedas Level 4',
+            'Pedas Level 5',
+        ];
+
+        foreach (Menu::where('category', Menu::CATEGORY_CEMILAN)->get() as $menu) {
+            $this->assertSame(count($flavours), $menu->variants()->count(), $menu->name);
+
+            foreach ($flavours as $flavour) {
+                $this->assertDatabaseHas('menu_variants', [
+                    'menu_id' => $menu->id,
+                    'type' => null,
+                    'variant_name' => $flavour,
+                    'is_active' => 1,
+                ]);
+            }
+        }
+    }
+
     public function test_all_food_menus_offer_topping_at_configured_price(): void
     {
         $this->seed();
