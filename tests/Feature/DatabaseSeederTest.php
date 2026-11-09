@@ -93,6 +93,54 @@ class DatabaseSeederTest extends TestCase
         }
     }
 
+    public function test_roti_bakar_has_every_flavour(): void
+    {
+        $this->seed();
+
+        $roti = Menu::where('name', 'Roti Bakar')->firstOrFail();
+
+        $flavours = [
+            'Coklat',
+            'Nanas',
+            'Strawberry',
+            'Blueberry',
+            'Kacang',
+            'Coklat Susu',
+            'Keju Susu',
+            'Coklat Keju Susu',
+            'Telur',
+        ];
+
+        $this->assertSame(count($flavours), $roti->variants()->count());
+
+        foreach ($flavours as $flavour) {
+            $this->assertDatabaseHas('menu_variants', [
+                'menu_id' => $roti->id,
+                'type' => null,
+                'variant_name' => $flavour,
+                'is_active' => 1,
+            ]);
+        }
+    }
+
+    public function test_all_food_menus_offer_topping_at_configured_price(): void
+    {
+        $this->seed();
+
+        $foodMenus = Menu::where('category', Menu::CATEGORY_MAKANAN)->get();
+
+        $this->assertCount(3, $foodMenus);
+
+        foreach ($foodMenus as $menu) {
+            $this->assertTrue($menu->hasToppingOption(), $menu->name.' harus punya opsi topping');
+            $this->assertSame(
+                (int) config('menu.topping_price'),
+                $menu->toppingPrice(),
+                $menu->name.' memakai harga topping yang salah',
+            );
+        }
+    }
+
     public function test_every_seeded_variant_has_a_branch_stock(): void
     {
         $this->seed();

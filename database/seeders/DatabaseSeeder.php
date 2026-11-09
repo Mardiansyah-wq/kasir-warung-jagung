@@ -97,6 +97,24 @@ class DatabaseSeeder extends Seeder
             }
         }
 
+        $rotiFlavours = [
+            'Coklat',
+            'Nanas',
+            'Strawberry',
+            'Blueberry',
+            'Kacang',
+            'Coklat Susu',
+            'Keju Susu',
+            'Coklat Keju Susu',
+            'Telur',
+        ];
+
+        // Harga placeholder; nanti diisi lewat halaman menu.
+        $rotiVariants = array_map(
+            fn (string $flavour): array => ['name' => $flavour, 'price' => 12000, 'stock' => 20],
+            $rotiFlavours,
+        );
+
         $menus = [
             [
                 'name' => 'Jagung Bakar',
@@ -112,11 +130,9 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'Roti Bakar',
-                'description' => 'Roti bakar isi manis, disajikan hangat.',
+                'description' => 'Roti bakar dengan pilihan rasa manis dan gurih.',
                 'category' => Menu::CATEGORY_MAKANAN,
-                'variants' => [
-                    ['name' => 'Normal', 'price' => 12000, 'stock' => 30],
-                ],
+                'variants' => $rotiVariants,
             ],
             [
                 'name' => 'Es Teh',
