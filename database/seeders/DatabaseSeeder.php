@@ -131,28 +131,32 @@ class DatabaseSeeder extends Seeder
             'Pedas Level 5',
         ];
 
-        $hotmadItems = [
-            'Chicken',
-            'Sosis',
-            'Bakso',
-            'Nugget',
-            'Kentang',
-            'Jamur',
-            'Kulit',
-            'Cireng',
-            'Tahu',
+        $hotmadPrices = [
+            'Chicken' => 14000,
+            'Sosis' => 13000,
+            'Bakso' => 13000,
+            'Nugget' => 13000,
+            'Kentang' => 12000,
+            'Jamur' => 11000,
+            'Kulit' => 11000,
+            'Cireng' => 9000,
+            'Tahu' => 9000,
         ];
 
-        // Harga placeholder; nanti diisi lewat halaman menu.
-        $hotmadMenus = array_map(fn (string $item): array => [
-            'name' => $item,
-            'description' => 'Hotmad '.$item.' dengan pilihan rasa original, BBQ, balado, dan level pedas.',
-            'category' => Menu::CATEGORY_CEMILAN,
-            'variants' => array_map(
-                fn (string $flavour): array => ['name' => $flavour, 'price' => 10000, 'stock' => 20],
-                $hotmadFlavours,
-            ),
-        ], $hotmadItems);
+        // Harga per item; semua rasa dalam satu item harganya sama.
+        $hotmadMenus = [];
+
+        foreach ($hotmadPrices as $item => $price) {
+            $hotmadMenus[] = [
+                'name' => $item,
+                'description' => 'Hotmad '.$item.' dengan pilihan rasa original, BBQ, balado, dan level pedas.',
+                'category' => Menu::CATEGORY_CEMILAN,
+                'variants' => array_map(
+                    fn (string $flavour): array => ['name' => $flavour, 'price' => $price, 'stock' => 20],
+                    $hotmadFlavours,
+                ),
+            ];
+        }
 
         $esPanasDrinks = [
             'Milo',

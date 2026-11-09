@@ -235,7 +235,21 @@ class DatabaseSeederTest extends TestCase
             'Pedas Level 5',
         ];
 
-        foreach (Menu::where('category', Menu::CATEGORY_CEMILAN)->get() as $menu) {
+        $prices = [
+            'Chicken' => 14000,
+            'Sosis' => 13000,
+            'Bakso' => 13000,
+            'Nugget' => 13000,
+            'Kentang' => 12000,
+            'Jamur' => 11000,
+            'Kulit' => 11000,
+            'Cireng' => 9000,
+            'Tahu' => 9000,
+        ];
+
+        foreach ($prices as $name => $price) {
+            $menu = Menu::where('name', $name)->firstOrFail();
+
             $this->assertSame(count($flavours), $menu->variants()->count(), $menu->name);
 
             foreach ($flavours as $flavour) {
@@ -243,6 +257,7 @@ class DatabaseSeederTest extends TestCase
                     'menu_id' => $menu->id,
                     'type' => null,
                     'variant_name' => $flavour,
+                    'selling_price' => $price,
                     'is_active' => 1,
                 ]);
             }
