@@ -29,7 +29,7 @@ class StocksSeeder extends Seeder
 
         DB::transaction(function () use ($menus, $variants) {
             foreach ($menus as $id) {
-                DB::table('stocks')->insert([
+                DB::table('stocks')->insertOrIgnore([
                     'stockable_type' => 'App\\Models\\Menu',
                     'stockable_id' => $id,
                     'quantity' => 999.00,
@@ -39,7 +39,7 @@ class StocksSeeder extends Seeder
             }
 
             foreach ($variants as $id) {
-                DB::table('stocks')->insert([
+                DB::table('stocks')->insertOrIgnore([
                     'stockable_type' => 'App\\Models\\MenuVariant',
                     'stockable_id' => $id,
                     'quantity' => 999.00,
