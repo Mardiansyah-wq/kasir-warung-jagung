@@ -46,7 +46,9 @@
         </div>
         <div style="text-align: right">
             <span class="status status-{{ $order->status }}">{{ $order->statusLabel() }}</span>
-            <span class="status status-{{ $order->paymentStatus() }}">{{ $order->paymentStatusLabel() }}</span>
+            @unless ($order->isCancelled())
+                <span class="status status-{{ $order->paymentStatus() }}">{{ $order->paymentStatusLabel() }}</span>
+            @endunless
             <div class="muted" style="margin-top: 8px">
                 Total <strong class="money-big">Rp {{ number_format($totalAmount, 0, ',', '.') }}</strong>
             </div>
@@ -59,18 +61,20 @@
             <p class="muted">Hubungi owner untuk menghubungkan akun staff ke cabang sebelum bertransaksi.</p>
         </div>
     @else
-        <div class="chips no-print">
-            <a href="{{ route('staff.pos.show', $order) }}" class="chip {{ $category === null ? 'active' : '' }}">Semua</a>
-            @foreach (\App\Models\Menu::CATEGORIES as $item)
-                <a
-                    href="{{ route('staff.pos.show', ['order' => $order, 'category' => $item]) }}"
-                    class="chip {{ $category === $item ? 'active' : '' }}"
-                >{{ \App\Models\Menu::categoryLabelFor($item) }}</a>
-            @endforeach
-        </div>
+        @if ($order->isActive())
+            <div class="chips no-print">
+                <a href="{{ route('staff.pos.show', $order) }}" class="chip {{ $category === null ? 'active' : '' }}">Semua</a>
+                @foreach (\App\Models\Menu::CATEGORIES as $item)
+                    <a
+                        href="{{ route('staff.pos.show', ['order' => $order, 'category' => $item]) }}"
+                        class="chip {{ $category === $item ? 'active' : '' }}"
+                    >{{ \App\Models\Menu::categoryLabelFor($item) }}</a>
+                @endforeach
+            </div>
+        @endif
 
         <div class="pos-layout">
-            <section class="no-print">
+            <section class="no-print pos-pane {{ $order->isActive() && $items->isEmpty() ? 'is-active' : '' }} {{ $order->isActive() ? '' : 'hide-mobile' }}" data-pos-pane="menu">
                 @unless ($order->isActive())
                     <div class="card empty">
                         <h2>Pesanan sudah {{ $order->statusLabel() }}</h2>
@@ -121,10 +125,10 @@
                 @endunless
             </section>
 
-            <aside class="cart pos-cart">
+            <aside class="cart pos-cart pos-pane {{ ! $order->isActive() || ! $items->isEmpty() ? 'is-active' : '' }}" data-pos-pane="tagihan">
                 <div class="cart-item-top" style="padding-bottom: 6px">
                     <div>
-                        <h2>Tagihan Berjalan</h2>
+                        <h2>{{ $order->isActive() ? 'Tagihan Berjalan' : 'Rincian Pesanan' }}</h2>
                         <p class="muted" style="margin: 0">{{ $itemCount }} item</p>
                     </div>
                     <span class="status status-{{ $order->status }}">{{ $order->statusLabel() }}</span>
@@ -187,9 +191,15 @@
                     @endforeach
 
                     @unless ($editable)
-                        <p class="hint" style="margin: 12px 0 0">
-                            Item lama terkunci karena sudah ada pembayaran. Item baru otomatis ditandai <strong>Tambahan</strong>.
-                        </p>
+                        @if ($order->isActive())
+                            <p class="hint" style="margin: 12px 0 0">
+                                @if ($order->hasPaidPayment())
+                                    Item lama terkunci karena sudah ada pembayaran. Item baru otomatis ditandai <strong>Tambahan</strong>.
+                                @else
+                                    Item terkunci karena pesanan sudah mulai diproses.
+                                @endif
+                            </p>
+                        @endif
                     @endunless
 
                     <div class="cart-summary">
@@ -205,14 +215,21 @@
                             <span>Total</span>
                             <span>Rp {{ number_format($totalAmount, 0, ',', '.') }}</span>
                         </div>
-                        <div class="summary-line">
-                            <span>Dibayar</span>
-                            <span>Rp {{ number_format($paid, 0, ',', '.') }}</span>
-                        </div>
-                        <div class="summary-line">
-                            <span>Sisa tagihan</span>
-                            <strong>Rp {{ number_format($due, 0, ',', '.') }}</strong>
-                        </div>
+                        @if ($order->isCancelled())
+                            <div class="summary-line">
+                                <span>Pembayaran</span>
+                                <span>Tidak ada (dibatalkan)</span>
+                            </div>
+                        @else
+                            <div class="summary-line">
+                                <span>Dibayar</span>
+                                <span>Rp {{ number_format($paid, 0, ',', '.') }}</span>
+                            </div>
+                            <div class="summary-line">
+                                <span>Sisa tagihan</span>
+                                <strong>Rp {{ number_format($due, 0, ',', '.') }}</strong>
+                            </div>
+                        @endif
                     </div>
 
                     @if ($editable)
@@ -328,6 +345,25 @@
                 @endif
             </aside>
         </div>
+
+        @if ($order->isActive())
+            <div class="pos-mobile-bar no-print" data-pos-switcher>
+                <button
+                    type="button"
+                    class="pos-mobile-tab {{ $items->isEmpty() ? 'active' : '' }}"
+                    data-pos-tab="menu"
+                >Menu</button>
+                <button
+                    type="button"
+                    class="pos-mobile-tab {{ $items->isEmpty() ? '' : 'active' }}"
+                    data-pos-tab="tagihan"
+                >
+                    Tagihan
+                    <strong>{{ $itemCount }} item · Rp {{ number_format($totalAmount, 0, ',', '.') }}</strong>
+                </button>
+            </div>
+            <div class="pos-mobile-spacer no-print"></div>
+        @endif
 
         <dialog id="variant-dialog" class="sheet" aria-labelledby="variant-title">
             <div class="sheet-handle"></div>
@@ -464,6 +500,27 @@
                 } else {
                     dialog.removeAttribute('open');
                 }
+            }
+
+            const posSwitcher = document.querySelector('[data-pos-switcher]');
+
+            if (posSwitcher) {
+                const panes = document.querySelectorAll('[data-pos-pane]');
+                const tabs = posSwitcher.querySelectorAll('[data-pos-tab]');
+
+                tabs.forEach(function (tab) {
+                    tab.addEventListener('click', function () {
+                        panes.forEach(function (pane) {
+                            pane.classList.toggle('is-active', pane.dataset.posPane === tab.dataset.posTab);
+                        });
+
+                        tabs.forEach(function (item) {
+                            item.classList.toggle('active', item === tab);
+                        });
+
+                        window.scrollTo({ top: 0, behavior: 'auto' });
+                    });
+                });
             }
 
             if (!variantDialog) {

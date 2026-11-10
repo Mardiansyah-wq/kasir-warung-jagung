@@ -1221,6 +1221,11 @@
             font-size: 14px;
         }
 
+        .filter-bar .field input,
+        .filter-bar .field select {
+            width: 100%;
+        }
+
         .filter-bar .btn {
             min-height: 40px;
             padding: 8px 14px;
@@ -1537,6 +1542,103 @@
             font-size: 1.2rem;
             font-weight: 800;
             color: var(--brand-dark);
+        }
+
+        /* Responsive helpers */
+        .show-mobile {
+            display: none;
+        }
+
+        @media (max-width: 767px) {
+            .show-mobile {
+                display: block;
+            }
+
+            .hide-mobile {
+                display: none !important;
+            }
+        }
+
+        /* Mobile running-tab switcher */
+        .pos-mobile-bar,
+        .pos-mobile-spacer {
+            display: none;
+        }
+
+        @media (max-width: 899px) {
+            .pos-pane {
+                display: none;
+            }
+
+            .pos-pane.is-active {
+                display: block;
+            }
+
+            .pos-mobile-bar {
+                position: fixed;
+                right: 0;
+                bottom: calc(56px + env(safe-area-inset-bottom));
+                left: 0;
+                z-index: 19;
+                display: flex;
+                gap: 8px;
+                padding: 8px 12px;
+                border-top: 1px solid var(--border);
+                background: var(--surface);
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, .08);
+            }
+
+            .pos-mobile-tab {
+                display: flex;
+                flex: 1;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 1px;
+                min-height: 46px;
+                padding: 6px 10px;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                background: #fff;
+                color: var(--text);
+                font: inherit;
+                font-size: 13px;
+                font-weight: 600;
+                cursor: pointer;
+            }
+
+            .pos-mobile-tab strong {
+                color: var(--brand-dark);
+                font-size: 12px;
+            }
+
+            .pos-mobile-tab.active {
+                border-color: var(--brand);
+                background: var(--brand);
+                color: #fff;
+            }
+
+            .pos-mobile-tab.active strong {
+                color: #fff;
+            }
+
+            .pos-mobile-spacer {
+                display: block;
+                height: 74px;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 899px) {
+            .pos-mobile-bar {
+                bottom: 0;
+                padding-bottom: calc(8px + env(safe-area-inset-bottom));
+            }
+        }
+
+        @media (min-width: 900px) {
+            .pos-pane {
+                display: block;
+            }
         }
 
         @media (min-width: 600px) {

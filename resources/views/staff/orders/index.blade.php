@@ -46,7 +46,55 @@
             <p class="muted">Pesanan yang dibuat di kasir akan muncul di sini.</p>
         </div>
     @else
-        <div class="card" style="padding: 0">
+        <div class="show-mobile">
+            @foreach ($orders as $order)
+                @php
+                    $paid = $order->paidAmount();
+                    $due = $order->balanceDue();
+                @endphp
+
+                <article class="order-card order-{{ $order->status }}" style="margin-bottom: 10px">
+                    <div class="order-card-head">
+                        <div>
+                            <div class="queue-number">{{ $order->queueLabel() }}</div>
+                            <h2>{{ $order->customer_name }}</h2>
+                        </div>
+                        <span class="status status-{{ $order->status }}">{{ $order->statusLabel() }}</span>
+                    </div>
+
+                    <div class="order-card-meta">
+                        <span>{{ $order->orderTypeLabel() }}</span>
+                        <span>{{ $order->created_at?->format('d/m/Y H:i') }}</span>
+                        <span>{{ $order->items_count }} item</span>
+                        @unless ($order->isCancelled())
+                            <span class="status status-{{ $order->paymentStatus() }}">{{ $order->paymentStatusLabel() }}</span>
+                        @endunless
+                    </div>
+
+                    <div class="order-card-money">
+                        <span>Total <strong>Rp {{ number_format((float) $order->total_amount, 0, ',', '.') }}</strong></span>
+                        @if ($order->isCancelled())
+                            <span class="muted">Dibatalkan, tidak ada tagihan</span>
+                        @else
+                            <span>Dibayar Rp {{ number_format($paid, 0, ',', '.') }}</span>
+                            @if ($due > 0)
+                                <span>Sisa Rp {{ number_format($due, 0, ',', '.') }}</span>
+                            @endif
+                        @endif
+                    </div>
+
+                    <div class="order-card-actions">
+                        @if ($order->isActive())
+                            <a href="{{ route('staff.pos.show', $order) }}" class="btn btn-sm">Buka</a>
+                        @else
+                            <a href="{{ route('staff.orders.show', $order) }}" class="btn btn-sm btn-ghost">Struk</a>
+                        @endif
+                    </div>
+                </article>
+            @endforeach
+        </div>
+
+        <div class="card hide-mobile" style="padding: 0">
             <div class="table-wrap">
                 <table class="data">
                     <thead>
@@ -83,13 +131,17 @@
                                 <td>{{ $order->creator?->name ?? '—' }}</td>
                                 <td class="amount">{{ $order->items_count }}</td>
                                 <td class="amount">Rp {{ number_format((float) $order->total_amount, 0, ',', '.') }}</td>
-                                <td class="amount">Rp {{ number_format($paid, 0, ',', '.') }}</td>
-                                <td class="amount">Rp {{ number_format($due, 0, ',', '.') }}</td>
+                                <td class="amount">{{ $order->isCancelled() ? '—' : 'Rp '.number_format($paid, 0, ',', '.') }}</td>
+                                <td class="amount">{{ $order->isCancelled() ? '—' : 'Rp '.number_format($due, 0, ',', '.') }}</td>
                                 <td>
                                     <span class="status status-{{ $order->status }}">{{ $order->statusLabel() }}</span>
                                 </td>
                                 <td>
-                                    <span class="status status-{{ $order->paymentStatus() }}">{{ $order->paymentStatusLabel() }}</span>
+                                    @if ($order->isCancelled())
+                                        <span class="muted">—</span>
+                                    @else
+                                        <span class="status status-{{ $order->paymentStatus() }}">{{ $order->paymentStatusLabel() }}</span>
+                                    @endif
                                 </td>
                                 <td>
                                     @if ($order->isActive())

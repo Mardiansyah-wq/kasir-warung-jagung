@@ -673,6 +673,59 @@ class OrderFlowTest extends TestCase
             ->assertSee('Rp 7.000');
     }
 
+    public function test_cancelled_order_pages_do_not_show_payment_status_or_outstanding_balance(): void
+    {
+        [$branch, $staff] = $this->makeStaff();
+        [, $variant] = $this->makeMenu($branch, 'Jagung Bakar', Menu::CATEGORY_MAKANAN, 10000, 10);
+
+        $order = $this->createOrder($staff, 'Budi');
+        $this->addItem($staff, $order, $variant, 1);
+
+        $this->actingAs($staff)
+            ->post(route('staff.orders.cancel', $order))
+            ->assertRedirect();
+
+        $this->actingAs($staff)
+            ->get(route('staff.pos.show', $order))
+            ->assertOk()
+            ->assertSee('Rincian Pesanan')
+            ->assertSee('Tidak ada (dibatalkan)')
+            ->assertDontSee('Sisa tagihan')
+            ->assertDontSee('Item lama terkunci karena sudah ada pembayaran');
+
+        $this->actingAs($staff)
+            ->get(route('staff.orders.show', $order))
+            ->assertOk()
+            ->assertSee('Tidak ada (dibatalkan)')
+            ->assertDontSee('Status Bayar')
+            ->assertDontSee('Sisa Tagihan');
+
+        $this->actingAs($staff)
+            ->get(route('staff.orders.index'))
+            ->assertOk()
+            ->assertSee($order->order_code)
+            ->assertSee('Dibatalkan, tidak ada tagihan');
+
+        $this->actingAs($staff)
+            ->get(route('staff.pos.index', ['status' => 'cancelled']))
+            ->assertOk()
+            ->assertSee('Dibatalkan, tidak ada tagihan');
+
+        $owner = User::factory()->owner()->create();
+
+        $this->actingAs($owner)
+            ->get(route('owner.orders.index'))
+            ->assertOk()
+            ->assertSee($order->order_code)
+            ->assertSee('Dibatalkan, tidak ada tagihan');
+
+        $this->actingAs($owner)
+            ->get(route('owner.orders.show', $order))
+            ->assertOk()
+            ->assertDontSee('Status Bayar')
+            ->assertDontSee('Sisa Tagihan');
+    }
+
     public function test_owner_can_view_all_orders_with_revenue_based_on_payments(): void
     {
         [$branch, $staff] = $this->makeStaff();

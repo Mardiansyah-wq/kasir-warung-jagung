@@ -114,14 +114,20 @@
                             <span>{{ $order->orderTypeLabel() }}</span>
                             <span>{{ $order->created_at?->format('H:i') }}</span>
                             <span>{{ $order->items_count }} item</span>
-                            <span class="status status-{{ $order->paymentStatus() }}">{{ $order->paymentStatusLabel() }}</span>
+                            @unless ($order->isCancelled())
+                                <span class="status status-{{ $order->paymentStatus() }}">{{ $order->paymentStatusLabel() }}</span>
+                            @endunless
                         </div>
 
                         <div class="order-card-money">
                             <span>Total <strong>Rp {{ number_format((float) $order->total_amount, 0, ',', '.') }}</strong></span>
-                            <span>Dibayar Rp {{ number_format($paid, 0, ',', '.') }}</span>
-                            @if ($due > 0)
-                                <span>Sisa Rp {{ number_format($due, 0, ',', '.') }}</span>
+                            @if ($order->isCancelled())
+                                <span class="muted">Dibatalkan, tidak ada tagihan</span>
+                            @else
+                                <span>Dibayar Rp {{ number_format($paid, 0, ',', '.') }}</span>
+                                @if ($due > 0)
+                                    <span>Sisa Rp {{ number_format($due, 0, ',', '.') }}</span>
+                                @endif
                             @endif
                         </div>
 

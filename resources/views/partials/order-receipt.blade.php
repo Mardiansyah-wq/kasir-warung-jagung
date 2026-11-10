@@ -50,10 +50,12 @@
             <span>Status Pesanan</span>
             <span class="status status-{{ $order->status }}">{{ $order->statusLabel() }}</span>
         </div>
-        <div class="receipt-line">
-            <span>Status Bayar</span>
-            <span class="status status-{{ $order->paymentStatus() }}">{{ $order->paymentStatusLabel() }}</span>
-        </div>
+        @unless ($order->isCancelled())
+            <div class="receipt-line">
+                <span>Status Bayar</span>
+                <span class="status status-{{ $order->paymentStatus() }}">{{ $order->paymentStatusLabel() }}</span>
+            </div>
+        @endunless
     </div>
 
     <div class="receipt-items">
@@ -96,14 +98,21 @@
             <span>Total</span>
             <span>Rp {{ number_format((float) $order->total_amount, 0, ',', '.') }}</span>
         </div>
-        <div class="receipt-line">
-            <span>Dibayar</span>
-            <span>Rp {{ number_format($paidAmount, 0, ',', '.') }}</span>
-        </div>
-        <div class="receipt-line">
-            <span>Sisa Tagihan</span>
-            <strong>Rp {{ number_format($balanceDue, 0, ',', '.') }}</strong>
-        </div>
+        @if ($order->isCancelled())
+            <div class="receipt-line">
+                <span>Pembayaran</span>
+                <span>Tidak ada (dibatalkan)</span>
+            </div>
+        @else
+            <div class="receipt-line">
+                <span>Dibayar</span>
+                <span>Rp {{ number_format($paidAmount, 0, ',', '.') }}</span>
+            </div>
+            <div class="receipt-line">
+                <span>Sisa Tagihan</span>
+                <strong>Rp {{ number_format($balanceDue, 0, ',', '.') }}</strong>
+            </div>
+        @endif
     </div>
 
     @if ($payments->isNotEmpty())
