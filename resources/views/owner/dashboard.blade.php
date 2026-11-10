@@ -13,15 +13,15 @@
 
     <div class="grid stats">
         <div class="card stat">
-            <span class="stat-label">Penjualan Hari Ini</span>
+            <span class="stat-label">Uang Masuk Hari Ini</span>
             <strong class="stat-value">Rp {{ number_format($todaySales, 0, ',', '.') }}</strong>
-            <span class="muted">{{ $todayCount }} transaksi lunas</span>
+            <span class="muted">{{ $todayCount }} pembayaran diterima</span>
         </div>
 
         <div class="card stat">
-            <span class="stat-label">Transaksi Hari Ini</span>
-            <strong class="stat-value">{{ $todayCount }}</strong>
-            <span class="muted">Semua cabang</span>
+            <span class="stat-label">Pesanan Aktif</span>
+            <strong class="stat-value">{{ $activeCount }}</strong>
+            <span class="muted">Belum selesai / batal</span>
         </div>
 
         <div class="card stat">
@@ -45,8 +45,8 @@
                 <span class="muted">Segera hadir</span>
             </div>
             <a href="{{ route('owner.orders.index') }}" class="quick quick-link">
-                <strong>Riwayat Transaksi</strong>
-                <span class="muted">{{ $todayCount }} transaksi hari ini</span>
+                <strong>Riwayat Pesanan</strong>
+                <span class="muted">{{ $todayCount }} pembayaran hari ini</span>
             </a>
             <a href="{{ route('owner.menus.index') }}" class="quick quick-link">
                 <strong>Kelola Menu</strong>

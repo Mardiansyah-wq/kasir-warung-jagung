@@ -70,26 +70,32 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/staff/pos', [StaffPosController::class, 'index'])
             ->name('staff.pos.index');
+        Route::post('/staff/pos', [StaffPosController::class, 'store'])
+            ->name('staff.pos.store');
+        Route::get('/staff/pos/{order}', [StaffPosController::class, 'show'])
+            ->name('staff.pos.show');
 
         Route::get('/staff/orders', [StaffOrderController::class, 'index'])
             ->name('staff.orders.index');
         Route::get('/staff/orders/{order}', [StaffOrderController::class, 'show'])
             ->name('staff.orders.show');
 
-        Route::post('/staff/orders/items', [StaffOrderController::class, 'storeItem'])
+        Route::post('/staff/orders/{order}/items', [StaffOrderController::class, 'storeItem'])
             ->name('staff.orders.items.store');
-        Route::patch('/staff/orders/items/{item}', [StaffOrderController::class, 'updateItem'])
+        Route::patch('/staff/orders/{order}/items/{item}', [StaffOrderController::class, 'updateItem'])
             ->name('staff.orders.items.update');
-        Route::delete('/staff/orders/items/{item}', [StaffOrderController::class, 'destroyItem'])
+        Route::delete('/staff/orders/{order}/items/{item}', [StaffOrderController::class, 'destroyItem'])
             ->name('staff.orders.items.destroy');
 
-        Route::patch('/staff/orders/discount', [StaffOrderController::class, 'applyDiscount'])
+        Route::patch('/staff/orders/{order}/discount', [StaffOrderController::class, 'applyDiscount'])
             ->name('staff.orders.discount');
-        Route::patch('/staff/orders/notes', [StaffOrderController::class, 'updateNotes'])
+        Route::patch('/staff/orders/{order}/notes', [StaffOrderController::class, 'updateNotes'])
             ->name('staff.orders.notes');
-        Route::post('/staff/orders/finalize', [StaffOrderController::class, 'finalize'])
-            ->name('staff.orders.finalize');
-        Route::post('/staff/orders/cancel', [StaffOrderController::class, 'cancel'])
+        Route::post('/staff/orders/{order}/pay', [StaffOrderController::class, 'pay'])
+            ->name('staff.orders.pay');
+        Route::patch('/staff/orders/{order}/status', [StaffOrderController::class, 'updateStatus'])
+            ->name('staff.orders.status');
+        Route::post('/staff/orders/{order}/cancel', [StaffOrderController::class, 'cancel'])
             ->name('staff.orders.cancel');
 
         Route::get('/staff/stock', [StaffStockController::class, 'index'])

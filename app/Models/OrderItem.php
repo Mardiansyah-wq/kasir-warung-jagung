@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'topping_price',
     'unit_price',
     'quantity',
+    'is_addon',
     'line_total',
 ])]
 class OrderItem extends Model
@@ -28,6 +29,7 @@ class OrderItem extends Model
             'unit_price' => 'decimal:2',
             'line_total' => 'decimal:2',
             'quantity' => 'int',
+            'is_addon' => 'bool',
         ];
     }
 
