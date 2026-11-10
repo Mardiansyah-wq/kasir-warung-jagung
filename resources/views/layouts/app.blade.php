@@ -1699,6 +1699,7 @@
                     @if (auth()->user()->isOwner())
                         <a href="{{ route('owner.orders.index') }}" class="{{ request()->routeIs('owner.orders.*') ? 'active' : '' }}">Transaksi</a>
                         <a href="{{ route('owner.menus.index') }}" class="{{ request()->routeIs('owner.menus.*') ? 'active' : '' }}">Menu</a>
+                        <a href="{{ route('owner.staff.index') }}" class="{{ request()->routeIs('owner.staff.*') ? 'active' : '' }}">Staff</a>
                     @else
                         <a href="{{ route('staff.pos.index') }}" class="{{ request()->routeIs('staff.pos.*') ? 'active' : '' }}">Kasir</a>
                         <a href="{{ route('staff.orders.index') }}" class="{{ request()->routeIs('staff.orders.*') ? 'active' : '' }}">Transaksi</a>
@@ -1729,6 +1730,7 @@
             @if (auth()->user()->isOwner())
                 <a href="{{ route('owner.orders.index') }}" class="{{ request()->routeIs('owner.orders.*') ? 'active' : '' }}">Transaksi</a>
                 <a href="{{ route('owner.menus.index') }}" class="{{ request()->routeIs('owner.menus.*') ? 'active' : '' }}">Menu</a>
+                <a href="{{ route('owner.staff.index') }}" class="{{ request()->routeIs('owner.staff.*') ? 'active' : '' }}">Staff</a>
             @else
                 <a href="{{ route('staff.pos.index') }}" class="{{ request()->routeIs('staff.pos.*') ? 'active' : '' }}">Kasir</a>
                 <a href="{{ route('staff.orders.index') }}" class="{{ request()->routeIs('staff.orders.*') ? 'active' : '' }}">Transaksi</a>

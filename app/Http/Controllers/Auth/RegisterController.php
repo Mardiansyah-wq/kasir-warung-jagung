@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class RegisterController extends Controller
@@ -34,12 +34,11 @@ class RegisterController extends Controller
             'address' => $data['address'],
             'password_hash' => $data['password'],
             'role' => User::ROLE_STAFF,
-            'is_active' => true,
+            'is_active' => false,
         ]);
 
-        Auth::login($user);
-        $request->session()->regenerate();
+        Session::flash('success', '✅ Pendaftaran berhasil. Akun Anda menunggu persetujuan pemilik cabang.');
 
-        return redirect()->route($user->homeRouteName());
+        return redirect()->route('login');
     }
 }

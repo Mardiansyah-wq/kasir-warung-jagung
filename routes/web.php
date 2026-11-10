@@ -56,6 +56,21 @@ Route::middleware('auth')->group(function () {
         Route::patch('/owner/menus/{menu}/variants/{variant}/toggle', [OwnerMenuController::class, 'toggleVariant'])
             ->name('owner.menus.variants.toggle');
 
+        Route::get('/owner/staff', [Owner\StaffController::class, 'index'])
+            ->name('owner.staff.index');
+        Route::get('/owner/staff/create', [Owner\StaffController::class, 'create'])
+            ->name('owner.staff.create');
+        Route::post('/owner/staff', [Owner\StaffController::class, 'store'])
+            ->name('owner.staff.store');
+        Route::get('/owner/staff/{user}/edit', [Owner\StaffController::class, 'edit'])
+            ->name('owner.staff.edit');
+        Route::put('/owner/staff/{user}', [Owner\StaffController::class, 'update'])
+            ->name('owner.staff.update');
+        Route::patch('/owner/staff/{user}/toggle', [Owner\StaffController::class, 'toggle'])
+            ->name('owner.staff.toggle');
+        Route::post('/owner/staff/{user}/reset-password', [Owner\StaffController::class, 'resetPassword'])
+            ->name('owner.staff.reset-password');
+
         Route::get('/owner/orders', [OwnerOrderController::class, 'index'])
             ->name('owner.orders.index');
         Route::get('/owner/orders/{order}', [OwnerOrderController::class, 'show'])
