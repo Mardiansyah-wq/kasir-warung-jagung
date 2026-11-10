@@ -6,6 +6,7 @@ use App\Http\Controllers\MenuImageController;
 use App\Http\Controllers\Owner\DashboardController as OwnerDashboardController;
 use App\Http\Controllers\Owner\MenuController as OwnerMenuController;
 use App\Http\Controllers\Owner\OrderController as OwnerOrderController;
+use App\Http\Controllers\Owner\StaffController as OwnerStaffController;
 use App\Http\Controllers\Staff\DashboardController as StaffDashboardController;
 use App\Http\Controllers\Staff\MenuController as StaffMenuController;
 use App\Http\Controllers\Staff\OrderController as StaffOrderController;
@@ -56,19 +57,19 @@ Route::middleware('auth')->group(function () {
         Route::patch('/owner/menus/{menu}/variants/{variant}/toggle', [OwnerMenuController::class, 'toggleVariant'])
             ->name('owner.menus.variants.toggle');
 
-        Route::get('/owner/staff', [Owner\StaffController::class, 'index'])
+        Route::get('/owner/staff', [OwnerStaffController::class, 'index'])
             ->name('owner.staff.index');
-        Route::get('/owner/staff/create', [Owner\StaffController::class, 'create'])
+        Route::get('/owner/staff/create', [OwnerStaffController::class, 'create'])
             ->name('owner.staff.create');
-        Route::post('/owner/staff', [Owner\StaffController::class, 'store'])
+        Route::post('/owner/staff', [OwnerStaffController::class, 'store'])
             ->name('owner.staff.store');
-        Route::get('/owner/staff/{user}/edit', [Owner\StaffController::class, 'edit'])
+        Route::get('/owner/staff/{user}/edit', [OwnerStaffController::class, 'edit'])
             ->name('owner.staff.edit');
-        Route::put('/owner/staff/{user}', [Owner\StaffController::class, 'update'])
+        Route::put('/owner/staff/{user}', [OwnerStaffController::class, 'update'])
             ->name('owner.staff.update');
-        Route::patch('/owner/staff/{user}/toggle', [Owner\StaffController::class, 'toggle'])
+        Route::patch('/owner/staff/{user}/toggle', [OwnerStaffController::class, 'toggle'])
             ->name('owner.staff.toggle');
-        Route::post('/owner/staff/{user}/reset-password', [Owner\StaffController::class, 'resetPassword'])
+        Route::post('/owner/staff/{user}/reset-password', [OwnerStaffController::class, 'resetPassword'])
             ->name('owner.staff.reset-password');
 
         Route::get('/owner/orders', [OwnerOrderController::class, 'index'])
