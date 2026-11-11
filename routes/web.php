@@ -72,6 +72,19 @@ Route::middleware('auth')->group(function () {
         Route::post('/owner/staff/{user}/reset-password', [OwnerStaffController::class, 'resetPassword'])
             ->name('owner.staff.reset-password');
 
+        Route::get('/owner/branches', [Owner\BranchController::class, 'index'])
+            ->name('owner.branches.index');
+        Route::get('/owner/branches/create', [Owner\BranchController::class, 'create'])
+            ->name('owner.branches.create');
+        Route::post('/owner/branches', [Owner\BranchController::class, 'store'])
+            ->name('owner.branches.store');
+        Route::get('/owner/branches/{branch}/edit', [Owner\BranchController::class, 'edit'])
+            ->name('owner.branches.edit');
+        Route::put('/owner/branches/{branch}', [Owner\BranchController::class, 'update'])
+            ->name('owner.branches.update');
+        Route::patch('/owner/branches/{branch}/toggle', [Owner\BranchController::class, 'toggle'])
+            ->name('owner.branches.toggle');
+
         Route::get('/owner/orders', [OwnerOrderController::class, 'index'])
             ->name('owner.orders.index');
         Route::get('/owner/orders/{order}', [OwnerOrderController::class, 'show'])
