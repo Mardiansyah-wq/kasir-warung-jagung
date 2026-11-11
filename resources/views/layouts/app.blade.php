@@ -515,6 +515,12 @@
             font-size: 14px;
         }
 
+        .flash-error {
+            border-color: #fecaca;
+            background: #fef2f2;
+            color: #991b1b;
+        }
+
         .btn-ghost {
             border: 1px solid var(--border);
             background: #fff;

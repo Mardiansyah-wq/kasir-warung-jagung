@@ -1,102 +1,124 @@
 @extends('layouts.app')
 
-@section('title', 'Manajemen Staff')
+@section('title', 'Manajemen Staff - Jagung Bakar WJT')
 
 @section('content')
-<div class="container py-6">
-    <div class="d-flex justify-content-between align-items-center mb-6">
-        <h1 class="h2 mb-0">Manajemen Staff</h1>
-        <a href="{{ route('owner.staff.create') }}" class="btn btn-primary">
-            <i class="bi bi-plus-lg me-1"></i> Tambah Staff Baru
-        </a>
+    <div class="page-head">
+        <div>
+            <h1>Manajemen Staff</h1>
+            <p class="muted">Setujui pendaftar baru, atur cabang, dan reset password staff.</p>
+        </div>
+        <a href="{{ route('owner.staff.create') }}" class="btn">+ Tambah Staff</a>
     </div>
 
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
+    @include('partials.alerts')
 
-    <div class="card">
-        <div class="card-header bg-white">
-            <h5 class="card-title mb-0">Daftar Staff</h5>
+    @if ($staff->isEmpty())
+        <div class="card empty">
+            <h2>Belum ada staff</h2>
+            <p class="muted">Tambahkan staff pertama, atau tunggu ada yang mendaftar lewat halaman daftar.</p>
+            <a href="{{ route('owner.staff.create') }}" class="btn">Tambah Staff</a>
         </div>
-        <div class="table-responsive">
-            <table class="table table-hover mb-0">
-                <thead>
-                    <tr>
-                        <th>Nama</th>
-                        <th>Email</th>
-                        <th>Cabang</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($staff as $user)
+    @else
+        <div class="card" style="padding: 0">
+            <div class="table-wrap">
+                <table class="data">
+                    <thead>
                         <tr>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>
-                                @if ($user->branch)
-                                    {{ $user->branch->name }}
-                                @else
-                                    <span class="text-muted">Belum diassign</span>
-                                @endif
-                            </td>
-                            <td>
-                                @if ($user->is_active)
-                                    <span class="badge bg-success">Aktif</span>
-                                @elseif ($user->is_active === false && $user->branch_id === null)
-                                    <span class="badge bg-warning text-dark">Menunggu Persetujuan</span>
-                                @else
-                                    <span class="badge bg-secondary">Nonaktif</span>
-                                @endif
-                            </td>
-                            <td>
-                                <div class="btn-group" role="group">
-                                    @if ($user->is_active === false && $user->branch_id === null)
-                                        <form action="{{ route('owner.staff.toggle', $user) }}" method="POST" class="d-inline">
+                            <th>Nama</th>
+                            <th>Email</th>
+                            <th>Cabang</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($staff as $user)
+                            <tr>
+                                <td>
+                                    {{ $user->name }}
+                                    @if ($user->phone)
+                                        <div class="muted">{{ $user->phone }}</div>
+                                    @endif
+                                </td>
+                                <td>{{ $user->email }}</td>
+                                <td>
+                                    @if ($user->branch)
+                                        {{ $user->branch->name }}
+                                    @else
+                                        <span class="muted">Belum diassign</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($user->is_active)
+                                        <span class="status status-ready">Aktif</span>
+                                    @elseif ($user->branch_id === null)
+                                        <span class="status status-processing">Menunggu</span>
+                                    @else
+                                        <span class="status status-completed">Nonaktif</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if (! $user->is_active && $user->branch_id === null)
+                                        <form
+                                            method="POST"
+                                            action="{{ route('owner.staff.toggle', $user) }}"
+                                            style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap"
+                                        >
                                             @csrf
                                             @method('PATCH')
-                                            <input type="hidden" name="branch_id" value="{{ old('branch_id') }}">
-                                            <button type="submit" class="btn btn-sm btn-success">
-                                                <i class="bi bi-check-lg me-1"></i> Approve
-                                            </button>
+                                            <select
+                                                name="branch_id"
+                                                aria-label="Cabang untuk {{ $user->name }}"
+                                                style="width: auto; min-height: 36px; padding: 6px 10px; font-size: 13px"
+                                                required
+                                            >
+                                                <option value="">Pilih cabang...</option>
+                                                @foreach ($branches as $branch)
+                                                    <option value="{{ $branch->id }}" {{ old('branch_id') == $branch->id ? 'selected' : '' }}>
+                                                        {{ $branch->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <button type="submit" class="btn btn-sm">Setujui</button>
                                         </form>
                                     @else
-                                        <a href="{{ route('owner.staff.edit', $user) }}" class="btn btn-sm btn-outline-primary">
-                                            <i class="bi bi-pencil me-1"></i> Ubah
-                                        </a>
-                                        <form action="{{ route('owner.staff.toggle', $user) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="btn btn-sm {{ $user->is_active ? 'btn-danger' : 'btn-success' }}">
-                                                <i class="bi bi-{{ $user->is_active ? 'x-lg' : 'check-lg' }} me-1"></i>
-                                                {{ $user->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
-                                            </button>
-                                        </form>
-                                        <form action="{{ route('owner.staff.reset-password', $user) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-outline-warning">
-                                                <i class="bi bi-key me-1"></i> Reset Password
-                                            </button>
-                                        </form>
+                                        <div style="display: flex; gap: 6px; flex-wrap: wrap">
+                                            <a href="{{ route('owner.staff.edit', $user) }}" class="btn btn-sm btn-ghost">Ubah</a>
+
+                                            <form method="POST" action="{{ route('owner.staff.toggle', $user) }}">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="btn btn-sm btn-ghost">
+                                                    {{ $user->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
+                                                </button>
+                                            </form>
+
+                                            <form
+                                                method="POST"
+                                                action="{{ route('owner.staff.reset-password', $user) }}"
+                                                style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap"
+                                            >
+                                                @csrf
+                                                <input
+                                                    type="password"
+                                                    name="password"
+                                                    minlength="8"
+                                                    placeholder="Password baru"
+                                                    aria-label="Password baru untuk {{ $user->name }}"
+                                                    style="width: 150px; min-height: 36px; padding: 6px 10px; font-size: 13px"
+                                                    required
+                                                >
+                                                <button type="submit" class="btn btn-sm btn-ghost">Reset</button>
+                                            </form>
+                                        </div>
                                     @endif
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center py-4 text-muted">
-                                Belum ada staff. Gunakan tombol "Tambah Staff Baru" di atas.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-</div>
+    @endif
 @endsection

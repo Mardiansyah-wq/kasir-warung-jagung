@@ -10,6 +10,8 @@
                 <p class="muted">Warung Jagung Bakar & Pisang</p>
             </div>
 
+            @include('partials.alerts')
+
             @if ($errors->any())
                 <div class="errors">
                     @foreach ($errors->all() as $error)

@@ -7,7 +7,6 @@ use App\Models\Branch;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class StaffController extends Controller
@@ -19,8 +18,11 @@ class StaffController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
+        $branches = Branch::where('is_active', true)->get();
+
         return view('owner.staff.index', [
             'staff' => $staff,
+            'branches' => $branches,
         ]);
     }
 
@@ -80,7 +82,7 @@ class StaffController extends Controller
 
         $data = $request->validate([
             'name' => ['required', 'string', 'max:120'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id],
             'phone' => ['required', 'string', 'max:30'],
             'address' => ['required', 'string', 'max:500'],
             'branch_id' => ['required', 'exists:branches,id'],
@@ -97,30 +99,28 @@ class StaffController extends Controller
         return redirect()->route('owner.staff.index')->with('success', '✅ Data staff berhasil diperbarui.');
     }
 
-    public function toggle(User $user): RedirectResponse
+    public function toggle(Request $request, User $user): RedirectResponse
     {
         if ($user->role !== User::ROLE_STAFF) {
             abort(403);
         }
 
         if ($user->is_active) {
-            // Nonaktifkan
             $user->update(['is_active' => false]);
+
             return redirect()->route('owner.staff.index')->with('success', '✅ Staff berhasil dinonaktifkan.');
-        } else {
-            // Aktifkan — wajib pilih cabang
-            $request = request();
-            $request->validate([
-                'branch_id' => ['required', 'exists:branches,id'],
-            ]);
-
-            $user->update([
-                'is_active' => true,
-                'branch_id' => $request->branch_id,
-            ]);
-
-            return redirect()->route('owner.staff.index')->with('success', '✅ Staff berhasil diaktifkan dan diassign ke cabang.');
         }
+
+        $data = $request->validate([
+            'branch_id' => ['required', 'exists:branches,id'],
+        ]);
+
+        $user->update([
+            'is_active' => true,
+            'branch_id' => $data['branch_id'],
+        ]);
+
+        return redirect()->route('owner.staff.index')->with('success', '✅ Staff berhasil diaktifkan dan diassign ke cabang.');
     }
 
     public function resetPassword(Request $request, User $user): RedirectResponse

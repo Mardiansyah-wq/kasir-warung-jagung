@@ -23,7 +23,7 @@ class RegisterTest extends TestCase
             ->assertSee('data-password-toggle="password"', false);
     }
 
-    public function test_new_user_can_register_and_is_logged_in(): void
+    public function test_new_user_can_register_and_awaits_owner_approval(): void
     {
         $response = $this->post('/register', [
             'name' => 'Budi Santoso',
@@ -33,8 +33,9 @@ class RegisterTest extends TestCase
             'password' => 'rahasia123',
         ]);
 
-        $response->assertRedirect('/staff/dashboard');
-        $this->assertAuthenticated();
+        $response->assertRedirect('/login');
+        $response->assertSessionHas('success');
+        $this->assertGuest();
 
         $user = User::where('email', 'budi@gmail.com')->first();
 
@@ -43,11 +44,12 @@ class RegisterTest extends TestCase
         $this->assertSame('Jl. Mawar No. 1', $user->address);
         $this->assertSame('081234567890', $user->phone);
         $this->assertSame(User::ROLE_STAFF, $user->role);
-        $this->assertTrue($user->is_active);
+        $this->assertFalse($user->is_active);
+        $this->assertNull($user->branch_id);
         $this->assertTrue(password_verify('rahasia123', $user->password_hash));
     }
 
-    public function test_registered_name_is_shown_on_dashboard(): void
+    public function test_registered_user_cannot_login_before_approval(): void
     {
         $this->post('/register', [
             'name' => 'Budi Santoso',
@@ -55,11 +57,14 @@ class RegisterTest extends TestCase
             'phone' => '081234567890',
             'email' => 'budi@gmail.com',
             'password' => 'rahasia123',
-        ])->assertRedirect('/staff/dashboard');
+        ])->assertRedirect('/login');
 
-        $this->get('/staff/dashboard')
-            ->assertOk()
-            ->assertSee('Budi Santoso');
+        $this->post('/login', [
+            'email' => 'budi@gmail.com',
+            'password' => 'rahasia123',
+        ])->assertSessionHasErrors('email');
+
+        $this->assertGuest();
     }
 
     public function test_email_must_be_unique(): void

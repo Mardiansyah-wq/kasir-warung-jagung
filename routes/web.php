@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\MenuImageController;
+use App\Http\Controllers\Owner\BranchController as OwnerBranchController;
 use App\Http\Controllers\Owner\DashboardController as OwnerDashboardController;
 use App\Http\Controllers\Owner\MenuController as OwnerMenuController;
 use App\Http\Controllers\Owner\OrderController as OwnerOrderController;
@@ -72,17 +73,17 @@ Route::middleware('auth')->group(function () {
         Route::post('/owner/staff/{user}/reset-password', [OwnerStaffController::class, 'resetPassword'])
             ->name('owner.staff.reset-password');
 
-        Route::get('/owner/branches', [Owner\BranchController::class, 'index'])
+        Route::get('/owner/branches', [OwnerBranchController::class, 'index'])
             ->name('owner.branches.index');
-        Route::get('/owner/branches/create', [Owner\BranchController::class, 'create'])
+        Route::get('/owner/branches/create', [OwnerBranchController::class, 'create'])
             ->name('owner.branches.create');
-        Route::post('/owner/branches', [Owner\BranchController::class, 'store'])
+        Route::post('/owner/branches', [OwnerBranchController::class, 'store'])
             ->name('owner.branches.store');
-        Route::get('/owner/branches/{branch}/edit', [Owner\BranchController::class, 'edit'])
+        Route::get('/owner/branches/{branch}/edit', [OwnerBranchController::class, 'edit'])
             ->name('owner.branches.edit');
-        Route::put('/owner/branches/{branch}', [Owner\BranchController::class, 'update'])
+        Route::put('/owner/branches/{branch}', [OwnerBranchController::class, 'update'])
             ->name('owner.branches.update');
-        Route::patch('/owner/branches/{branch}/toggle', [Owner\BranchController::class, 'toggle'])
+        Route::patch('/owner/branches/{branch}/toggle', [OwnerBranchController::class, 'toggle'])
             ->name('owner.branches.toggle');
 
         Route::get('/owner/orders', [OwnerOrderController::class, 'index'])

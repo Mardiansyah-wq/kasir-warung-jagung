@@ -1,77 +1,63 @@
 @extends('layouts.app')
 
-@section('title', 'Ubah Staff')
+@section('title', 'Ubah Staff - Jagung Bakar WJT')
 
 @section('content')
-<div class="container py-6">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card">
-                <div class="card-header bg-white">
-                    <h5 class="card-title mb-0">Ubah Staff</h5>
-                </div>
-                <div class="card-body">
-                    <form action="{{ route('owner.staff.update', $user) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nama Lengkap</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $user->name) }}" required>
-                            @error('name')
-                                <div class="text-danger small mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $user->email) }}" required>
-                            @error('email')
-                                <div class="text-danger small mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Nomor Telepon</label>
-                            <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone', $user->phone) }}" required>
-                            @error('phone')
-                                <div class="text-danger small mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="address" class="form-label">Alamat</label>
-                            <textarea class="form-control" id="address" name="address" rows="3" required>{{ old('address', $user->address) }}</textarea>
-                            @error('address')
-                                <div class="text-danger small mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="branch_id" class="form-label">Cabang</label>
-                            <select class="form-select" id="branch_id" name="branch_id" required>
-                                <option value="">Pilih cabang...</option>
-                                @foreach ($branches as $branch)
-                                    <option value="{{ $branch->id }}" {{ old('branch_id', $user->branch_id) == $branch->id ? 'selected' : '' }}>
-                                        {{ $branch->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('branch_id')
-                                <div class="text-danger small mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-pencil me-1"></i> Simpan Perubahan
-                            </button>
-                            <a href="{{ route('owner.staff.index') }}" class="btn btn-secondary">Batal</a>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    <div class="page-head">
+        <div>
+            <h1>Ubah Staff</h1>
+            <p class="muted">{{ $user->name }} · {{ $user->email }}</p>
         </div>
+        <a href="{{ route('owner.staff.index') }}" class="btn btn-ghost">Kembali</a>
     </div>
-</div>
+
+    @include('partials.alerts')
+
+    <form method="POST" action="{{ route('owner.staff.update', $user) }}" class="card form-card">
+        @csrf
+        @method('PUT')
+
+        <div class="form-section" style="margin-top: 0; padding-top: 0; border-top: 0">
+            <h2>Data Staff</h2>
+
+            <div class="field">
+                <label for="name">Nama Lengkap</label>
+                <input id="name" type="text" name="name" value="{{ old('name', $user->name) }}" maxlength="120" required>
+            </div>
+
+            <div class="field">
+                <label for="email">Email</label>
+                <input id="email" type="email" name="email" value="{{ old('email', $user->email) }}" maxlength="255" required>
+            </div>
+
+            <div class="field">
+                <label for="phone">Nomor Telepon</label>
+                <input id="phone" type="text" name="phone" value="{{ old('phone', $user->phone) }}" maxlength="30" required>
+            </div>
+
+            <div class="field">
+                <label for="address">Alamat</label>
+                <textarea id="address" name="address" maxlength="500" required>{{ old('address', $user->address) }}</textarea>
+            </div>
+
+            <div class="field">
+                <label for="branch_id">Cabang</label>
+                <select id="branch_id" name="branch_id" required>
+                    <option value="">Pilih cabang...</option>
+                    @foreach ($branches as $branch)
+                        <option value="{{ $branch->id }}" {{ old('branch_id', $user->branch_id) == $branch->id ? 'selected' : '' }}>
+                            {{ $branch->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <p class="hint">
+                Status akun: {{ $user->is_active ? 'Aktif' : 'Nonaktif' }}.
+                Untuk mengubah status, gunakan tombol di halaman Manajemen Staff.
+            </p>
+        </div>
+
+        <button type="submit" class="btn btn-block">Simpan Perubahan</button>
+    </form>
 @endsection

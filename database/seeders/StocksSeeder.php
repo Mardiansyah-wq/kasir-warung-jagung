@@ -5,19 +5,19 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-use function Laravel\Octane\info;
-
 class StocksSeeder extends Seeder
 {
     public function run(): void
     {
         if (! DB::table('menus')->exists()) {
             $this->command->error('❌ Table "menus" not found. Aborting.');
+
             return;
         }
 
         if (! DB::table('menu_variants')->exists()) {
             $this->command->error('❌ Table "menu_variants" not found. Aborting.');
+
             return;
         }
 
@@ -49,6 +49,6 @@ class StocksSeeder extends Seeder
             }
         });
 
-        $this->command->info("✅ Initialized " . count($menus) . " menu + " . count($variants) . " variant stocks.");
+        $this->command->info('✅ Initialized '.count($menus).' menu + '.count($variants).' variant stocks.');
     }
 }

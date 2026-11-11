@@ -1,53 +1,40 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Cabang Baru')
+@section('title', 'Tambah Cabang - Jagung Bakar WJT')
 
 @section('content')
-<div class="container py-6">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card">
-                <div class="card-header bg-white">
-                    <h5 class="card-title mb-0">Tambah Cabang Baru</h5>
-                </div>
-                <div class="card-body">
-                    <form action="{{ route('owner.branches.store') }}" method="POST">
-                        @csrf
+    <div class="page-head">
+        <div>
+            <h1>Tambah Cabang</h1>
+            <p class="muted">Cabang baru langsung aktif dan bisa dipilih saat menambah staff.</p>
+        </div>
+        <a href="{{ route('owner.branches.index') }}" class="btn btn-ghost">Kembali</a>
+    </div>
 
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nama Cabang</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required>
-                            @error('name')
-                                <div class="text-danger small mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
+    @include('partials.alerts')
 
-                        <div class="mb-3">
-                            <label for="address" class="form-label">Alamat</label>
-                            <textarea class="form-control" id="address" name="address" rows="3">{{ old('address') }}</textarea>
-                            @error('address')
-                                <div class="text-danger small mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
+    <form method="POST" action="{{ route('owner.branches.store') }}" class="card form-card">
+        @csrf
 
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Nomor Telepon</label>
-                            <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone') }}">
-                            @error('phone')
-                                <div class="text-danger small mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
+        <div class="form-section" style="margin-top: 0; padding-top: 0; border-top: 0">
+            <h2>Data Cabang</h2>
 
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-plus-lg me-1"></i> Tambah Cabang
-                            </button>
-                            <a href="{{ route('owner.branches.index') }}" class="btn btn-secondary">Batal</a>
-                        </div>
-                    </form>
-                </div>
+            <div class="field">
+                <label for="name">Nama Cabang</label>
+                <input id="name" type="text" name="name" value="{{ old('name') }}" maxlength="100" required>
+            </div>
+
+            <div class="field">
+                <label for="address">Alamat</label>
+                <textarea id="address" name="address" maxlength="500">{{ old('address') }}</textarea>
+            </div>
+
+            <div class="field">
+                <label for="phone">Nomor Telepon</label>
+                <input id="phone" type="text" name="phone" value="{{ old('phone') }}" maxlength="30">
             </div>
         </div>
-    </div>
-</div>
+
+        <button type="submit" class="btn btn-block">Simpan Cabang</button>
+    </form>
 @endsection

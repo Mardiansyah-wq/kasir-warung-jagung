@@ -1,77 +1,71 @@
 @extends('layouts.app')
 
-@section('title', 'Manajemen Cabang')
+@section('title', 'Manajemen Cabang - Jagung Bakar WJT')
 
 @section('content')
-<div class="container py-6">
-    <div class="d-flex justify-content-between align-items-center mb-6">
-        <h1 class="h2 mb-0">Manajemen Cabang</h1>
-        <a href="{{ route('owner.branches.create') }}" class="btn btn-primary">
-            <i class="bi bi-plus-lg me-1"></i> Tambah Cabang Baru
-        </a>
+    <div class="page-head">
+        <div>
+            <h1>Manajemen Cabang</h1>
+            <p class="muted">Tambah cabang baru dan atur status aktifnya.</p>
+        </div>
+        <a href="{{ route('owner.branches.create') }}" class="btn">+ Tambah Cabang</a>
     </div>
 
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    @include('partials.alerts')
+
+    @if ($branches->isEmpty())
+        <div class="card empty">
+            <h2>Belum ada cabang</h2>
+            <p class="muted">Tambahkan cabang pertama agar staff bisa dihubungkan.</p>
+            <a href="{{ route('owner.branches.create') }}" class="btn">Tambah Cabang</a>
+        </div>
+    @else
+        <div class="card" style="padding: 0">
+            <div class="table-wrap">
+                <table class="data">
+                    <thead>
+                        <tr>
+                            <th>Nama Cabang</th>
+                            <th>Alamat</th>
+                            <th>Telepon</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($branches as $branch)
+                            <tr>
+                                <td>
+                                    {{ $branch->name }}
+                                    <div class="muted">{{ $branch->users_count ?? $branch->users()->count() }} staff</div>
+                                </td>
+                                <td>{{ $branch->address ?: '—' }}</td>
+                                <td>{{ $branch->phone ?: '—' }}</td>
+                                <td>
+                                    @if ($branch->is_active)
+                                        <span class="status status-ready">Aktif</span>
+                                    @else
+                                        <span class="status status-completed">Nonaktif</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div style="display: flex; gap: 6px; flex-wrap: wrap">
+                                        <a href="{{ route('owner.branches.edit', $branch) }}" class="btn btn-sm btn-ghost">Ubah</a>
+
+                                        <form method="POST" action="{{ route('owner.branches.toggle', $branch) }}">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-sm btn-ghost">
+                                                {{ $branch->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     @endif
-
-    <div class="card">
-        <div class="card-header bg-white">
-            <h5 class="card-title mb-0">Daftar Cabang</h5>
-        </div>
-        <div class="table-responsive">
-            <table class="table table-hover mb-0">
-                <thead>
-                    <tr>
-                        <th>Nama Cabang</th>
-                        <th>Alamat</th>
-                        <th>Telepon</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($branches as $branch)
-                        <tr>
-                            <td>{{ $branch->name }}</td>
-                            <td>{{ $branch->address ?: '-' }}</td>
-                            <td>{{ $branch->phone ?: '-' }}</td>
-                            <td>
-                                @if ($branch->is_active)
-                                    <span class="badge bg-success">Aktif</span>
-                                @else
-                                    <span class="badge bg-secondary">Nonaktif</span>
-                                @endif
-                            </td>
-                            <td>
-                                <div class="btn-group" role="group">
-                                    <a href="{{ route('owner.branches.edit', $branch) }}" class="btn btn-sm btn-outline-primary">
-                                        <i class="bi bi-pencil me-1"></i> Ubah
-                                    </a>
-                                    <form action="{{ route('owner.branches.toggle', $branch) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit" class="btn btn-sm {{ $branch->is_active ? 'btn-danger' : 'btn-success' }}">
-                                            <i class="bi bi-{{ $branch->is_active ? 'x-lg' : 'check-lg' }} me-1"></i>
-                                            {{ $branch->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center py-4 text-muted">
-                                Belum ada cabang. Gunakan tombol "Tambah Cabang Baru" di atas.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 @endsection
