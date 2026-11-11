@@ -158,14 +158,21 @@
             gap: 4px;
             padding: 6px 8px;
             padding-bottom: calc(6px + env(safe-area-inset-bottom));
+            overflow-x: auto;
             border-top: 1px solid var(--border);
             background: var(--surface);
             box-shadow: 0 -1px 3px rgba(0, 0, 0, .06);
+            scrollbar-width: none;
+        }
+
+        .mobile-nav::-webkit-scrollbar {
+            display: none;
         }
 
         .mobile-nav a,
         .mobile-nav form {
-            flex: 1;
+            flex: 1 0 auto;
+            min-width: 58px;
             margin: 0;
         }
 
@@ -1704,6 +1711,7 @@
                     <a href="{{ route(auth()->user()->homeRouteName()) }}" class="{{ request()->routeIs('*.dashboard') ? 'active' : '' }}">Dashboard</a>
                     @if (auth()->user()->isOwner())
                         <a href="{{ route('owner.orders.index') }}" class="{{ request()->routeIs('owner.orders.*') ? 'active' : '' }}">Transaksi</a>
+                        <a href="{{ route('owner.reports.index') }}" class="{{ request()->routeIs('owner.reports.*') ? 'active' : '' }}">Laporan</a>
                         <a href="{{ route('owner.menus.index') }}" class="{{ request()->routeIs('owner.menus.*') ? 'active' : '' }}">Menu</a>
                         <a href="{{ route('owner.staff.index') }}" class="{{ request()->routeIs('owner.staff.*') ? 'active' : '' }}">Staff</a>
                         <a href="{{ route('owner.branches.index') }}" class="{{ request()->routeIs('owner.branches.*') ? 'active' : '' }}">Cabang</a>
@@ -1736,6 +1744,7 @@
             <a href="{{ route(auth()->user()->homeRouteName()) }}" class="{{ request()->routeIs('*.dashboard') ? 'active' : '' }}">Dashboard</a>
             @if (auth()->user()->isOwner())
                 <a href="{{ route('owner.orders.index') }}" class="{{ request()->routeIs('owner.orders.*') ? 'active' : '' }}">Transaksi</a>
+                <a href="{{ route('owner.reports.index') }}" class="{{ request()->routeIs('owner.reports.*') ? 'active' : '' }}">Laporan</a>
                 <a href="{{ route('owner.menus.index') }}" class="{{ request()->routeIs('owner.menus.*') ? 'active' : '' }}">Menu</a>
                 <a href="{{ route('owner.staff.index') }}" class="{{ request()->routeIs('owner.staff.*') ? 'active' : '' }}">Staff</a>
                 <a href="{{ route('owner.branches.index') }}" class="{{ request()->routeIs('owner.branches.*') ? 'active' : '' }}">Cabang</a>

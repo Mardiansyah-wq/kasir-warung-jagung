@@ -40,10 +40,10 @@
     <div class="card">
         <h2>Menu Owner</h2>
         <div class="quick-grid">
-            <div class="quick">
+            <a href="{{ route('owner.branches.index') }}" class="quick quick-link">
                 <strong>Kelola Cabang</strong>
-                <span class="muted">Segera hadir</span>
-            </div>
+                <span class="muted">{{ $branchCount }} cabang aktif</span>
+            </a>
             <a href="{{ route('owner.orders.index') }}" class="quick quick-link">
                 <strong>Riwayat Pesanan</strong>
                 <span class="muted">{{ $todayCount }} pembayaran hari ini</span>
@@ -52,14 +52,14 @@
                 <strong>Kelola Menu</strong>
                 <span class="muted">{{ $menuCount }} menu aktif</span>
             </a>
-            <div class="quick">
-                <strong>Kelola Stok</strong>
-                <span class="muted">Segera hadir</span>
-            </div>
-            <div class="quick">
-                <strong>Laporan</strong>
-                <span class="muted">Segera hadir</span>
-            </div>
+            <a href="{{ route('owner.staff.index') }}" class="quick quick-link">
+                <strong>Kelola Staff</strong>
+                <span class="muted">Setujui & atur akun staff</span>
+            </a>
+            <a href="{{ route('owner.reports.index') }}" class="quick quick-link">
+                <strong>Laporan Harian</strong>
+                <span class="muted">Rekap & unduh PDF/Excel</span>
+            </a>
         </div>
     </div>
 @endsection

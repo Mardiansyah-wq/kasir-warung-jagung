@@ -7,6 +7,7 @@ use App\Http\Controllers\Owner\BranchController as OwnerBranchController;
 use App\Http\Controllers\Owner\DashboardController as OwnerDashboardController;
 use App\Http\Controllers\Owner\MenuController as OwnerMenuController;
 use App\Http\Controllers\Owner\OrderController as OwnerOrderController;
+use App\Http\Controllers\Owner\ReportController as OwnerReportController;
 use App\Http\Controllers\Owner\StaffController as OwnerStaffController;
 use App\Http\Controllers\Staff\DashboardController as StaffDashboardController;
 use App\Http\Controllers\Staff\MenuController as StaffMenuController;
@@ -90,6 +91,13 @@ Route::middleware('auth')->group(function () {
             ->name('owner.orders.index');
         Route::get('/owner/orders/{order}', [OwnerOrderController::class, 'show'])
             ->name('owner.orders.show');
+
+        Route::get('/owner/reports', [OwnerReportController::class, 'index'])
+            ->name('owner.reports.index');
+        Route::get('/owner/reports/pdf', [OwnerReportController::class, 'pdf'])
+            ->name('owner.reports.pdf');
+        Route::get('/owner/reports/excel', [OwnerReportController::class, 'excel'])
+            ->name('owner.reports.excel');
     });
 
     Route::middleware('role:staff')->group(function () {
