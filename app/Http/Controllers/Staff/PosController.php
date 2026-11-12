@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Menu;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Setting;
 use App\Services\OrderService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -133,6 +134,7 @@ class PosController extends Controller
             'branch' => $branch,
             'category' => $category,
             'discountReason' => $discountReason,
+            'discountsEnabled' => Setting::discountsEnabled(),
         ]);
     }
 }

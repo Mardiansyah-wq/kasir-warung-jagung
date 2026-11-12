@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
+use App\Models\Setting;
 use App\Services\OrderService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -136,7 +137,7 @@ class OrderController extends Controller
 
     public function applyDiscount(Request $request, Order $order, OrderService $orders): RedirectResponse
     {
-        abort_unless(config('pos.discounts_enabled'), 404);
+        abort_unless(Setting::discountsEnabled(), 404);
 
         $this->authorizeOrder($request, $order);
 

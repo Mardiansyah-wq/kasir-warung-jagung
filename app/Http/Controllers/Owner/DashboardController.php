@@ -8,6 +8,7 @@ use App\Models\BranchStock;
 use App\Models\Menu;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Setting;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
@@ -25,6 +26,7 @@ class DashboardController extends Controller
             'activeCount' => Order::whereIn('status', Order::ACTIVE_STATUSES)->count(),
             'todayCount' => (clone $todayPayments)->count(),
             'todaySales' => (float) (clone $todayPayments)->sum('amount'),
+            'discountsEnabled' => Setting::discountsEnabled(),
         ]);
     }
 }

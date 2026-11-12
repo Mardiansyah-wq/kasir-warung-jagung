@@ -7,6 +7,7 @@ use App\Models\Menu;
 use App\Models\MenuVariant;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -17,8 +18,6 @@ class DiscountVisibilityTest extends TestCase
 
     public function test_discount_panel_and_route_are_hidden_by_default(): void
     {
-        config(['pos.discounts_enabled' => false]);
-
         [$branch, $staff, $variant] = $this->makeSetup();
         $order = $this->makeOrder($branch, $staff, $variant);
 
@@ -42,7 +41,7 @@ class DiscountVisibilityTest extends TestCase
 
     public function test_discount_panel_and_route_return_when_enabled(): void
     {
-        config(['pos.discounts_enabled' => true]);
+        Setting::put(Setting::DISCOUNTS_ENABLED, '1');
 
         [$branch, $staff, $variant] = $this->makeSetup();
         $order = $this->makeOrder($branch, $staff, $variant);

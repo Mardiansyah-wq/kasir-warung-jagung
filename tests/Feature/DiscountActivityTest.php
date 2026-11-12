@@ -8,6 +8,7 @@ use App\Models\Menu;
 use App\Models\MenuVariant;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -20,7 +21,7 @@ class DiscountActivityTest extends TestCase
     {
         parent::setUp();
 
-        config(['pos.discounts_enabled' => true]);
+        Setting::put(Setting::DISCOUNTS_ENABLED, '1');
     }
 
     public function test_applying_a_discount_writes_an_activity_log_for_the_owner(): void

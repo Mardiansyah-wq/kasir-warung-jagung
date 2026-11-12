@@ -9,6 +9,7 @@ use App\Models\Menu;
 use App\Models\MenuVariant;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Setting;
 use App\Models\StockMovement;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -23,7 +24,7 @@ class OrderFlowTest extends TestCase
     {
         parent::setUp();
 
-        config(['pos.discounts_enabled' => true]);
+        Setting::put(Setting::DISCOUNTS_ENABLED, '1');
     }
 
     public function test_staff_can_open_the_order_board(): void

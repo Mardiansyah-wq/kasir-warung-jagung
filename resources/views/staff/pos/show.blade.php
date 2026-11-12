@@ -241,7 +241,7 @@
                     </div>
 
                     @if ($editable)
-                        @if (config('pos.discounts_enabled'))
+                        @if ($discountsEnabled)
                             <div class="form-section" data-discount-panel data-subtotal="{{ (int) $subtotal }}">
                                 <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap">
                                     <h2 style="margin: 0; font-size: .95rem">Diskon</h2>
@@ -798,7 +798,7 @@
 @endpush
 
 @push('scripts')
-    @if (config('pos.discounts_enabled'))
+    @if ($discountsEnabled)
         <script>
             document.querySelectorAll('[data-discount-panel]').forEach(function (panel) {
             const form = panel.querySelector('[data-discount-form]');

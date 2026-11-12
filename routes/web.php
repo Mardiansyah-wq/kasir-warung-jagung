@@ -9,6 +9,7 @@ use App\Http\Controllers\Owner\DashboardController as OwnerDashboardController;
 use App\Http\Controllers\Owner\MenuController as OwnerMenuController;
 use App\Http\Controllers\Owner\OrderController as OwnerOrderController;
 use App\Http\Controllers\Owner\ReportController as OwnerReportController;
+use App\Http\Controllers\Owner\SettingController as OwnerSettingController;
 use App\Http\Controllers\Owner\StaffController as OwnerStaffController;
 use App\Http\Controllers\Owner\StockController as OwnerStockController;
 use App\Http\Controllers\Staff\ActivityController as StaffActivityController;
@@ -115,6 +116,11 @@ Route::middleware('auth')->group(function () {
             ->name('owner.stock.index');
         Route::post('/owner/stock', [OwnerStockController::class, 'store'])
             ->name('owner.stock.store');
+
+        Route::get('/owner/settings', [OwnerSettingController::class, 'index'])
+            ->name('owner.settings.index');
+        Route::patch('/owner/settings/discount', [OwnerSettingController::class, 'updateDiscount'])
+            ->name('owner.settings.discount');
     });
 
     Route::middleware('role:staff')->group(function () {

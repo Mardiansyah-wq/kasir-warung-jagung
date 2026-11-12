@@ -68,6 +68,10 @@
                 <strong>Log Aktivitas</strong>
                 <span class="muted">Menu, varian & stok</span>
             </a>
+            <a href="{{ route('owner.settings.index') }}" class="quick quick-link">
+                <strong>Pengaturan</strong>
+                <span class="muted">Diskon kasir: {{ $discountsEnabled ? 'aktif' : 'nonaktif' }}</span>
+            </a>
         </div>
     </div>
 @endsection
