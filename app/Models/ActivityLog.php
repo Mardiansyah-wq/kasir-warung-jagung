@@ -43,6 +43,8 @@ class ActivityLog extends Model
 
     public const ACTION_STOCK_ADJUSTED = 'stock.adjusted';
 
+    public const ACTION_ORDER_DISCOUNTED = 'order.discount';
+
     /**
      * @var array<string, string>
      */
@@ -58,6 +60,7 @@ class ActivityLog extends Model
         self::ACTION_STOCK_ADDED => 'Tambah stok',
         self::ACTION_STOCK_REDUCED => 'Kurangi stok',
         self::ACTION_STOCK_ADJUSTED => 'Koreksi stok',
+        self::ACTION_ORDER_DISCOUNTED => 'Ubah diskon',
     ];
 
     /**
@@ -75,6 +78,7 @@ class ActivityLog extends Model
         self::ACTION_STOCK_ADDED => 'status-ready',
         self::ACTION_STOCK_REDUCED => 'status-processing',
         self::ACTION_STOCK_ADJUSTED => 'status-processing',
+        self::ACTION_ORDER_DISCOUNTED => 'status-processing',
     ];
 
     /**
@@ -93,6 +97,8 @@ class ActivityLog extends Model
         'stock' => 'Stok',
         'branch' => 'Cabang',
         'note' => 'Catatan',
+        'discount_amount' => 'Diskon',
+        'reason' => 'Alasan',
     ];
 
     public $timestamps = false;
@@ -179,6 +185,7 @@ class ActivityLog extends Model
             'selling_price' => 'Rp '.number_format((float) $value, 0, ',', '.'),
             'quantity' => $this->formatSigned($value),
             'stock' => number_format((float) $value, 0, ',', '.'),
+            'discount_amount' => 'Rp '.number_format((float) $value, 0, ',', '.'),
             'description' => Str::limit((string) $value, 60),
             default => Str::limit((string) $value, 80),
         };

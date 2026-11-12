@@ -97,6 +97,11 @@ class PosController extends Controller
 
         $order->load(['items.variant.menu', 'payments.receiver', 'creator', 'branch']);
 
+        $discountReason = $order->editLogs()
+            ->where('action_type', 'discount_changed')
+            ->latest('id')
+            ->value('reason');
+
         $category = $request->query('category');
 
         if (! in_array($category, Menu::CATEGORIES, true)) {
@@ -127,6 +132,7 @@ class PosController extends Controller
             'menus' => $menus,
             'branch' => $branch,
             'category' => $category,
+            'discountReason' => $discountReason,
         ]);
     }
 }

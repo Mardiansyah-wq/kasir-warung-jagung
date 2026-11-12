@@ -568,9 +568,11 @@
             border-radius: 999px;
             background: #fff;
             color: var(--muted);
+            font: inherit;
             font-size: 13px;
             font-weight: 600;
             text-decoration: none;
+            cursor: pointer;
         }
 
         .chip.active {

@@ -252,12 +252,57 @@ class OrderService
 
             $before = ['discount_amount' => (float) $order->discount_amount];
 
+            $previousReason = $order->editLogs()
+                ->where('action_type', 'discount_changed')
+                ->latest('id')
+                ->value('reason');
+
             $order->update(['discount_amount' => $discount]);
             $this->recalculate($order);
 
             $this->log($order, $user, 'discount_changed', $before, [
                 'discount_amount' => $discount,
             ], $reason);
+
+            $amountChanged = abs($discount - (float) $before['discount_amount']) > 0.0001;
+            $reasonChanged = ($reason ?? '') !== ($previousReason ?? '');
+
+            if ($amountChanged || $reasonChanged) {
+                $changes = [];
+
+                if ($amountChanged) {
+                    $changes['discount_amount'] = [
+                        'old' => (float) $before['discount_amount'],
+                        'new' => $discount,
+                    ];
+                }
+
+                if ($reasonChanged) {
+                    $changes['reason'] = $previousReason
+                        ? ['old' => $previousReason, 'new' => $reason ?: null]
+                        : ['new' => $reason ?: null];
+                }
+
+                $description = 'Diskon pesanan '.$order->queueLabel().' ('.$order->customer_name.')';
+
+                $description .= $amountChanged
+                    ? ' dari Rp '.number_format((float) $before['discount_amount'], 0, ',', '.')
+                        .' menjadi Rp '.number_format($discount, 0, ',', '.')
+                    : ' tetap Rp '.number_format($discount, 0, ',', '.');
+
+                if ($reasonChanged) {
+                    $description .= $reason ? '. Alasan: '.$reason : '. Alasan dihapus';
+                }
+
+                $this->activityLogger->log(
+                    ActivityLog::ACTION_ORDER_DISCOUNTED,
+                    $order,
+                    $order->queueLabel().' · '.$order->customer_name,
+                    $description.'.',
+                    $changes,
+                    (int) $order->branch_id,
+                );
+            }
 
             return $order->fresh(['items', 'payments']);
         });

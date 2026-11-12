@@ -6,7 +6,7 @@
     <div class="page-head">
         <div>
             <h1>Log Aktivitas</h1>
-            <p class="muted">Riwayat perubahan menu, varian, dan stok oleh owner maupun staff.</p>
+            <p class="muted">Riwayat perubahan menu, varian, stok, dan diskon oleh owner maupun staff.</p>
         </div>
         <div style="display: flex; gap: 8px; flex-wrap: wrap">
             <a href="{{ route('owner.stock.index') }}" class="btn btn-ghost">Kelola Stok</a>
@@ -34,6 +34,7 @@
                 <option value="menu" @selected($action === 'menu')>Menu</option>
                 <option value="variant" @selected($action === 'variant')>Varian</option>
                 <option value="stock" @selected($action === 'stock')>Stok</option>
+                <option value="order" @selected($action === 'order')>Transaksi</option>
             </select>
         </div>
 
@@ -76,7 +77,7 @@
     @if ($logs->isEmpty())
         <div class="card empty">
             <h2>Belum ada aktivitas</h2>
-            <p class="muted">Setiap tambah, ubah, atau aktif/nonaktif menu dan varian, serta perubahan stok, akan tercatat di sini.</p>
+            <p class="muted">Setiap tambah, ubah, atau aktif/nonaktif menu dan varian, perubahan stok, serta diskon pesanan akan tercatat di sini.</p>
         </div>
     @else
         @include('partials.activity-table', ['logs' => $logs, 'showBranch' => true])
