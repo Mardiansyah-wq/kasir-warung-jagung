@@ -60,6 +60,14 @@
                 <strong>Laporan Harian</strong>
                 <span class="muted">Rekap & unduh PDF/Excel</span>
             </a>
+            <a href="{{ route('owner.stock.index') }}" class="quick quick-link">
+                <strong>Kelola Stok</strong>
+                <span class="muted">{{ $lowStockCount }} varian menipis</span>
+            </a>
+            <a href="{{ route('owner.activity.index') }}" class="quick quick-link">
+                <strong>Log Aktivitas</strong>
+                <span class="muted">Menu, varian & stok</span>
+            </a>
         </div>
     </div>
 @endsection

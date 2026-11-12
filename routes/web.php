@@ -10,6 +10,8 @@ use App\Http\Controllers\Owner\MenuController as OwnerMenuController;
 use App\Http\Controllers\Owner\OrderController as OwnerOrderController;
 use App\Http\Controllers\Owner\ReportController as OwnerReportController;
 use App\Http\Controllers\Owner\StaffController as OwnerStaffController;
+use App\Http\Controllers\Owner\StockController as OwnerStockController;
+use App\Http\Controllers\Staff\ActivityController as StaffActivityController;
 use App\Http\Controllers\Staff\DashboardController as StaffDashboardController;
 use App\Http\Controllers\Staff\MenuController as StaffMenuController;
 use App\Http\Controllers\Staff\OrderController as StaffOrderController;
@@ -108,6 +110,11 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/owner/activity', [OwnerActivityController::class, 'index'])
             ->name('owner.activity.index');
+
+        Route::get('/owner/stock', [OwnerStockController::class, 'index'])
+            ->name('owner.stock.index');
+        Route::post('/owner/stock', [OwnerStockController::class, 'store'])
+            ->name('owner.stock.store');
     });
 
     Route::middleware('role:staff')->group(function () {
@@ -150,6 +157,9 @@ Route::middleware('auth')->group(function () {
             ->name('staff.stock.index');
         Route::post('/staff/stock', [StaffStockController::class, 'store'])
             ->name('staff.stock.store');
+
+        Route::get('/staff/activity', [StaffActivityController::class, 'index'])
+            ->name('staff.activity.index');
     });
 
     Route::get('/media/menus/{menu}/{size}', [MenuImageController::class, 'show'])

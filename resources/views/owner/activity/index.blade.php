@@ -6,9 +6,12 @@
     <div class="page-head">
         <div>
             <h1>Log Aktivitas</h1>
-            <p class="muted">Riwayat perubahan menu dan varian oleh owner.</p>
+            <p class="muted">Riwayat perubahan menu, varian, dan stok oleh owner maupun staff.</p>
         </div>
-        <span class="badge">Owner</span>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap">
+            <a href="{{ route('owner.stock.index') }}" class="btn btn-ghost">Kelola Stok</a>
+            <span class="badge">Owner</span>
+        </div>
     </div>
 
     @include('partials.alerts')
@@ -30,6 +33,19 @@
                 <option value="">Semua</option>
                 <option value="menu" @selected($action === 'menu')>Menu</option>
                 <option value="variant" @selected($action === 'variant')>Varian</option>
+                <option value="stock" @selected($action === 'stock')>Stok</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="branch_id">Cabang</label>
+            <select id="branch_id" name="branch_id">
+                <option value="">Semua</option>
+                @foreach ($branches as $branch)
+                    <option value="{{ $branch->id }}" @selected((int) $branchId === (int) $branch->id)>
+                        {{ $branch->name }}
+                    </option>
+                @endforeach
             </select>
         </div>
 
@@ -47,12 +63,12 @@
 
         <div class="field" style="flex: 1 1 200px">
             <label for="search">Cari</label>
-            <input type="search" id="search" name="search" value="{{ $search }}" placeholder="Nama menu, varian, atau keterangan">
+            <input type="search" id="search" name="search" value="{{ $search }}" placeholder="Nama menu, varian, cabang, atau keterangan">
         </div>
 
         <button type="submit" class="btn">Filter</button>
 
-        @if ($from || $to || $action || $userId || $search !== '')
+        @if ($from || $to || $action || $branchId || $userId || $search !== '')
             <a href="{{ route('owner.activity.index') }}" class="btn btn-ghost">Reset</a>
         @endif
     </form>
@@ -60,77 +76,9 @@
     @if ($logs->isEmpty())
         <div class="card empty">
             <h2>Belum ada aktivitas</h2>
-            <p class="muted">Setiap tambah, ubah, atau aktif/nonaktif menu dan varian akan tercatat di sini.</p>
+            <p class="muted">Setiap tambah, ubah, atau aktif/nonaktif menu dan varian, serta perubahan stok, akan tercatat di sini.</p>
         </div>
     @else
-        <div class="card" style="padding: 0">
-            <div class="table-wrap">
-                <table class="data">
-                    <thead>
-                        <tr>
-                            <th>Waktu</th>
-                            <th>Pengguna</th>
-                            <th>Aksi</th>
-                            <th>Objek</th>
-                            <th>Perubahan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($logs as $log)
-                            <tr>
-                                <td style="white-space: nowrap">
-                                    {{ $log->created_at?->format('d/m/Y') ?? '—' }}
-                                    <div class="muted" style="font-size: 12px">
-                                        {{ $log->created_at?->format('H:i') }}
-                                    </div>
-                                </td>
-                                <td>
-                                    {{ $log->user?->name ?? 'Sistem' }}
-                                    <div class="muted" style="font-size: 12px">
-                                        {{ $log->user?->role ?? '—' }}
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="status {{ $log->actionTone() }}">{{ $log->actionLabel() }}</span>
-                                </td>
-                                <td>
-                                    <strong>{{ $log->subject_label }}</strong>
-                                    <div class="muted" style="font-size: 12px">{{ $log->description }}</div>
-                                </td>
-                                <td>
-                                    @php($lines = $log->changeLines())
-                                    @if ($lines === [])
-                                        <span class="muted">—</span>
-                                    @else
-                                        @foreach ($lines as $line)
-                                            <div class="muted" style="font-size: 12px">{{ $line }}</div>
-                                        @endforeach
-                                    @endif
-                                    @if ($log->ip_address)
-                                        <div class="muted" style="font-size: 11px; margin-top: 4px">IP {{ $log->ip_address }}</div>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        @if ($logs->hasPages())
-            <div class="pager">
-                <div>
-                    @if (! $logs->onFirstPage())
-                        <a href="{{ $logs->previousPageUrl() }}">← Sebelumnya</a>
-                    @endif
-                </div>
-                <span class="muted">Halaman {{ $logs->currentPage() }} dari {{ $logs->lastPage() }}</span>
-                <div>
-                    @if ($logs->hasMorePages())
-                        <a href="{{ $logs->nextPageUrl() }}">Berikutnya →</a>
-                    @endif
-                </div>
-            </div>
-        @endif
+        @include('partials.activity-table', ['logs' => $logs, 'showBranch' => true])
     @endif
 @endsection

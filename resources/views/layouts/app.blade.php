@@ -1349,6 +1349,29 @@
             text-align: center;
         }
 
+        .stock-row select {
+            min-height: 38px;
+            padding: 6px 8px;
+            font-size: 13px;
+        }
+
+        .stock-row input[type="text"] {
+            width: 140px;
+            min-height: 38px;
+            padding: 6px 8px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 720px) {
+            .stock-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stock-row form {
+                flex-wrap: wrap;
+            }
+        }
+
         .stock-row .btn {
             min-height: 38px;
             padding: 6px 10px;
@@ -1713,6 +1736,7 @@
                         <a href="{{ route('owner.orders.index') }}" class="{{ request()->routeIs('owner.orders.*') ? 'active' : '' }}">Transaksi</a>
                         <a href="{{ route('owner.reports.index') }}" class="{{ request()->routeIs('owner.reports.*') ? 'active' : '' }}">Laporan</a>
                         <a href="{{ route('owner.menus.index') }}" class="{{ request()->routeIs('owner.menus.*') ? 'active' : '' }}">Menu</a>
+                        <a href="{{ route('owner.stock.index') }}" class="{{ request()->routeIs('owner.stock.*') ? 'active' : '' }}">Stok</a>
                         <a href="{{ route('owner.activity.index') }}" class="{{ request()->routeIs('owner.activity.*') ? 'active' : '' }}">Aktivitas</a>
                         <a href="{{ route('owner.staff.index') }}" class="{{ request()->routeIs('owner.staff.*') ? 'active' : '' }}">Staff</a>
                         <a href="{{ route('owner.branches.index') }}" class="{{ request()->routeIs('owner.branches.*') ? 'active' : '' }}">Cabang</a>
@@ -1720,6 +1744,7 @@
                         <a href="{{ route('staff.pos.index') }}" class="{{ request()->routeIs('staff.pos.*') ? 'active' : '' }}">Kasir</a>
                         <a href="{{ route('staff.orders.index') }}" class="{{ request()->routeIs('staff.orders.*') ? 'active' : '' }}">Transaksi</a>
                         <a href="{{ route('staff.stock.index') }}" class="{{ request()->routeIs('staff.stock.*') ? 'active' : '' }}">Stok</a>
+                        <a href="{{ route('staff.activity.index') }}" class="{{ request()->routeIs('staff.activity.*') ? 'active' : '' }}">Aktivitas</a>
                         <a href="{{ route('staff.menus.index') }}" class="{{ request()->routeIs('staff.menus.*') ? 'active' : '' }}">Menu</a>
                     @endif
                     <form method="POST" action="{{ route('logout') }}">
@@ -1747,6 +1772,7 @@
                 <a href="{{ route('owner.orders.index') }}" class="{{ request()->routeIs('owner.orders.*') ? 'active' : '' }}">Transaksi</a>
                 <a href="{{ route('owner.reports.index') }}" class="{{ request()->routeIs('owner.reports.*') ? 'active' : '' }}">Laporan</a>
                 <a href="{{ route('owner.menus.index') }}" class="{{ request()->routeIs('owner.menus.*') ? 'active' : '' }}">Menu</a>
+                <a href="{{ route('owner.stock.index') }}" class="{{ request()->routeIs('owner.stock.*') ? 'active' : '' }}">Stok</a>
                 <a href="{{ route('owner.activity.index') }}" class="{{ request()->routeIs('owner.activity.*') ? 'active' : '' }}">Aktivitas</a>
                 <a href="{{ route('owner.staff.index') }}" class="{{ request()->routeIs('owner.staff.*') ? 'active' : '' }}">Staff</a>
                 <a href="{{ route('owner.branches.index') }}" class="{{ request()->routeIs('owner.branches.*') ? 'active' : '' }}">Cabang</a>
@@ -1754,6 +1780,7 @@
                 <a href="{{ route('staff.pos.index') }}" class="{{ request()->routeIs('staff.pos.*') ? 'active' : '' }}">Kasir</a>
                 <a href="{{ route('staff.orders.index') }}" class="{{ request()->routeIs('staff.orders.*') ? 'active' : '' }}">Transaksi</a>
                 <a href="{{ route('staff.stock.index') }}" class="{{ request()->routeIs('staff.stock.*') ? 'active' : '' }}">Stok</a>
+                <a href="{{ route('staff.activity.index') }}" class="{{ request()->routeIs('staff.activity.*') ? 'active' : '' }}">Aktivitas</a>
                 <a href="{{ route('staff.menus.index') }}" class="{{ request()->routeIs('staff.menus.*') ? 'active' : '' }}">Menu</a>
             @endif
             <form method="POST" action="{{ route('logout') }}">

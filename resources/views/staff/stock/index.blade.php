@@ -8,7 +8,10 @@
             <h1>Kelola Stok</h1>
             <p class="muted">{{ $branch?->name ?? 'Cabang belum ditentukan' }}</p>
         </div>
-        <span class="badge">Staff</span>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap">
+            <a href="{{ route('staff.activity.index') }}" class="btn btn-ghost">Log Aktivitas</a>
+            <span class="badge">Staff</span>
+        </div>
     </div>
 
     @include('partials.alerts')
@@ -20,7 +23,7 @@
         </div>
     @else
         <p class="hint" style="margin-bottom: 14px">
-            Tambah stok di sini saat bahan atau menu habis. Setiap penambahan tercatat di riwayat stok.
+            Tambah stok di sini saat bahan atau menu habis. Setiap penambahan tercatat di riwayat stok dan log aktivitas.
         </p>
 
         @foreach ($menus as $menu)

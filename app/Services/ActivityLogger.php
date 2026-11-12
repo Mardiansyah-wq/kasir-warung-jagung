@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class ActivityLogger
 {
     /**
-     * Record an owner action for the activity log.
+     * Record an owner or staff action for the activity log.
      *
      * @param  array<string, array{old?: mixed, new?: mixed}>  $changes
      */
@@ -19,9 +19,11 @@ class ActivityLogger
         string $label,
         string $description,
         array $changes = [],
+        ?int $branchId = null,
     ): ActivityLog {
         return ActivityLog::create([
             'user_id' => auth()->id(),
+            'branch_id' => $branchId,
             'action' => $action,
             'subject_type' => $subject->getMorphClass(),
             'subject_id' => $subject->getKey(),

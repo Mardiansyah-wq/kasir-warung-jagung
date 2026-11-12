@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 
 #[Fillable([
     'user_id',
+    'branch_id',
     'action',
     'subject_type',
     'subject_id',
@@ -36,6 +37,12 @@ class ActivityLog extends Model
 
     public const ACTION_VARIANT_DEACTIVATED = 'menu_variant.deactivated';
 
+    public const ACTION_STOCK_ADDED = 'stock.added';
+
+    public const ACTION_STOCK_REDUCED = 'stock.reduced';
+
+    public const ACTION_STOCK_ADJUSTED = 'stock.adjusted';
+
     /**
      * @var array<string, string>
      */
@@ -48,6 +55,9 @@ class ActivityLog extends Model
         self::ACTION_VARIANT_UPDATED => 'Ubah varian',
         self::ACTION_VARIANT_ACTIVATED => 'Aktifkan varian',
         self::ACTION_VARIANT_DEACTIVATED => 'Nonaktifkan varian',
+        self::ACTION_STOCK_ADDED => 'Tambah stok',
+        self::ACTION_STOCK_REDUCED => 'Kurangi stok',
+        self::ACTION_STOCK_ADJUSTED => 'Koreksi stok',
     ];
 
     /**
@@ -62,6 +72,9 @@ class ActivityLog extends Model
         self::ACTION_VARIANT_UPDATED => 'status-processing',
         self::ACTION_VARIANT_ACTIVATED => 'status-ready',
         self::ACTION_VARIANT_DEACTIVATED => 'status-cancelled',
+        self::ACTION_STOCK_ADDED => 'status-ready',
+        self::ACTION_STOCK_REDUCED => 'status-processing',
+        self::ACTION_STOCK_ADJUSTED => 'status-processing',
     ];
 
     /**
@@ -76,6 +89,10 @@ class ActivityLog extends Model
         'variant_name' => 'Nama varian',
         'type' => 'Tipe',
         'selling_price' => 'Harga',
+        'quantity' => 'Jumlah',
+        'stock' => 'Stok',
+        'branch' => 'Cabang',
+        'note' => 'Catatan',
     ];
 
     public $timestamps = false;
@@ -94,6 +111,11 @@ class ActivityLog extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function branch(): BelongsTo
+    {
+        return $this->belongsTo(Branch::class);
     }
 
     public function subject(): MorphTo
@@ -155,8 +177,18 @@ class ActivityLog extends Model
             'image' => $value ? 'Ada' : 'Tidak ada',
             'category' => Menu::categoryLabelFor((string) $value),
             'selling_price' => 'Rp '.number_format((float) $value, 0, ',', '.'),
+            'quantity' => $this->formatSigned($value),
+            'stock' => number_format((float) $value, 0, ',', '.'),
             'description' => Str::limit((string) $value, 60),
             default => Str::limit((string) $value, 80),
         };
+    }
+
+    private function formatSigned(mixed $value): string
+    {
+        $number = (float) $value;
+        $prefix = $number > 0 ? '+' : '';
+
+        return $prefix.number_format($number, 0, ',', '.');
     }
 }

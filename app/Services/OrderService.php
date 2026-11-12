@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\ActivityLog;
+use App\Models\Branch;
 use App\Models\BranchStock;
 use App\Models\CashMovement;
 use App\Models\MenuVariant;
@@ -16,6 +18,14 @@ use Illuminate\Validation\ValidationException;
 
 class OrderService
 {
+    public const STOCK_ADD = 'in';
+
+    public const STOCK_REDUCE = 'out';
+
+    public const STOCK_SET = 'set';
+
+    public function __construct(private readonly ActivityLogger $activityLogger) {}
+
     /**
      * @param  array{customer_name: string, order_type: string}  $data
      */
@@ -463,34 +473,128 @@ class OrderService
             ]);
         }
 
-        return DB::transaction(function () use ($user, $variantId, $quantity, $note): BranchStock {
-            MenuVariant::query()->findOrFail($variantId);
+        return $this->adjustStock(
+            (int) $user->branch_id,
+            $user,
+            $variantId,
+            self::STOCK_ADD,
+            $quantity,
+            $note,
+        );
+    }
+
+    /**
+     * Add, reduce, or correct the stock of a variant for a branch.
+     *
+     * Every change is written to the stock ledger and the activity log so the
+     * owner can follow what staff did at each branch.
+     */
+    public function adjustStock(
+        int $branchId,
+        User $actor,
+        int $variantId,
+        string $mode,
+        int $quantity,
+        ?string $note = null,
+    ): BranchStock {
+        if (! in_array($mode, [self::STOCK_ADD, self::STOCK_REDUCE, self::STOCK_SET], true)) {
+            throw ValidationException::withMessages([
+                'mode' => 'Jenis penyesuaian stok tidak dikenali.',
+            ]);
+        }
+
+        if ($quantity < 0 || ($mode !== self::STOCK_SET && $quantity < 1)) {
+            throw ValidationException::withMessages([
+                'quantity' => 'Jumlah stok tidak valid.',
+            ]);
+        }
+
+        return DB::transaction(function () use ($branchId, $actor, $variantId, $mode, $quantity, $note): BranchStock {
+            $branch = Branch::query()->findOrFail($branchId);
+            $variant = MenuVariant::query()->with('menu')->findOrFail($variantId);
 
             $stock = BranchStock::query()
-                ->where('branch_id', $user->branch_id)
+                ->where('branch_id', $branchId)
                 ->where('menu_variant_id', $variantId)
                 ->lockForUpdate()
                 ->first();
 
             if (! $stock) {
                 $stock = BranchStock::create([
-                    'branch_id' => $user->branch_id,
+                    'branch_id' => $branchId,
                     'menu_variant_id' => $variantId,
                     'quantity' => 0,
                 ]);
             }
 
-            $stock->increment('quantity', $quantity);
+            $before = (int) $stock->quantity;
+            $after = match ($mode) {
+                self::STOCK_ADD => $before + $quantity,
+                self::STOCK_REDUCE => $before - $quantity,
+                default => $quantity,
+            };
+
+            $label = ($variant->menu?->name ?? 'Menu').' — '.$variant->displayName();
+
+            if ($after < 0) {
+                throw ValidationException::withMessages([
+                    'quantity' => 'Stok tidak cukup untuk '.$label.' (stok sekarang '.$before.').',
+                ]);
+            }
+
+            if ($after === $before) {
+                return $stock->refresh();
+            }
+
+            $stock->update(['quantity' => $after]);
+
+            $delta = $after - $before;
+            $movementNote = $note ?: match ($mode) {
+                self::STOCK_ADD => 'Tambah stok manual',
+                self::STOCK_REDUCE => 'Kurangi stok manual',
+                default => 'Koreksi stok '.$before.' → '.$after,
+            };
 
             StockMovement::create([
-                'branch_id' => $user->branch_id,
+                'branch_id' => $branchId,
                 'menu_variant_id' => $variantId,
-                'user_id' => $user->id,
-                'movement_type' => 'in',
-                'quantity' => $quantity,
-                'note' => $note,
+                'user_id' => $actor->id,
+                'movement_type' => match ($mode) {
+                    self::STOCK_ADD => 'in',
+                    self::STOCK_REDUCE => 'out',
+                    default => 'adjustment',
+                },
+                'quantity' => abs($delta),
+                'note' => $movementNote,
                 'occurred_at' => now(),
             ]);
+
+            $changes = [
+                'quantity' => ['new' => $delta],
+                'stock' => ['old' => $before, 'new' => $after],
+                'branch' => ['new' => $branch->name],
+            ];
+
+            if ($note) {
+                $changes['note'] = ['new' => $note];
+            }
+
+            $this->activityLogger->log(
+                match ($mode) {
+                    self::STOCK_ADD => ActivityLog::ACTION_STOCK_ADDED,
+                    self::STOCK_REDUCE => ActivityLog::ACTION_STOCK_REDUCED,
+                    default => ActivityLog::ACTION_STOCK_ADJUSTED,
+                },
+                $variant,
+                $label,
+                match ($mode) {
+                    self::STOCK_ADD => 'Menambah stok '.$delta.' untuk '.$label.' di '.$branch->name.'.',
+                    self::STOCK_REDUCE => 'Mengurangi stok '.abs($delta).' untuk '.$label.' di '.$branch->name.'.',
+                    default => 'Mengoreksi stok '.$label.' di '.$branch->name.' dari '.$before.' menjadi '.$after.'.',
+                },
+                $changes,
+                $branchId,
+            );
 
             return $stock->refresh();
         });
