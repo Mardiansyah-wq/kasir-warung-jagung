@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\MenuImageController;
+use App\Http\Controllers\Owner\ActivityController as OwnerActivityController;
 use App\Http\Controllers\Owner\BranchController as OwnerBranchController;
 use App\Http\Controllers\Owner\DashboardController as OwnerDashboardController;
 use App\Http\Controllers\Owner\MenuController as OwnerMenuController;
@@ -98,6 +99,15 @@ Route::middleware('auth')->group(function () {
             ->name('owner.reports.pdf');
         Route::get('/owner/reports/excel', [OwnerReportController::class, 'excel'])
             ->name('owner.reports.excel');
+        Route::get('/owner/reports/weekly', [OwnerReportController::class, 'weekly'])
+            ->name('owner.reports.weekly');
+        Route::get('/owner/reports/weekly/pdf', [OwnerReportController::class, 'weeklyPdf'])
+            ->name('owner.reports.weekly.pdf');
+        Route::get('/owner/reports/weekly/excel', [OwnerReportController::class, 'weeklyExcel'])
+            ->name('owner.reports.weekly.excel');
+
+        Route::get('/owner/activity', [OwnerActivityController::class, 'index'])
+            ->name('owner.activity.index');
     });
 
     Route::middleware('role:staff')->group(function () {

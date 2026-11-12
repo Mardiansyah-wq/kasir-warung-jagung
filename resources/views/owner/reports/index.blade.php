@@ -22,6 +22,17 @@
 
     @include('partials.alerts')
 
+    <div class="chips">
+        <a
+            href="{{ route('owner.reports.index', ['date' => $date, 'branch_id' => $branchId]) }}"
+            class="chip active"
+        >Harian</a>
+        <a
+            href="{{ route('owner.reports.weekly', ['week' => $date, 'branch_id' => $branchId]) }}"
+            class="chip"
+        >Mingguan</a>
+    </div>
+
     <form method="GET" action="{{ route('owner.reports.index') }}" class="filter-bar">
         <div class="field">
             <label for="date">Tanggal</label>

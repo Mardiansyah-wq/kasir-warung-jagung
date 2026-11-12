@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Exports\DailyReportExport;
+use App\Exports\WeeklyReportExport;
 use App\Http\Controllers\Controller;
 use App\Models\Branch;
 use App\Services\DailyReportService;
@@ -52,6 +53,42 @@ class ReportController extends Controller
             ->deleteFileAfterSend(true);
     }
 
+    public function weekly(Request $request): View
+    {
+        $filters = $this->weekFilters($request);
+
+        return view('owner.reports.weekly', [
+            'report' => $this->reports->buildWeekly($filters['week'], $filters['branch_id']),
+            'branches' => Branch::query()->orderBy('name')->get(),
+            'week' => $filters['week'],
+            'branchId' => $filters['branch_id'],
+        ]);
+    }
+
+    public function weeklyPdf(Request $request)
+    {
+        $filters = $this->weekFilters($request);
+        $report = $this->reports->buildWeekly($filters['week'], $filters['branch_id']);
+
+        $pdf = Pdf::loadView('owner.reports.weekly-pdf', ['report' => $report])->setPaper('a4');
+
+        return $pdf->download($this->weeklyFilename($report, 'pdf'));
+    }
+
+    public function weeklyExcel(Request $request): BinaryFileResponse
+    {
+        $filters = $this->weekFilters($request);
+        $report = $this->reports->buildWeekly($filters['week'], $filters['branch_id']);
+
+        $path = storage_path('app/weekly-report-'.Str::uuid().'.xlsx');
+
+        (new WeeklyReportExport($report))->writeTo($path);
+
+        return response()
+            ->download($path, $this->weeklyFilename($report, 'xlsx'))
+            ->deleteFileAfterSend(true);
+    }
+
     /**
      * @return array{date: string, branch_id: int|null}
      */
@@ -76,5 +113,31 @@ class ReportController extends Controller
         $branch = $report['branch'] ? '-'.Str::slug($report['branch']->name) : '';
 
         return 'laporan-harian-'.$report['date'].$branch.'.'.$extension;
+    }
+
+    /**
+     * @return array{week: string, branch_id: int|null}
+     */
+    private function weekFilters(Request $request): array
+    {
+        $data = $request->validate([
+            'week' => ['nullable', 'date'],
+            'branch_id' => ['nullable', 'integer', 'exists:branches,id'],
+        ]);
+
+        return [
+            'week' => $data['week'] ?? today()->toDateString(),
+            'branch_id' => isset($data['branch_id']) ? (int) $data['branch_id'] : null,
+        ];
+    }
+
+    /**
+     * @param  array<string, mixed>  $report
+     */
+    private function weeklyFilename(array $report, string $extension): string
+    {
+        $branch = $report['branch'] ? '-'.Str::slug($report['branch']->name) : '';
+
+        return 'laporan-mingguan-'.$report['week_start'].'-sd-'.$report['week_end'].$branch.'.'.$extension;
     }
 }

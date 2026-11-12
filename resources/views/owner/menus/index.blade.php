@@ -8,7 +8,10 @@
             <h1>Kelola Menu</h1>
             <p class="muted">Atur menu, harga, varian, dan foto.</p>
         </div>
-        <a href="{{ route('owner.menus.create') }}" class="btn">+ Tambah Menu</a>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap">
+            <a href="{{ route('owner.activity.index') }}" class="btn btn-ghost">Aktivitas</a>
+            <a href="{{ route('owner.menus.create') }}" class="btn">+ Tambah Menu</a>
+        </div>
     </div>
 
     @include('partials.alerts')

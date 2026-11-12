@@ -1713,6 +1713,7 @@
                         <a href="{{ route('owner.orders.index') }}" class="{{ request()->routeIs('owner.orders.*') ? 'active' : '' }}">Transaksi</a>
                         <a href="{{ route('owner.reports.index') }}" class="{{ request()->routeIs('owner.reports.*') ? 'active' : '' }}">Laporan</a>
                         <a href="{{ route('owner.menus.index') }}" class="{{ request()->routeIs('owner.menus.*') ? 'active' : '' }}">Menu</a>
+                        <a href="{{ route('owner.activity.index') }}" class="{{ request()->routeIs('owner.activity.*') ? 'active' : '' }}">Aktivitas</a>
                         <a href="{{ route('owner.staff.index') }}" class="{{ request()->routeIs('owner.staff.*') ? 'active' : '' }}">Staff</a>
                         <a href="{{ route('owner.branches.index') }}" class="{{ request()->routeIs('owner.branches.*') ? 'active' : '' }}">Cabang</a>
                     @else
@@ -1746,6 +1747,7 @@
                 <a href="{{ route('owner.orders.index') }}" class="{{ request()->routeIs('owner.orders.*') ? 'active' : '' }}">Transaksi</a>
                 <a href="{{ route('owner.reports.index') }}" class="{{ request()->routeIs('owner.reports.*') ? 'active' : '' }}">Laporan</a>
                 <a href="{{ route('owner.menus.index') }}" class="{{ request()->routeIs('owner.menus.*') ? 'active' : '' }}">Menu</a>
+                <a href="{{ route('owner.activity.index') }}" class="{{ request()->routeIs('owner.activity.*') ? 'active' : '' }}">Aktivitas</a>
                 <a href="{{ route('owner.staff.index') }}" class="{{ request()->routeIs('owner.staff.*') ? 'active' : '' }}">Staff</a>
                 <a href="{{ route('owner.branches.index') }}" class="{{ request()->routeIs('owner.branches.*') ? 'active' : '' }}">Cabang</a>
             @else
