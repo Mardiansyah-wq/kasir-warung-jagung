@@ -38,17 +38,19 @@
             </select>
         </div>
 
-        <div class="field">
-            <label for="branch_id">Cabang</label>
-            <select id="branch_id" name="branch_id">
-                <option value="">Semua</option>
-                @foreach ($branches as $branch)
-                    <option value="{{ $branch->id }}" @selected((int) $branchId === (int) $branch->id)>
-                        {{ $branch->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
+        @if ($branches->count() > 1)
+            <div class="field">
+                <label for="branch_id">Cabang</label>
+                <select id="branch_id" name="branch_id">
+                    <option value="">Semua</option>
+                    @foreach ($branches as $branch)
+                        <option value="{{ $branch->id }}" @selected((int) $branchId === (int) $branch->id)>
+                            {{ $branch->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        @endif
 
         <div class="field">
             <label for="user_id">Pengguna</label>

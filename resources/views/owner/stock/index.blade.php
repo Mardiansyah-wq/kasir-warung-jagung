@@ -25,19 +25,21 @@
             <a href="{{ route('owner.branches.create') }}" class="btn">+ Tambah Cabang</a>
         </div>
     @else
-        <form method="GET" action="{{ route('owner.stock.index') }}" class="filter-bar">
-            <div class="field">
-                <label for="branch_id">Cabang</label>
-                <select id="branch_id" name="branch_id" onchange="this.form.submit()">
-                    @foreach ($branches as $option)
-                        <option value="{{ $option->id }}" @selected($branch?->id === $option->id)>
-                            {{ $option->name }}@unless ($option->is_active) (nonaktif)@endunless
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <button type="submit" class="btn">Tampilkan</button>
-        </form>
+        @if ($branches->count() > 1)
+            <form method="GET" action="{{ route('owner.stock.index') }}" class="filter-bar">
+                <div class="field">
+                    <label for="branch_id">Cabang</label>
+                    <select id="branch_id" name="branch_id" onchange="this.form.submit()">
+                        @foreach ($branches as $option)
+                            <option value="{{ $option->id }}" @selected($branch?->id === $option->id)>
+                                {{ $option->name }}@unless ($option->is_active) (nonaktif)@endunless
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <button type="submit" class="btn">Tampilkan</button>
+            </form>
+        @endif
 
         @if (! $branch)
             <div class="card empty">

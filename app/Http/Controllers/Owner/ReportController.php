@@ -26,6 +26,7 @@ class ReportController extends Controller
             'branches' => Branch::query()->orderBy('name')->get(),
             'date' => $filters['date'],
             'branchId' => $filters['branch_id'],
+            'defaultBranchId' => $this->defaultBranchId(),
         ]);
     }
 
@@ -62,6 +63,7 @@ class ReportController extends Controller
             'branches' => Branch::query()->orderBy('name')->get(),
             'week' => $filters['week'],
             'branchId' => $filters['branch_id'],
+            'defaultBranchId' => $this->defaultBranchId(),
         ]);
     }
 
@@ -101,8 +103,15 @@ class ReportController extends Controller
 
         return [
             'date' => $data['date'] ?? today()->toDateString(),
-            'branch_id' => isset($data['branch_id']) ? (int) $data['branch_id'] : null,
+            'branch_id' => isset($data['branch_id']) ? (int) $data['branch_id'] : $this->defaultBranchId(),
         ];
+    }
+
+    private function defaultBranchId(): ?int
+    {
+        $ids = Branch::query()->orderBy('name')->pluck('id');
+
+        return $ids->count() === 1 ? (int) $ids->first() : null;
     }
 
     /**
@@ -127,7 +136,7 @@ class ReportController extends Controller
 
         return [
             'week' => $data['week'] ?? today()->toDateString(),
-            'branch_id' => isset($data['branch_id']) ? (int) $data['branch_id'] : null,
+            'branch_id' => isset($data['branch_id']) ? (int) $data['branch_id'] : $this->defaultBranchId(),
         ];
     }
 

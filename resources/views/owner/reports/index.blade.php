@@ -39,21 +39,23 @@
             <input type="date" id="date" name="date" value="{{ $date }}" required>
         </div>
 
-        <div class="field">
-            <label for="branch_id">Cabang</label>
-            <select id="branch_id" name="branch_id">
-                <option value="">Semua cabang</option>
-                @foreach ($branches as $branch)
-                    <option value="{{ $branch->id }}" @selected((int) $branchId === (int) $branch->id)>
-                        {{ $branch->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
+        @if ($branches->count() > 1)
+            <div class="field">
+                <label for="branch_id">Cabang</label>
+                <select id="branch_id" name="branch_id">
+                    <option value="">Semua cabang</option>
+                    @foreach ($branches as $branch)
+                        <option value="{{ $branch->id }}" @selected((int) $branchId === (int) $branch->id)>
+                            {{ $branch->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        @endif
 
         <button type="submit" class="btn">Tampilkan</button>
 
-        @if ($branchId || $date !== today()->toDateString())
+        @if ($date !== today()->toDateString() || ($branchId && (int) $branchId !== (int) $defaultBranchId))
             <a href="{{ route('owner.reports.index') }}" class="btn btn-ghost">Hari Ini</a>
         @endif
     </form>

@@ -27,15 +27,17 @@
     </div>
 
     <form method="GET" action="{{ route('owner.orders.index') }}" class="filter-bar">
-        <div class="field">
-            <label for="branch_id">Cabang</label>
-            <select id="branch_id" name="branch_id">
-                <option value="">Semua cabang</option>
-                @foreach ($branches as $branch)
-                    <option value="{{ $branch->id }}" @selected((int) $branchId === (int) $branch->id)>{{ $branch->name }}</option>
-                @endforeach
-            </select>
-        </div>
+        @if ($branches->count() > 1)
+            <div class="field">
+                <label for="branch_id">Cabang</label>
+                <select id="branch_id" name="branch_id">
+                    <option value="">Semua cabang</option>
+                    @foreach ($branches as $branch)
+                        <option value="{{ $branch->id }}" @selected((int) $branchId === (int) $branch->id)>{{ $branch->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        @endif
 
         <div class="field">
             <label for="status">Status</label>
