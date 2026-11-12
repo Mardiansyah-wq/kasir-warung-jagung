@@ -45,7 +45,7 @@
                 <span>{{ $order->created_at?->format('d/m/Y H:i') }}</span>
             </div>
         </div>
-        <div style="text-align: right">
+        <div class="order-hero-side">
             <span class="status status-{{ $order->status }}">{{ $order->statusLabel() }}</span>
             @unless ($order->isCancelled())
                 <span class="status status-{{ $order->paymentStatus() }}">{{ $order->paymentStatusLabel() }}</span>

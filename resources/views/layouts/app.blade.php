@@ -162,6 +162,9 @@
             padding: 6px 8px;
             padding-bottom: calc(6px + env(safe-area-inset-bottom));
             overflow-x: auto;
+            overscroll-behavior-x: contain;
+            -webkit-overflow-scrolling: touch;
+            scroll-snap-type: x proximity;
             border-top: 1px solid var(--border);
             background: var(--surface);
             box-shadow: 0 -1px 3px rgba(0, 0, 0, .06);
@@ -177,6 +180,7 @@
             flex: 1 0 auto;
             min-width: 58px;
             margin: 0;
+            scroll-snap-align: start;
         }
 
         .mobile-nav a,
@@ -216,6 +220,10 @@
             margin-bottom: 16px;
         }
 
+        .page-head > * {
+            min-width: 0;
+        }
+
         h1 {
             margin: 0 0 4px;
             font-size: 1.5rem;
@@ -241,6 +249,10 @@
             gap: 12px;
         }
 
+        .grid > * {
+            min-width: 0;
+        }
+
         .stats {
             margin-bottom: 16px;
         }
@@ -249,6 +261,7 @@
             display: flex;
             flex-direction: column;
             gap: 2px;
+            min-width: 0;
         }
 
         .stat-label {
@@ -258,8 +271,9 @@
         }
 
         .stat-value {
-            font-size: 1.5rem;
+            font-size: clamp(1.25rem, 4.5vw, 1.5rem);
             font-weight: 700;
+            font-variant-numeric: tabular-nums;
             line-height: 1.2;
         }
 
@@ -579,8 +593,8 @@
             display: inline-flex;
             flex: 0 0 auto;
             align-items: center;
-            min-height: 36px;
-            padding: 6px 12px;
+            min-height: 40px;
+            padding: 8px 14px;
             border: 1px solid var(--border);
             border-radius: 999px;
             background: #fff;
@@ -1091,15 +1105,37 @@
         }
 
         .cart-controls input[type="number"] {
-            width: 68px;
-            min-height: 36px;
-            padding: 6px 8px;
+            width: 72px;
+            min-height: 44px;
+            padding: 8px;
             font-size: 14px;
         }
 
         .cart-controls .check {
-            min-height: 36px;
+            min-height: 44px;
             font-size: 12px;
+        }
+
+        .cart-item .cart-controls form {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+            margin: 0;
+        }
+
+        @media (max-width: 599px) {
+            .cart-item .cart-controls {
+                gap: 8px;
+            }
+
+            .cart-item .cart-controls > form {
+                flex: 1 1 auto;
+            }
+
+            .cart-item .cart-controls > form:last-child {
+                flex: 0 0 auto;
+            }
         }
 
         .cart-summary {
@@ -1108,10 +1144,21 @@
 
         .summary-line {
             display: flex;
+            align-items: flex-start;
             justify-content: space-between;
             gap: 12px;
             padding: 3px 0;
             font-size: 14px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .summary-line > :first-child {
+            min-width: 0;
+        }
+
+        .summary-line > :last-child {
+            flex: 0 0 auto;
+            text-align: right;
         }
 
         .summary-line.total {
@@ -1177,6 +1224,21 @@
 
         .table-wrap {
             overflow-x: auto;
+            overscroll-behavior-x: contain;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 767px) {
+            .table-wrap {
+                background:
+                    linear-gradient(to right, var(--surface) 30%, rgba(255, 255, 255, 0)) left center,
+                    linear-gradient(to left, var(--surface) 30%, rgba(255, 255, 255, 0)) right center,
+                    radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, .12), transparent) left center,
+                    radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, .12), transparent) right center;
+                background-repeat: no-repeat;
+                background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
+                background-attachment: local, local, scroll, scroll;
+            }
         }
 
         table.data {
@@ -1557,6 +1619,16 @@
             font-size: 2rem;
         }
 
+        .order-hero-side {
+            text-align: right;
+        }
+
+        @media (max-width: 599px) {
+            .order-hero-side {
+                text-align: left;
+            }
+        }
+
         .order-hero h1 {
             margin: 2px 0 4px;
             font-size: 1.35rem;
@@ -1665,6 +1737,10 @@
             .pos-mobile-tab strong {
                 color: var(--brand-dark);
                 font-size: 12px;
+                max-width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
 
             .pos-mobile-tab.active {
