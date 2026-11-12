@@ -1367,6 +1367,30 @@
             font-size: 14px;
         }
 
+        .input-inline,
+        .select-inline {
+            min-height: 40px;
+            padding: 8px 10px;
+            font-size: 13px;
+        }
+
+        .input-inline {
+            width: 150px;
+            max-width: 100%;
+        }
+
+        .select-inline {
+            width: auto;
+            max-width: 100%;
+        }
+
+        @media (max-width: 767px) {
+            .input-inline,
+            .select-inline {
+                min-height: 44px;
+            }
+        }
+
         @media (max-width: 599px) {
             .filter-bar {
                 gap: 10px;
@@ -1421,6 +1445,16 @@
             gap: 12px;
             padding: 4px 0;
             font-size: 14px;
+        }
+
+        .receipt-line > :first-child {
+            min-width: 0;
+        }
+
+        .receipt-line > :last-child {
+            flex: 0 0 auto;
+            text-align: right;
+            white-space: nowrap;
         }
 
         .receipt-line.total {
@@ -1721,6 +1755,16 @@
             padding: 7px 0;
             border-bottom: 1px solid var(--border);
             font-size: 14px;
+        }
+
+        .payment-row > :first-child {
+            min-width: 0;
+        }
+
+        .payment-row > :last-child {
+            flex: 0 0 auto;
+            text-align: right;
+            white-space: nowrap;
         }
 
         .payment-row:last-child {

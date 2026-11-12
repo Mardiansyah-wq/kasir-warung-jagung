@@ -69,8 +69,8 @@
                                             @method('PATCH')
                                             <select
                                                 name="branch_id"
+                                                class="select-inline"
                                                 aria-label="Cabang untuk {{ $user->name }}"
-                                                style="width: auto; min-height: 36px; padding: 6px 10px; font-size: 13px"
                                                 required
                                             >
                                                 <option value="">Pilih cabang...</option>
@@ -103,10 +103,10 @@
                                                 <input
                                                     type="password"
                                                     name="password"
+                                                    class="input-inline"
                                                     minlength="8"
                                                     placeholder="Password baru"
                                                     aria-label="Password baru untuk {{ $user->name }}"
-                                                    style="width: 150px; min-height: 36px; padding: 6px 10px; font-size: 13px"
                                                     required
                                                 >
                                                 <button type="submit" class="btn btn-sm btn-ghost">Reset</button>
