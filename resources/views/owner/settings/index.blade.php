@@ -15,7 +15,7 @@
 
     <div class="card form-card">
         <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap">
-            <div>
+            <div style="min-width: 0">
                 <h2>Diskon Manual di Kasir</h2>
                 <p class="muted" style="margin: 0">
                     Potongan harga per pesanan yang diisi langsung oleh kasir.
@@ -49,6 +49,7 @@
             <form
                 method="POST"
                 action="{{ route('owner.settings.discount') }}"
+                class="form-actions"
                 onsubmit="return confirm('{{ $discountsEnabled ? 'Nonaktifkan diskon manual di kasir?' : 'Aktifkan diskon manual di kasir?' }}')"
             >
                 @csrf

@@ -326,6 +326,19 @@
             background: #fff7ed;
         }
 
+        .quick-group-title {
+            margin: 16px 0 8px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+        }
+
+        .quick-group-title:first-of-type {
+            margin-top: 0;
+        }
+
         .btn {
             display: inline-flex;
             align-items: center;
@@ -573,6 +586,13 @@
             min-height: 36px;
             padding: 6px 10px;
             font-size: 13px;
+        }
+
+        @media (max-width: 767px) {
+            .btn-sm {
+                min-height: 44px;
+                padding: 8px 12px;
+            }
         }
 
         .chips {
@@ -1176,6 +1196,23 @@
             gap: 8px;
         }
 
+        .form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .form-actions .btn {
+            flex: 1 1 auto;
+        }
+
+        @media (max-width: 479px) {
+            .form-actions .btn {
+                flex: 1 1 100%;
+            }
+        }
+
         .inline-form .field {
             flex: 1 1 120px;
             margin: 0;
@@ -1255,6 +1292,10 @@
             vertical-align: top;
         }
 
+        table.data td {
+            overflow-wrap: anywhere;
+        }
+
         table.data th {
             color: var(--muted);
             font-size: 12px;
@@ -1310,7 +1351,7 @@
         .filter-bar select {
             width: auto;
             min-width: 150px;
-            min-height: 40px;
+            min-height: 44px;
             padding: 8px 10px;
             font-size: 14px;
         }
@@ -1321,9 +1362,23 @@
         }
 
         .filter-bar .btn {
-            min-height: 40px;
+            min-height: 44px;
             padding: 8px 14px;
             font-size: 14px;
+        }
+
+        @media (max-width: 599px) {
+            .filter-bar {
+                gap: 10px;
+            }
+
+            .filter-bar .field {
+                flex: 1 1 100%;
+            }
+
+            .filter-bar .btn {
+                flex: 1 1 auto;
+            }
         }
 
         .receipt {
@@ -1424,22 +1479,22 @@
 
         .stock-row input[type="number"] {
             width: 76px;
-            min-height: 38px;
-            padding: 6px 8px;
+            min-height: 44px;
+            padding: 8px;
             font-size: 14px;
             text-align: center;
         }
 
         .stock-row select {
-            min-height: 38px;
-            padding: 6px 8px;
+            min-height: 44px;
+            padding: 8px;
             font-size: 13px;
         }
 
         .stock-row input[type="text"] {
             width: 140px;
-            min-height: 38px;
-            padding: 6px 8px;
+            min-height: 44px;
+            padding: 8px;
             font-size: 13px;
         }
 
@@ -1451,11 +1506,22 @@
             .stock-row form {
                 flex-wrap: wrap;
             }
+
+            .stock-row form select,
+            .stock-row form input[type="number"] {
+                flex: 1 1 120px;
+                width: auto;
+            }
+
+            .stock-row form input[type="text"] {
+                flex: 1 1 100%;
+                width: auto;
+            }
         }
 
         .stock-row .btn {
-            min-height: 38px;
-            padding: 6px 10px;
+            min-height: 44px;
+            padding: 8px 14px;
             font-size: 13px;
         }
 

@@ -11,6 +11,8 @@
         <span class="badge">Owner</span>
     </div>
 
+    <h2 class="group-title" style="margin-top: 0">Ringkasan Hari Ini</h2>
+
     <div class="grid stats">
         <div class="card stat">
             <span class="stat-label">Uang Masuk Hari Ini</span>
@@ -38,12 +40,11 @@
     </div>
 
     <div class="card">
-        <h2>Menu Owner</h2>
+        <h2>Aksi Cepat</h2>
+        <p class="muted" style="margin: -6px 0 12px">Pintasan ke halaman yang paling sering dipakai.</p>
+
+        <h3 class="quick-group-title">Operasional</h3>
         <div class="quick-grid">
-            <a href="{{ route('owner.branches.index') }}" class="quick quick-link">
-                <strong>Kelola Cabang</strong>
-                <span class="muted">{{ $branchCount }} cabang aktif</span>
-            </a>
             <a href="{{ route('owner.orders.index') }}" class="quick quick-link">
                 <strong>Riwayat Pesanan</strong>
                 <span class="muted">{{ $todayCount }} pembayaran hari ini</span>
@@ -52,17 +53,25 @@
                 <strong>Kelola Menu</strong>
                 <span class="muted">{{ $menuCount }} menu aktif</span>
             </a>
-            <a href="{{ route('owner.staff.index') }}" class="quick quick-link">
-                <strong>Kelola Staff</strong>
-                <span class="muted">Setujui & atur akun staff</span>
+            <a href="{{ route('owner.stock.index') }}" class="quick quick-link">
+                <strong>Kelola Stok</strong>
+                <span class="muted">{{ $lowStockCount }} varian menipis</span>
             </a>
             <a href="{{ route('owner.reports.index') }}" class="quick quick-link">
                 <strong>Laporan Harian</strong>
                 <span class="muted">Rekap & unduh PDF/Excel</span>
             </a>
-            <a href="{{ route('owner.stock.index') }}" class="quick quick-link">
-                <strong>Kelola Stok</strong>
-                <span class="muted">{{ $lowStockCount }} varian menipis</span>
+        </div>
+
+        <h3 class="quick-group-title">Pengelolaan</h3>
+        <div class="quick-grid">
+            <a href="{{ route('owner.branches.index') }}" class="quick quick-link">
+                <strong>Kelola Cabang</strong>
+                <span class="muted">{{ $branchCount }} cabang aktif</span>
+            </a>
+            <a href="{{ route('owner.staff.index') }}" class="quick quick-link">
+                <strong>Kelola Staff</strong>
+                <span class="muted">Setujui & atur akun staff</span>
             </a>
             <a href="{{ route('owner.activity.index') }}" class="quick quick-link">
                 <strong>Log Aktivitas</strong>
