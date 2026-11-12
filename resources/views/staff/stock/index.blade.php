@@ -23,7 +23,8 @@
         </div>
     @else
         <p class="hint" style="margin-bottom: 14px">
-            Tambah stok di sini saat bahan atau menu habis. Setiap penambahan tercatat di riwayat stok dan log aktivitas.
+            Setiap perubahan stok tercatat di riwayat stok dan log aktivitas.
+            Pilih <strong>Kurangi</strong> saat barang rusak atau tumpah, dan wajib isi catatan alasannya.
         </p>
 
         @foreach ($menus as $menu)
@@ -47,18 +48,35 @@
                             </div>
                         </div>
 
-                        <form method="POST" action="{{ route('staff.stock.store') }}">
+                        <form method="POST" action="{{ route('staff.stock.store') }}" data-stock-form>
                             @csrf
                             <input type="hidden" name="variant_id" value="{{ $variant->id }}">
+
+                            <select name="mode" data-stock-mode aria-label="Jenis perubahan stok {{ $menu->name }} {{ $variant->displayName() }}">
+                                <option value="in" @selected(old('variant_id') == $variant->id && old('mode') !== 'out')>Tambah (+)</option>
+                                <option value="out" @selected(old('variant_id') == $variant->id && old('mode') === 'out')>Kurangi (−)</option>
+                            </select>
+
                             <input
                                 type="number"
                                 name="quantity"
-                                value="1"
+                                value="{{ old('variant_id') == $variant->id ? old('quantity', 1) : 1 }}"
                                 min="1"
                                 max="9999"
                                 aria-label="Jumlah stok {{ $menu->name }} {{ $variant->displayName() }}"
                             >
-                            <button type="submit" class="btn btn-sm">Tambah</button>
+
+                            <input
+                                type="text"
+                                name="note"
+                                value="{{ old('variant_id') == $variant->id ? old('note') : '' }}"
+                                maxlength="255"
+                                placeholder="Catatan (wajib jika kurangi)"
+                                data-stock-note
+                                aria-label="Catatan stok {{ $menu->name }} {{ $variant->displayName() }}"
+                            >
+
+                            <button type="submit" class="btn btn-sm">Simpan</button>
                         </form>
                     </div>
                 @endforeach
@@ -114,3 +132,25 @@
         @endif
     @endunless
 @endsection
+
+@push('scripts')
+    <script>
+        document.querySelectorAll('[data-stock-form]').forEach(function (form) {
+            const mode = form.querySelector('[data-stock-mode]');
+            const note = form.querySelector('[data-stock-note]');
+
+            if (!mode || !note) {
+                return;
+            }
+
+            const sync = function () {
+                const reduce = mode.value === 'out';
+                note.required = reduce;
+                note.placeholder = reduce ? 'Catatan wajib: rusak / tumpah' : 'Catatan (opsional)';
+            };
+
+            mode.addEventListener('change', sync);
+            sync();
+        });
+    </script>
+@endpush

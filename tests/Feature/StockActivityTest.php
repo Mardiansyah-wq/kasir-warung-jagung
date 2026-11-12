@@ -193,6 +193,130 @@ class StockActivityTest extends TestCase
             ->assertSee('Stok: 0 → 6');
     }
 
+    public function test_staff_can_reduce_stock_when_a_note_is_provided(): void
+    {
+        $owner = User::factory()->owner()->create();
+        $branch = Branch::create(['name' => 'Pusat', 'is_active' => true]);
+        $staff = User::factory()->forBranch($branch)->create();
+        $variant = $this->createVariant();
+
+        BranchStock::create([
+            'branch_id' => $branch->id,
+            'menu_variant_id' => $variant->id,
+            'quantity' => 10,
+        ]);
+
+        $this->actingAs($staff)->post(route('staff.stock.store'), [
+            'variant_id' => $variant->id,
+            'mode' => 'out',
+            'quantity' => 3,
+            'note' => 'Rusak saat panggang',
+        ])->assertRedirect();
+
+        $this->assertSame(7, (int) BranchStock::where('branch_id', $branch->id)
+            ->where('menu_variant_id', $variant->id)
+            ->value('quantity'));
+
+        $this->assertDatabaseHas('stock_movements', [
+            'branch_id' => $branch->id,
+            'user_id' => $staff->id,
+            'movement_type' => 'out',
+            'quantity' => 3,
+            'note' => 'Rusak saat panggang',
+        ]);
+
+        $log = ActivityLog::where('action', ActivityLog::ACTION_STOCK_REDUCED)->firstOrFail();
+
+        $this->assertSame(['new' => -3], $log->changes['quantity']);
+        $this->assertSame(['new' => 'Rusak saat panggang'], $log->changes['note']);
+        $this->assertStringContainsString('Catatan: Rusak saat panggang', $log->description);
+
+        $this->actingAs($staff)
+            ->get(route('staff.activity.index'))
+            ->assertOk()
+            ->assertSee('Kurangi stok')
+            ->assertSee('Catatan: Rusak saat panggang');
+
+        $this->actingAs($owner)
+            ->get(route('owner.activity.index', ['action' => 'stock']))
+            ->assertOk()
+            ->assertSee('Kurangi stok')
+            ->assertSee('Catatan: Rusak saat panggang')
+            ->assertSee($staff->name);
+    }
+
+    public function test_staff_must_fill_a_note_when_reducing_stock(): void
+    {
+        $branch = Branch::create(['name' => 'Pusat', 'is_active' => true]);
+        $staff = User::factory()->forBranch($branch)->create();
+        $variant = $this->createVariant();
+
+        BranchStock::create([
+            'branch_id' => $branch->id,
+            'menu_variant_id' => $variant->id,
+            'quantity' => 10,
+        ]);
+
+        $this->actingAs($staff)->post(route('staff.stock.store'), [
+            'variant_id' => $variant->id,
+            'mode' => 'out',
+            'quantity' => 3,
+        ])->assertSessionHasErrors('note');
+
+        $this->assertSame(10, (int) BranchStock::where('branch_id', $branch->id)
+            ->where('menu_variant_id', $variant->id)
+            ->value('quantity'));
+        $this->assertSame(0, StockMovement::count());
+        $this->assertSame(0, ActivityLog::count());
+    }
+
+    public function test_staff_can_add_stock_with_an_optional_note(): void
+    {
+        $branch = Branch::create(['name' => 'Pusat', 'is_active' => true]);
+        $staff = User::factory()->forBranch($branch)->create();
+        $variant = $this->createVariant();
+
+        $this->actingAs($staff)->post(route('staff.stock.store'), [
+            'variant_id' => $variant->id,
+            'mode' => 'in',
+            'quantity' => 4,
+            'note' => 'Belanja pagi',
+        ])->assertRedirect();
+
+        $this->assertSame(4, (int) BranchStock::where('branch_id', $branch->id)
+            ->where('menu_variant_id', $variant->id)
+            ->value('quantity'));
+
+        $log = ActivityLog::where('action', ActivityLog::ACTION_STOCK_ADDED)->firstOrFail();
+        $this->assertSame(['new' => 'Belanja pagi'], $log->changes['note']);
+        $this->assertStringContainsString('Catatan: Belanja pagi', $log->description);
+    }
+
+    public function test_staff_cannot_reduce_more_than_the_available_stock(): void
+    {
+        $branch = Branch::create(['name' => 'Pusat', 'is_active' => true]);
+        $staff = User::factory()->forBranch($branch)->create();
+        $variant = $this->createVariant();
+
+        BranchStock::create([
+            'branch_id' => $branch->id,
+            'menu_variant_id' => $variant->id,
+            'quantity' => 2,
+        ]);
+
+        $this->actingAs($staff)->post(route('staff.stock.store'), [
+            'variant_id' => $variant->id,
+            'mode' => 'out',
+            'quantity' => 5,
+            'note' => 'Rusak',
+        ])->assertSessionHasErrors('quantity');
+
+        $this->assertSame(2, (int) BranchStock::where('branch_id', $branch->id)
+            ->where('menu_variant_id', $variant->id)
+            ->value('quantity'));
+        $this->assertSame(0, ActivityLog::count());
+    }
+
     public function test_staff_activity_page_is_scoped_to_their_own_branch(): void
     {
         $owner = User::factory()->owner()->create();

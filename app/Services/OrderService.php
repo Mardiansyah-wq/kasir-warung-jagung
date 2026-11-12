@@ -465,24 +465,6 @@ class OrderService
         });
     }
 
-    public function addStock(User $user, int $variantId, int $quantity, ?string $note): BranchStock
-    {
-        if (! $user->branch_id) {
-            throw ValidationException::withMessages([
-                'stock' => 'Akun staff belum terhubung ke cabang.',
-            ]);
-        }
-
-        return $this->adjustStock(
-            (int) $user->branch_id,
-            $user,
-            $variantId,
-            self::STOCK_ADD,
-            $quantity,
-            $note,
-        );
-    }
-
     /**
      * Add, reduce, or correct the stock of a variant for a branch.
      *
@@ -579,6 +561,16 @@ class OrderService
                 $changes['note'] = ['new' => $note];
             }
 
+            $description = match ($mode) {
+                self::STOCK_ADD => 'Menambah stok '.$delta.' untuk '.$label.' di '.$branch->name.'.',
+                self::STOCK_REDUCE => 'Mengurangi stok '.abs($delta).' untuk '.$label.' di '.$branch->name.'.',
+                default => 'Mengoreksi stok '.$label.' di '.$branch->name.' dari '.$before.' menjadi '.$after.'.',
+            };
+
+            if ($note) {
+                $description .= ' Catatan: '.$note;
+            }
+
             $this->activityLogger->log(
                 match ($mode) {
                     self::STOCK_ADD => ActivityLog::ACTION_STOCK_ADDED,
@@ -587,11 +579,7 @@ class OrderService
                 },
                 $variant,
                 $label,
-                match ($mode) {
-                    self::STOCK_ADD => 'Menambah stok '.$delta.' untuk '.$label.' di '.$branch->name.'.',
-                    self::STOCK_REDUCE => 'Mengurangi stok '.abs($delta).' untuk '.$label.' di '.$branch->name.'.',
-                    default => 'Mengoreksi stok '.$label.' di '.$branch->name.' dari '.$before.' menjadi '.$after.'.',
-                },
+                $description,
                 $changes,
                 $branchId,
             );
