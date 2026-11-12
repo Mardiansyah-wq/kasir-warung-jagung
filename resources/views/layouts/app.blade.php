@@ -55,9 +55,11 @@
 
         .header-inner {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
             gap: 12px;
+            row-gap: 6px;
             width: 100%;
             max-width: 1100px;
             margin: 0 auto;
@@ -101,6 +103,7 @@
 
         .desktop-nav {
             display: none;
+            flex-wrap: wrap;
             align-items: center;
             gap: 8px;
         }
@@ -509,6 +512,20 @@
 
             .card {
                 padding: 20px;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1099px) {
+            .desktop-nav {
+                flex: 1 1 100%;
+                justify-content: center;
+                gap: 4px;
+            }
+
+            .desktop-nav a,
+            .desktop-nav button {
+                padding: 6px 8px;
+                font-size: 13px;
             }
         }
 
