@@ -16,6 +16,13 @@ class DiscountActivityTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        config(['pos.discounts_enabled' => true]);
+    }
+
     public function test_applying_a_discount_writes_an_activity_log_for_the_owner(): void
     {
         $owner = User::factory()->owner()->create();

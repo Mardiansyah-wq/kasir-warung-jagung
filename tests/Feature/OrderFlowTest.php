@@ -19,6 +19,13 @@ class OrderFlowTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        config(['pos.discounts_enabled' => true]);
+    }
+
     public function test_staff_can_open_the_order_board(): void
     {
         [$branch, $staff] = $this->makeStaff();

@@ -136,6 +136,8 @@ class OrderController extends Controller
 
     public function applyDiscount(Request $request, Order $order, OrderService $orders): RedirectResponse
     {
+        abort_unless(config('pos.discounts_enabled'), 404);
+
         $this->authorizeOrder($request, $order);
 
         $data = $request->validate([

@@ -241,90 +241,92 @@
                     </div>
 
                     @if ($editable)
-                        <div class="form-section" data-discount-panel data-subtotal="{{ (int) $subtotal }}">
-                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap">
-                                <h2 style="margin: 0; font-size: .95rem">Diskon</h2>
-                                <span class="badge">Maks Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
-                            </div>
-
-                            @if ($subtotal > 0)
-                                <div class="chips" style="margin: 10px 0 0">
-                                    @foreach ([1000, 2000, 5000] as $quick)
-                                        <button type="button" class="chip" data-discount-chip="{{ $quick }}">
-                                            Rp {{ number_format($quick, 0, ',', '.') }}
-                                        </button>
-                                    @endforeach
-                                    <button type="button" class="chip" data-discount-percent="10">10%</button>
-                                    <button type="button" class="chip" data-discount-clear>Hapus diskon</button>
+                        @if (config('pos.discounts_enabled'))
+                            <div class="form-section" data-discount-panel data-subtotal="{{ (int) $subtotal }}">
+                                <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap">
+                                    <h2 style="margin: 0; font-size: .95rem">Diskon</h2>
+                                    <span class="badge">Maks Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
                                 </div>
 
-                                <form
-                                    method="POST"
-                                    action="{{ route('staff.orders.discount', $order) }}"
-                                    style="margin-top: 12px"
-                                    data-discount-form
-                                >
-                                    @csrf
-                                    @method('PATCH')
-
-                                    <div class="field">
-                                        <label for="discount_amount">Diskon (Rp)</label>
-                                        <input
-                                            type="number"
-                                            id="discount_amount"
-                                            name="discount_amount"
-                                            value="{{ (int) old('discount_amount', $discountAmount) }}"
-                                            min="0"
-                                            max="{{ (int) $subtotal }}"
-                                            step="1"
-                                            inputmode="numeric"
-                                            data-discount-input
-                                        >
-                                        <span class="hint">
-                                            Maksimal Rp {{ number_format($subtotal, 0, ',', '.') }}.
-                                            Isi 0 untuk menghapus diskon.
-                                        </span>
+                                @if ($subtotal > 0)
+                                    <div class="chips" style="margin: 10px 0 0">
+                                        @foreach ([1000, 2000, 5000] as $quick)
+                                            <button type="button" class="chip" data-discount-chip="{{ $quick }}">
+                                                Rp {{ number_format($quick, 0, ',', '.') }}
+                                            </button>
+                                        @endforeach
+                                        <button type="button" class="chip" data-discount-percent="10">10%</button>
+                                        <button type="button" class="chip" data-discount-clear>Hapus diskon</button>
                                     </div>
 
-                                    <div class="field">
-                                        <label for="discount_reason">Alasan diskon</label>
-                                        <input
-                                            type="text"
-                                            id="discount_reason"
-                                            name="reason"
-                                            maxlength="255"
-                                            value="{{ old('reason', $discountReason) }}"
-                                            placeholder="Contoh: promo Jumat, pelanggan langganan"
-                                        >
-                                    </div>
+                                    <form
+                                        method="POST"
+                                        action="{{ route('staff.orders.discount', $order) }}"
+                                        style="margin-top: 12px"
+                                        data-discount-form
+                                    >
+                                        @csrf
+                                        @method('PATCH')
 
-                                    <p class="muted" data-discount-preview style="margin: 0 0 10px">
-                                        Total setelah diskon:
-                                        Rp {{ number_format(max(0, $subtotal - $discountAmount), 0, ',', '.') }}
+                                        <div class="field">
+                                            <label for="discount_amount">Diskon (Rp)</label>
+                                            <input
+                                                type="number"
+                                                id="discount_amount"
+                                                name="discount_amount"
+                                                value="{{ (int) old('discount_amount', $discountAmount) }}"
+                                                min="0"
+                                                max="{{ (int) $subtotal }}"
+                                                step="1"
+                                                inputmode="numeric"
+                                                data-discount-input
+                                            >
+                                            <span class="hint">
+                                                Maksimal Rp {{ number_format($subtotal, 0, ',', '.') }}.
+                                                Isi 0 untuk menghapus diskon.
+                                            </span>
+                                        </div>
+
+                                        <div class="field">
+                                            <label for="discount_reason">Alasan diskon</label>
+                                            <input
+                                                type="text"
+                                                id="discount_reason"
+                                                name="reason"
+                                                maxlength="255"
+                                                value="{{ old('reason', $discountReason) }}"
+                                                placeholder="Contoh: promo Jumat, pelanggan langganan"
+                                            >
+                                        </div>
+
+                                        <p class="muted" data-discount-preview style="margin: 0 0 10px">
+                                            Total setelah diskon:
+                                            Rp {{ number_format(max(0, $subtotal - $discountAmount), 0, ',', '.') }}
+                                        </p>
+
+                                        <button type="submit" class="btn btn-sm btn-ghost btn-block">Terapkan diskon</button>
+                                    </form>
+                                @else
+                                    <p class="hint" style="margin: 10px 0 0">
+                                        Tambahkan item dulu untuk memberi diskon.
                                     </p>
+                                @endif
+                            </div>
+                        @endif
 
-                                    <button type="submit" class="btn btn-sm btn-ghost btn-block">Terapkan diskon</button>
-                                </form>
-                            @else
-                                <p class="hint" style="margin: 10px 0 0">
-                                    Tambahkan item dulu untuk memberi diskon.
-                                </p>
-                            @endif
+                        <details class="form-section">
+                            <summary class="muted" style="cursor: pointer">Catatan pesanan</summary>
 
-                            <details style="margin-top: 14px">
-                                <summary class="muted" style="cursor: pointer">Catatan pesanan</summary>
-
-                                <form method="POST" action="{{ route('staff.orders.notes', $order) }}" style="margin-top: 10px">
-                                    @csrf
-                                    @method('PATCH')
-                                    <div class="field">
-                                        <label for="notes">Catatan pesanan</label>
-                                        <textarea id="notes" name="notes" maxlength="500" placeholder="Contoh: tanpa saus, dibungkus">{{ $order->notes }}</textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-sm btn-ghost btn-block">Simpan Catatan</button>
-                                </form>
-                            </details>
-                        </div>
+                            <form method="POST" action="{{ route('staff.orders.notes', $order) }}" style="margin-top: 10px">
+                                @csrf
+                                @method('PATCH')
+                                <div class="field">
+                                    <label for="notes">Catatan pesanan</label>
+                                    <textarea id="notes" name="notes" maxlength="500" placeholder="Contoh: tanpa saus, dibungkus">{{ $order->notes }}</textarea>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-ghost btn-block">Simpan Catatan</button>
+                            </form>
+                        </details>
                     @elseif ($order->notes)
                         <div class="summary-line" style="margin-top: 10px">
                             <span class="muted">Catatan</span>
@@ -796,8 +798,9 @@
 @endpush
 
 @push('scripts')
-    <script>
-        document.querySelectorAll('[data-discount-panel]').forEach(function (panel) {
+    @if (config('pos.discounts_enabled'))
+        <script>
+            document.querySelectorAll('[data-discount-panel]').forEach(function (panel) {
             const form = panel.querySelector('[data-discount-form]');
             const input = panel.querySelector('[data-discount-input]');
             const preview = panel.querySelector('[data-discount-preview]');
@@ -853,6 +856,7 @@
                     input.focus();
                 });
             }
-        });
-    </script>
+            });
+        </script>
+    @endif
 @endpush
