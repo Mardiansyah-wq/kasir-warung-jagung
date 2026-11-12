@@ -1106,6 +1106,10 @@
             gap: 10px;
         }
 
+        .cart-item-top > div {
+            min-width: 0;
+        }
+
         .cart-item-top strong {
             font-size: 14px;
         }
