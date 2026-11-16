@@ -13,11 +13,11 @@
         <section class="auth-main">
             <p class="auth-help">
                 Butuh bantuan?
-                <button type="button" data-dialog-open="lupa-sandi">Hubungi administrator</button>
+                <button type="button" data-dialog-open="lupa-sandi">Hubungi owner</button>
             </p>
 
             <div class="auth-form-box">
-                <p class="auth-eyebrow auth-eyebrow-red">Akses pegawai</p>
+                <p class="auth-eyebrow auth-eyebrow-red">Masuk ke akun</p>
                 <h1 class="auth-title">Selamat datang kembali</h1>
                 <p class="auth-sub">Masuk untuk mulai mengelola {{ config('app.name', 'Jagung Bakar WJT') }}.</p>
 
@@ -33,7 +33,7 @@
                             type="email"
                             name="email"
                             value="{{ old('email') }}"
-                            placeholder="Masukkan email pegawai"
+                            placeholder="Masukkan email"
                             inputmode="email"
                             autocomplete="email"
                             required
@@ -72,19 +72,19 @@
 
                 <p class="auth-after">
                     Belum punya akses?<br>
-                    Hubungi administrator untuk mendapatkan akun.<br>
+                    Hubungi owner untuk mendapatkan akses.<br>
                     <a href="{{ route('register') }}">Daftar akun baru</a>
                 </p>
 
                 <div class="auth-divider" aria-hidden="true"></div>
 
                 <p class="auth-legal">
-                    Khusus pegawai {{ config('app.name', 'Jagung Bakar WJT') }}.<br>
+                    Khusus pengelola {{ config('app.name', 'Jagung Bakar WJT') }}.<br>
                     Jaga kerahasiaan akun dan kata sandi Anda.
                 </p>
             </div>
 
-            <p class="auth-footnote">Ruang admin &middot; {{ config('app.name', 'Jagung Bakar WJT') }}</p>
+            <p class="auth-footnote">Panel pengelola &middot; {{ config('app.name', 'Jagung Bakar WJT') }}</p>
         </section>
     </div>
 

@@ -32,6 +32,20 @@ class AuthTest extends TestCase
             ->assertSee('img/logo-mark.png', false);
     }
 
+    public function test_login_copy_is_not_limited_to_staff(): void
+    {
+        $this->get('/login')
+            ->assertOk()
+            ->assertSee('Masuk ke akun')
+            ->assertSee('Masukkan email', false)
+            ->assertSee('Hubungi owner')
+            ->assertSee('Khusus pengelola')
+            ->assertSee('Panel pengelola')
+            ->assertDontSee('Akses pegawai')
+            ->assertDontSee('Masukkan email pegawai')
+            ->assertDontSee('Hubungi administrator');
+    }
+
     public function test_login_page_points_lost_password_to_the_owner(): void
     {
         $this->get('/login')
