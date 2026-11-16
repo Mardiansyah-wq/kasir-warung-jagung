@@ -24,8 +24,9 @@ class AuthTest extends TestCase
         $this->get('/login')
             ->assertOk()
             ->assertSee('Jagung Bakar WJT')
+            ->assertSee('Selamat datang')
             ->assertSee('Email')
-            ->assertSee('Daftar sekarang')
+            ->assertSee('Daftar akun baru')
             ->assertSee('data-password-toggle="password"', false);
     }
 
