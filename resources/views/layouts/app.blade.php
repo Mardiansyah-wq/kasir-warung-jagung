@@ -56,149 +56,325 @@
             color: inherit;
         }
 
-        header {
+        /* Shell: sidebar + topbar */
+        .shell {
+            display: grid;
+            flex: 1;
+            grid-template-columns: 232px minmax(0, 1fr);
+            min-height: 100vh;
+            min-height: 100dvh;
+        }
+
+        .shell-main {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            min-height: 100vh;
+            min-height: 100dvh;
+        }
+
+        .sidebar {
             position: sticky;
             top: 0;
-            z-index: 20;
-            background: var(--brand);
-            color: #fff;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, .15);
-        }
-
-        .header-inner {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 16px;
+            height: 100vh;
+            height: 100dvh;
+            padding: 22px 14px 16px;
+            overflow-y: auto;
+            background: var(--brand-brown);
+            color: #f4efe2;
+            scrollbar-width: thin;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            row-gap: 6px;
-            width: 100%;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 10px 16px;
-            padding-top: calc(10px + env(safe-area-inset-top));
+            gap: 8px;
+            padding: 4px 0 18px;
+            border-bottom: 1px solid rgba(244, 239, 226, .16);
+            text-align: center;
         }
 
-        .brand {
-            min-width: 0;
-            overflow: hidden;
-            font-size: 16px;
+        .sidebar-logo {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+        }
+
+        .sidebar-name {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.3;
+            letter-spacing: -.01em;
+            color: #f9f4e6;
+        }
+
+        .sidebar-tagline {
+            font-size: 9px;
             font-weight: 700;
-            white-space: nowrap;
-            text-overflow: ellipsis;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--brand-amber);
         }
 
-        .header-actions {
+        .sidebar-nav,
+        .sidebar-secondary {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .sidebar-group {
+            display: block;
+            padding: 0 10px 8px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: rgba(244, 239, 226, .55);
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            width: 100%;
+            min-height: 42px;
+            padding: 9px 12px;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: #e7dcc8;
+            font: inherit;
+            font-size: 13.5px;
+            font-weight: 600;
+            line-height: 1.3;
+            text-align: left;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .sidebar-link:hover {
+            background: rgba(244, 239, 226, .1);
+            color: #f9f4e6;
+        }
+
+        .sidebar-link.active {
+            background: var(--brand-amber);
+            color: var(--brand-brown);
+        }
+
+        .sidebar-link.active .nav-icon {
+            stroke-width: 1.9;
+        }
+
+        .sidebar-link:focus-visible,
+        .topbar-menu:focus-visible,
+        .sidebar-logout button:focus-visible {
+            outline: 2px solid var(--brand-amber);
+            outline-offset: 2px;
+        }
+
+        .nav-icon {
+            flex: 0 0 auto;
+            width: 19px;
+            height: 19px;
+        }
+
+        .sidebar-bottom {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-top: auto;
+            padding-top: 12px;
+        }
+
+        .sidebar-divider {
+            margin: 8px 0;
+            border: 0;
+            border-top: 1px solid rgba(244, 239, 226, .16);
+        }
+
+        .sidebar-user {
             display: flex;
             align-items: center;
             gap: 10px;
-            min-width: 0;
+            padding: 9px 10px;
+            border-radius: 10px;
+            background: rgba(244, 239, 226, .07);
         }
 
-        .header-account {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        .header-account:hover > span:first-child {
-            text-decoration: underline;
-        }
-
-        .header-logout {
-            margin: 0;
-        }
-
-        .header-logout button {
-            min-height: 40px;
-            padding: 6px 12px;
-            border: 1px solid rgba(255, 255, 255, .45);
-            border-radius: 8px;
-            background: transparent;
-            color: #fff;
-            font: inherit;
+        .sidebar-avatar {
+            display: grid;
+            flex: 0 0 auto;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #f2e6c4;
+            color: #5a4020;
             font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
-            cursor: pointer;
+            font-weight: 700;
+            place-items: center;
         }
 
-        .header-logout button:hover {
-            background: rgba(255, 255, 255, .15);
-        }
-
-        .header-user {
+        .sidebar-user-text {
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
-            gap: 1px;
             min-width: 0;
-            font-size: 13px;
-            line-height: 1.3;
-            text-align: right;
+            line-height: 1.25;
         }
 
-        .header-user > span {
-            max-width: 34vw;
+        .sidebar-user-name {
+            overflow: hidden;
+            font-size: 13px;
+            font-weight: 600;
+            color: #f9f4e6;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .sidebar-user-role {
+            font-size: 11px;
+            color: rgba(244, 239, 226, .62);
+        }
+
+        .sidebar-logout {
+            margin: 0 0 0 auto;
+        }
+
+        .sidebar-logout button {
+            display: grid;
+            width: 32px;
+            height: 32px;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: rgba(244, 239, 226, .7);
+            cursor: pointer;
+            place-items: center;
+        }
+
+        .sidebar-logout button:hover {
+            background: rgba(180, 48, 32, .32);
+            color: #fff;
+        }
+
+        .sidebar-logout svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 15;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-height: 72px;
+            padding: 0 clamp(16px, 2.4vw, 30px);
+            padding-top: env(safe-area-inset-top);
+            border-bottom: 1px solid var(--border-warm);
+            background: var(--bg-warm);
+        }
+
+        .topbar-menu {
+            display: none;
+            flex: 0 0 auto;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border-warm);
+            border-radius: 8px;
+            background: var(--surface-warm);
+            color: var(--brand-brown);
+            cursor: pointer;
+            place-items: center;
+        }
+
+        .topbar-menu svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .crumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+            font-size: 13px;
+            color: #8a7a6a;
+        }
+
+        .crumb-root {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        .header-user .role {
-            font-size: 11px;
-            letter-spacing: .04em;
-            text-transform: uppercase;
-            opacity: .85;
+        .crumb-sep {
+            color: #b9ab97;
         }
 
-        @media (max-width: 767px) {
-            .header-inner {
-                gap: 8px;
-            }
-
-            .header-logout button {
-                min-height: 44px;
-                padding: 8px 12px;
-            }
-
-            .header-user > span {
-                max-width: 28vw;
-            }
+        .crumb-current {
+            overflow: hidden;
+            font-weight: 700;
+            color: var(--text-warm);
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
-        .desktop-nav {
-            display: none;
-            flex-wrap: wrap;
+        .topbar-right {
+            display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 16px;
+            margin-left: auto;
         }
 
-        .desktop-nav a,
-        .desktop-nav button {
+        .store-pill {
             display: inline-flex;
             align-items: center;
-            min-height: 36px;
-            padding: 6px 12px;
-            border: 1px solid transparent;
-            border-radius: 8px;
-            background: transparent;
-            color: #fff;
-            font: inherit;
-            font-size: 14px;
-            text-decoration: none;
-            cursor: pointer;
+            gap: 7px;
+            padding: 7px 12px;
+            border-radius: 6px;
+            background: #e4ecdc;
+            color: #506c44;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
         }
 
-        .desktop-nav a.active {
-            background: rgba(255, 255, 255, .18);
+        .store-pill::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
         }
 
-        .desktop-nav button {
-            border-color: rgba(255, 255, 255, .55);
+        .store-pill.closed {
+            background: #ece3d0;
+            color: #8a7a6a;
         }
 
-        .desktop-nav button:hover {
-            background: rgba(255, 255, 255, .12);
+        .topbar-date {
+            font-size: 13px;
+            color: #6b5b4d;
+            white-space: nowrap;
+        }
+
+        .drawer-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 35;
+            background: rgba(28, 18, 12, .5);
+        }
+
+        body.drawer-open {
+            overflow: hidden;
         }
 
         main {
@@ -209,71 +385,82 @@
             max-width: 1100px;
             margin: 0 auto;
             padding: 16px;
-            padding-bottom: calc(84px + env(safe-area-inset-bottom));
+        }
+
+        .shell-main main {
+            max-width: 1320px;
+            padding: 24px clamp(16px, 2.4vw, 32px) 48px;
         }
 
         body.is-guest main {
             padding-bottom: 16px;
         }
 
-        .mobile-nav {
-            position: fixed;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 20;
-            display: flex;
-            gap: 4px;
-            padding: 6px 8px;
-            padding-bottom: calc(6px + env(safe-area-inset-bottom));
-            overflow-x: auto;
-            overscroll-behavior-x: contain;
-            -webkit-overflow-scrolling: touch;
-            scroll-snap-type: x proximity;
-            border-top: 1px solid var(--border);
-            background: var(--surface);
-            box-shadow: 0 -1px 3px rgba(0, 0, 0, .06);
-            scrollbar-width: none;
+        @media (max-width: 1099px) {
+            .shell {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 40;
+                width: 264px;
+                max-width: 84vw;
+                height: 100vh;
+                height: 100dvh;
+                transform: translateX(-100%);
+                transition: transform .2s ease;
+            }
+
+            .sidebar.is-open {
+                transform: none;
+            }
+
+            .topbar-menu {
+                display: grid;
+            }
         }
 
-        .mobile-nav::-webkit-scrollbar {
-            display: none;
+        @media (max-width: 639px) {
+            .topbar {
+                gap: 10px;
+                min-height: 64px;
+            }
+
+            .topbar-date {
+                display: none;
+            }
+
+            .crumb-root,
+            .crumb-sep {
+                display: none;
+            }
+
+            .crumb {
+                font-size: 12.5px;
+            }
+
+            .topbar-right {
+                gap: 10px;
+            }
+
+            .store-pill {
+                padding: 6px 10px;
+                font-size: 11.5px;
+            }
+
+            .shell-main main {
+                padding: 18px 16px 40px;
+            }
         }
 
-        .mobile-nav a,
-        .mobile-nav form {
-            flex: 1 0 auto;
-            min-width: 58px;
-            margin: 0;
-            scroll-snap-align: start;
-        }
-
-        .mobile-nav a,
-        .mobile-nav button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            min-height: 44px;
-            border: 0;
-            border-radius: 8px;
-            background: transparent;
-            color: var(--muted);
-            font: inherit;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .mobile-nav a.active {
-            background: #fdf2e3;
-            color: var(--brand);
-        }
-
-        .mobile-nav a:hover,
-        .mobile-nav button:hover {
-            background: #f5f5f4;
+        @media (prefers-reduced-motion: reduce) {
+            .sidebar {
+                transition: none;
+            }
         }
 
         .page-head {
@@ -946,34 +1133,12 @@
                 padding: 28px 24px 40px;
             }
 
-            .mobile-nav {
-                display: none;
-            }
-
-            .desktop-nav {
-                display: flex;
-            }
-
             h1 {
                 font-size: 1.8rem;
             }
 
             .card {
                 padding: 20px;
-            }
-        }
-
-        @media (min-width: 768px) and (max-width: 1099px) {
-            .desktop-nav {
-                flex: 1 1 100%;
-                justify-content: center;
-                gap: 4px;
-            }
-
-            .desktop-nav a,
-            .desktop-nav button {
-                padding: 6px 8px;
-                font-size: 13px;
             }
         }
 
@@ -2281,12 +2446,13 @@
             .pos-mobile-bar {
                 position: fixed;
                 right: 0;
-                bottom: calc(56px + env(safe-area-inset-bottom));
+                bottom: 0;
                 left: 0;
                 z-index: 19;
                 display: flex;
                 gap: 8px;
                 padding: 8px 12px;
+                padding-bottom: calc(8px + env(safe-area-inset-bottom));
                 border-top: 1px solid var(--border);
                 background: var(--surface);
                 box-shadow: 0 -2px 10px rgba(0, 0, 0, .08);
@@ -2336,13 +2502,6 @@
             }
         }
 
-        @media (min-width: 768px) and (max-width: 899px) {
-            .pos-mobile-bar {
-                bottom: 0;
-                padding-bottom: calc(8px + env(safe-area-inset-bottom));
-            }
-        }
-
         @media (min-width: 900px) {
             .pos-pane {
                 display: block;
@@ -2363,17 +2522,27 @@
 
             .pos-cart {
                 position: sticky;
-                top: 86px;
+                top: 96px;
             }
         }
 
         @media print {
-            header,
-            .mobile-nav,
+            .sidebar,
+            .topbar,
+            .drawer-backdrop,
             .no-print,
             .flash,
             .errors {
                 display: none !important;
+            }
+
+            .shell {
+                display: block;
+                min-height: 0;
+            }
+
+            .shell-main {
+                min-height: 0;
             }
 
             body {
@@ -2398,69 +2567,23 @@
 </head>
 <body class="@auth is-auth @else is-guest @endauth @yield('body_class')">
     @auth
-        <header>
-            <div class="header-inner">
-                <div class="brand">{{ config('app.name', 'Jagung Bakar WJT') }}</div>
+        <div class="shell">
+            @include('partials.sidebar')
 
-                <nav class="desktop-nav">
-                    <a href="{{ route(auth()->user()->homeRouteName()) }}" class="{{ request()->routeIs('*.dashboard') ? 'active' : '' }}">Dashboard</a>
-                    @if (auth()->user()->isOwner())
-                        <a href="{{ route('owner.orders.index') }}" class="{{ request()->routeIs('owner.orders.*') ? 'active' : '' }}">Pesanan</a>
-                        <a href="{{ route('owner.reports.index') }}" class="{{ request()->routeIs('owner.reports.*') ? 'active' : '' }}">Laporan</a>
-                        <a href="{{ route('owner.menus.index') }}" class="{{ request()->routeIs('owner.menus.*') ? 'active' : '' }}">Menu</a>
-                        <a href="{{ route('owner.stock.index') }}" class="{{ request()->routeIs('owner.stock.*') ? 'active' : '' }}">Stok</a>
-                        <a href="{{ route('owner.activity.index') }}" class="{{ request()->routeIs('owner.activity.*') ? 'active' : '' }}">Aktivitas</a>
-                        <a href="{{ route('owner.staff.index') }}" class="{{ request()->routeIs('owner.staff.*') ? 'active' : '' }}">Staff</a>
-                        <a href="{{ route('owner.branches.index') }}" class="{{ request()->routeIs('owner.branches.*') ? 'active' : '' }}">Cabang</a>
-                        <a href="{{ route('owner.settings.index') }}" class="{{ request()->routeIs('owner.settings.*') ? 'active' : '' }}">Pengaturan</a>
-                    @else
-                        <a href="{{ route('staff.pos.index') }}" class="{{ request()->routeIs('staff.pos.*') ? 'active' : '' }}">Kasir</a>
-                        <a href="{{ route('staff.orders.index') }}" class="{{ request()->routeIs('staff.orders.*') ? 'active' : '' }}">Pesanan</a>
-                        <a href="{{ route('staff.stock.index') }}" class="{{ request()->routeIs('staff.stock.*') ? 'active' : '' }}">Stok</a>
-                        <a href="{{ route('staff.activity.index') }}" class="{{ request()->routeIs('staff.activity.*') ? 'active' : '' }}">Aktivitas</a>
-                        <a href="{{ route('staff.menus.index') }}" class="{{ request()->routeIs('staff.menus.*') ? 'active' : '' }}">Menu</a>
-                    @endif
-                </nav>
+            <div class="shell-main">
+                @include('partials.topbar')
 
-                <div class="header-actions">
-                    <a href="{{ route('account.index') }}" class="header-user header-account">
-                        <span>{{ auth()->user()->name }}</span>
-                        <span class="role">{{ auth()->user()->role }}</span>
-                    </a>
-
-                    <form method="POST" action="{{ route('logout') }}" class="header-logout">
-                        @csrf
-                        <button type="submit">Keluar</button>
-                    </form>
-                </div>
+                <main>
+                    @yield('content')
+                </main>
             </div>
-        </header>
-    @endauth
+        </div>
 
-    <main>
-        @yield('content')
-    </main>
-
-    @auth
-        <nav class="mobile-nav">
-            <a href="{{ route(auth()->user()->homeRouteName()) }}" class="{{ request()->routeIs('*.dashboard') ? 'active' : '' }}">Dashboard</a>
-            @if (auth()->user()->isOwner())
-                <a href="{{ route('owner.orders.index') }}" class="{{ request()->routeIs('owner.orders.*') ? 'active' : '' }}">Pesanan</a>
-                <a href="{{ route('owner.reports.index') }}" class="{{ request()->routeIs('owner.reports.*') ? 'active' : '' }}">Laporan</a>
-                <a href="{{ route('owner.menus.index') }}" class="{{ request()->routeIs('owner.menus.*') ? 'active' : '' }}">Menu</a>
-                <a href="{{ route('owner.stock.index') }}" class="{{ request()->routeIs('owner.stock.*') ? 'active' : '' }}">Stok</a>
-                <a href="{{ route('owner.activity.index') }}" class="{{ request()->routeIs('owner.activity.*') ? 'active' : '' }}">Aktivitas</a>
-                <a href="{{ route('owner.staff.index') }}" class="{{ request()->routeIs('owner.staff.*') ? 'active' : '' }}">Staff</a>
-                <a href="{{ route('owner.branches.index') }}" class="{{ request()->routeIs('owner.branches.*') ? 'active' : '' }}">Cabang</a>
-                <a href="{{ route('owner.settings.index') }}" class="{{ request()->routeIs('owner.settings.*') ? 'active' : '' }}">Pengaturan</a>
-            @else
-                <a href="{{ route('staff.pos.index') }}" class="{{ request()->routeIs('staff.pos.*') ? 'active' : '' }}">Kasir</a>
-                <a href="{{ route('staff.orders.index') }}" class="{{ request()->routeIs('staff.orders.*') ? 'active' : '' }}">Pesanan</a>
-                <a href="{{ route('staff.stock.index') }}" class="{{ request()->routeIs('staff.stock.*') ? 'active' : '' }}">Stok</a>
-                <a href="{{ route('staff.activity.index') }}" class="{{ request()->routeIs('staff.activity.*') ? 'active' : '' }}">Aktivitas</a>
-                <a href="{{ route('staff.menus.index') }}" class="{{ request()->routeIs('staff.menus.*') ? 'active' : '' }}">Menu</a>
-            @endif
-        </nav>
+        <div class="drawer-backdrop" data-drawer-close hidden></div>
+    @else
+        <main>
+            @yield('content')
+        </main>
     @endauth
 
     <script>
@@ -2507,6 +2630,59 @@
                 dialog.close();
             }
         });
+
+        (function () {
+            const sidebar = document.getElementById('app-sidebar');
+            const backdrop = document.querySelector('[data-drawer-close]');
+            const openButton = document.querySelector('[data-drawer-open]');
+
+            if (!sidebar) {
+                return;
+            }
+
+            function setDrawer(open) {
+                sidebar.classList.toggle('is-open', open);
+                document.body.classList.toggle('drawer-open', open);
+
+                if (openButton) {
+                    openButton.setAttribute('aria-expanded', open ? 'true' : 'false');
+                }
+
+                if (backdrop) {
+                    backdrop.hidden = !open;
+                }
+            }
+
+            document.addEventListener('click', function (event) {
+                if (event.target.closest('[data-drawer-open]')) {
+                    setDrawer(true);
+
+                    return;
+                }
+
+                if (event.target.closest('[data-drawer-close]')) {
+                    setDrawer(false);
+
+                    return;
+                }
+
+                if (event.target.closest('#app-sidebar a')) {
+                    setDrawer(false);
+                }
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    setDrawer(false);
+                }
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth >= 1100) {
+                    setDrawer(false);
+                }
+            });
+        })();
     </script>
 
     @stack('scripts')
