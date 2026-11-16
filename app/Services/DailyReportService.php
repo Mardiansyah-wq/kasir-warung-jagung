@@ -6,9 +6,11 @@ use App\Models\Branch;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
+use App\Support\ReportRange;
 use Carbon\CarbonImmutable;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class DailyReportService
 {
@@ -195,6 +197,215 @@ class DailyReportService
             'methods' => $this->methodsFor($payments),
             'products' => $this->productsBetween($start, $end, $branchId),
         ];
+    }
+
+    /**
+     * Ringkasan penjualan untuk rentang tanggal bebas, dipakai dashboard owner
+     * (semua cabang atau satu cabang) dan dashboard staff (cabang sendiri).
+     *
+     * Angka pendapatan diambil dari pembayaran yang benar-benar diterima,
+     * sedangkan jumlah transaksi dan menu terjual mengikuti tanggal usaha
+     * pesanan. Pesanan batal tidak dihitung di keduanya.
+     *
+     * @return array<string, mixed>
+     */
+    public function buildRange(ReportRange $range, ?int $branchId = null): array
+    {
+        $branch = $branchId ? Branch::query()->find($branchId) : null;
+
+        $current = $this->rangeTotals($range->start, $range->end, $branchId);
+        $previous = $this->rangeTotals($range->previousStart, $range->previousEnd, $branchId);
+
+        return [
+            'range' => $range->toArray(),
+            'days_count' => $range->days(),
+            'branch' => $branch,
+            'branch_label' => $branch?->name ?? 'Semua Cabang',
+            'summary' => $current,
+            'comparison' => [
+                'label' => $range->previousLabel(),
+                'previous' => $previous,
+                'revenue_delta' => $current['revenue'] - $previous['revenue'],
+                'revenue_delta_percent' => $this->percentChange($previous['revenue'], $current['revenue']),
+                'orders_delta' => $current['orders'] - $previous['orders'],
+                'items_delta' => $current['items_sold'] - $previous['items_sold'],
+                'items_delta_percent' => $this->percentChange($previous['items_sold'], $current['items_sold']),
+                'average_delta_percent' => $this->percentChange($previous['average'], $current['average']),
+            ],
+            'days' => $this->daysFor($range->start, $range->end, $branchId),
+            'top_products' => $this->topProductsBetween($range->start, $range->end, $branchId),
+            'recent_orders' => $this->recentOrders($range->start, $range->end, $branchId),
+            'orders_total' => $current['orders'],
+        ];
+    }
+
+    /**
+     * Angka dasar satu rentang: pendapatan, transaksi, dan menu terjual.
+     *
+     * @return array{
+     *     revenue: float,
+     *     orders: int,
+     *     paid_orders: int,
+     *     payments_count: int,
+     *     items_sold: int,
+     *     average: float
+     * }
+     */
+    private function rangeTotals(
+        CarbonImmutable $start,
+        CarbonImmutable $end,
+        ?int $branchId,
+    ): array {
+        $payments = $this->paymentsBetween($start, $end->endOfDay(), $branchId);
+        $revenue = (float) $payments->sum('amount');
+        $paidOrders = $payments->pluck('order_id')->unique()->count();
+
+        return [
+            'revenue' => $revenue,
+            'orders' => $this->ordersBetween($start, $end, $branchId),
+            'paid_orders' => $paidOrders,
+            'payments_count' => $payments->count(),
+            'items_sold' => $this->itemsSoldBetween($start, $end, $branchId),
+            'average' => $paidOrders > 0 ? $revenue / $paidOrders : 0.0,
+        ];
+    }
+
+    private function ordersBetween(
+        CarbonImmutable $start,
+        CarbonImmutable $end,
+        ?int $branchId,
+    ): int {
+        return Order::query()
+            ->whereBetween('business_date', [$start->toDateString(), $end->toDateString()])
+            ->where('status', '!=', Order::STATUS_CANCELLED)
+            ->when($branchId, fn ($query) => $query->where('branch_id', $branchId))
+            ->count();
+    }
+
+    private function itemsSoldBetween(
+        CarbonImmutable $start,
+        CarbonImmutable $end,
+        ?int $branchId,
+    ): int {
+        return (int) DB::table('order_items')
+            ->join('orders', 'orders.id', '=', 'order_items.order_id')
+            ->whereBetween('orders.business_date', [$start->toDateString(), $end->toDateString()])
+            ->where('orders.status', '!=', Order::STATUS_CANCELLED)
+            ->when($branchId, fn ($query) => $query->where('orders.branch_id', $branchId))
+            ->sum('order_items.quantity');
+    }
+
+    /**
+     * Satu baris per hari untuk grafik batang.
+     *
+     * @return list<array{date: string, label: string, weekday: string, revenue: float, is_today: bool}>
+     */
+    private function daysFor(
+        CarbonImmutable $start,
+        CarbonImmutable $end,
+        ?int $branchId,
+    ): array {
+        $paymentsByDay = $this->paymentsBetween($start, $end->endOfDay(), $branchId)
+            ->groupBy(fn (Payment $payment) => $payment->paid_at?->toDateString() ?? '');
+
+        $days = [];
+
+        for ($cursor = $start; $cursor->lessThanOrEqualTo($end); $cursor = $cursor->addDay()) {
+            $key = $cursor->toDateString();
+
+            $days[] = [
+                'date' => $key,
+                'label' => $cursor->locale('id')->isoFormat('D MMM'),
+                'weekday' => $cursor->locale('id')->isoFormat('ddd'),
+                'revenue' => (float) $paymentsByDay->get($key, collect())->sum('amount'),
+                'is_today' => $cursor->isSameDay(today()),
+            ];
+        }
+
+        return $days;
+    }
+
+    /**
+     * Menu terlaris digabung per nama menu, jadi varian tidak memecah baris.
+     *
+     * @return Collection<int, array{name: string, quantity: int, revenue: float}>
+     */
+    private function topProductsBetween(
+        CarbonImmutable $start,
+        CarbonImmutable $end,
+        ?int $branchId,
+        int $limit = 4,
+    ): Collection {
+        return DB::table('order_items')
+            ->join('orders', 'orders.id', '=', 'order_items.order_id')
+            ->whereBetween('orders.business_date', [$start->toDateString(), $end->toDateString()])
+            ->where('orders.status', '!=', Order::STATUS_CANCELLED)
+            ->when($branchId, fn ($query) => $query->where('orders.branch_id', $branchId))
+            ->groupBy('order_items.product_name_snapshot')
+            ->orderByDesc('quantity')
+            ->orderByDesc('revenue')
+            ->limit($limit)
+            ->selectRaw(
+                'order_items.product_name_snapshot as name, '
+                .'SUM(order_items.quantity) as quantity, '
+                .'SUM(order_items.line_total) as revenue',
+            )
+            ->get()
+            ->map(fn (object $row) => [
+                'name' => (string) $row->name,
+                'quantity' => (int) $row->quantity,
+                'revenue' => (float) $row->revenue,
+            ]);
+    }
+
+    /**
+     * Beberapa transaksi terakhir dalam rentang untuk tabel dashboard.
+     *
+     * @return Collection<int, array<string, mixed>>
+     */
+    private function recentOrders(
+        CarbonImmutable $start,
+        CarbonImmutable $end,
+        ?int $branchId,
+        int $limit = 4,
+    ): Collection {
+        return Order::query()
+            ->whereBetween('business_date', [$start->toDateString(), $end->toDateString()])
+            ->when($branchId, fn ($query) => $query->where('branch_id', $branchId))
+            ->with([
+                'items' => fn ($query) => $query->select(
+                    'id',
+                    'order_id',
+                    'product_name_snapshot',
+                    'quantity',
+                ),
+                'payments' => fn ($query) => $query->where('status', Payment::STATUS_PAID),
+            ])
+            ->orderByDesc('business_date')
+            ->orderByDesc('id')
+            ->limit($limit)
+            ->get()
+            ->map(fn (Order $order) => [
+                'code' => $order->order_code,
+                'queue' => $order->queueLabel(),
+                'date_label' => $order->business_date?->locale('id')->isoFormat('D MMMM Y') ?? '',
+                'items_label' => $order->items
+                    ->map(fn (OrderItem $item) => $item->quantity.' '.$item->product_name_snapshot)
+                    ->implode(', '),
+                'payment_label' => $order->paidPayment()?->methodLabel() ?? '—',
+                'total' => (float) $order->total_amount,
+                'status' => $order->isCancelled() ? Order::STATUS_CANCELLED : $order->paymentStatus(),
+                'status_label' => $order->isCancelled() ? 'Batal' : $order->paymentStatusLabel(),
+            ]);
+    }
+
+    private function percentChange(float $previous, float $current): ?float
+    {
+        if ($previous <= 0.0) {
+            return null;
+        }
+
+        return (($current - $previous) / $previous) * 100;
     }
 
     /**
