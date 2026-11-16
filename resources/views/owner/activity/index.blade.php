@@ -34,7 +34,7 @@
                 <option value="menu" @selected($action === 'menu')>Menu</option>
                 <option value="variant" @selected($action === 'variant')>Varian</option>
                 <option value="stock" @selected($action === 'stock')>Stok</option>
-                <option value="order" @selected($action === 'order')>Transaksi</option>
+                <option value="order" @selected($action === 'order')>Pesanan</option>
             </select>
         </div>
 

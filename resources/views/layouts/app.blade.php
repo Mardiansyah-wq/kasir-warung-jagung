@@ -1984,7 +1984,7 @@
                 <nav class="desktop-nav">
                     <a href="{{ route(auth()->user()->homeRouteName()) }}" class="{{ request()->routeIs('*.dashboard') ? 'active' : '' }}">Dashboard</a>
                     @if (auth()->user()->isOwner())
-                        <a href="{{ route('owner.orders.index') }}" class="{{ request()->routeIs('owner.orders.*') ? 'active' : '' }}">Transaksi</a>
+                        <a href="{{ route('owner.orders.index') }}" class="{{ request()->routeIs('owner.orders.*') ? 'active' : '' }}">Pesanan</a>
                         <a href="{{ route('owner.reports.index') }}" class="{{ request()->routeIs('owner.reports.*') ? 'active' : '' }}">Laporan</a>
                         <a href="{{ route('owner.menus.index') }}" class="{{ request()->routeIs('owner.menus.*') ? 'active' : '' }}">Menu</a>
                         <a href="{{ route('owner.stock.index') }}" class="{{ request()->routeIs('owner.stock.*') ? 'active' : '' }}">Stok</a>
@@ -1994,7 +1994,7 @@
                         <a href="{{ route('owner.settings.index') }}" class="{{ request()->routeIs('owner.settings.*') ? 'active' : '' }}">Pengaturan</a>
                     @else
                         <a href="{{ route('staff.pos.index') }}" class="{{ request()->routeIs('staff.pos.*') ? 'active' : '' }}">Kasir</a>
-                        <a href="{{ route('staff.orders.index') }}" class="{{ request()->routeIs('staff.orders.*') ? 'active' : '' }}">Transaksi</a>
+                        <a href="{{ route('staff.orders.index') }}" class="{{ request()->routeIs('staff.orders.*') ? 'active' : '' }}">Pesanan</a>
                         <a href="{{ route('staff.stock.index') }}" class="{{ request()->routeIs('staff.stock.*') ? 'active' : '' }}">Stok</a>
                         <a href="{{ route('staff.activity.index') }}" class="{{ request()->routeIs('staff.activity.*') ? 'active' : '' }}">Aktivitas</a>
                         <a href="{{ route('staff.menus.index') }}" class="{{ request()->routeIs('staff.menus.*') ? 'active' : '' }}">Menu</a>
@@ -2021,7 +2021,7 @@
         <nav class="mobile-nav">
             <a href="{{ route(auth()->user()->homeRouteName()) }}" class="{{ request()->routeIs('*.dashboard') ? 'active' : '' }}">Dashboard</a>
             @if (auth()->user()->isOwner())
-                <a href="{{ route('owner.orders.index') }}" class="{{ request()->routeIs('owner.orders.*') ? 'active' : '' }}">Transaksi</a>
+                <a href="{{ route('owner.orders.index') }}" class="{{ request()->routeIs('owner.orders.*') ? 'active' : '' }}">Pesanan</a>
                 <a href="{{ route('owner.reports.index') }}" class="{{ request()->routeIs('owner.reports.*') ? 'active' : '' }}">Laporan</a>
                 <a href="{{ route('owner.menus.index') }}" class="{{ request()->routeIs('owner.menus.*') ? 'active' : '' }}">Menu</a>
                 <a href="{{ route('owner.stock.index') }}" class="{{ request()->routeIs('owner.stock.*') ? 'active' : '' }}">Stok</a>
@@ -2031,7 +2031,7 @@
                 <a href="{{ route('owner.settings.index') }}" class="{{ request()->routeIs('owner.settings.*') ? 'active' : '' }}">Pengaturan</a>
             @else
                 <a href="{{ route('staff.pos.index') }}" class="{{ request()->routeIs('staff.pos.*') ? 'active' : '' }}">Kasir</a>
-                <a href="{{ route('staff.orders.index') }}" class="{{ request()->routeIs('staff.orders.*') ? 'active' : '' }}">Transaksi</a>
+                <a href="{{ route('staff.orders.index') }}" class="{{ request()->routeIs('staff.orders.*') ? 'active' : '' }}">Pesanan</a>
                 <a href="{{ route('staff.stock.index') }}" class="{{ request()->routeIs('staff.stock.*') ? 'active' : '' }}">Stok</a>
                 <a href="{{ route('staff.activity.index') }}" class="{{ request()->routeIs('staff.activity.*') ? 'active' : '' }}">Aktivitas</a>
                 <a href="{{ route('staff.menus.index') }}" class="{{ request()->routeIs('staff.menus.*') ? 'active' : '' }}">Menu</a>
