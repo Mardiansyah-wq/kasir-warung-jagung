@@ -682,14 +682,6 @@
             margin: auto 0;
         }
 
-        .auth-main-stack {
-            justify-content: flex-start;
-        }
-
-        .auth-main-stack .auth-form-box {
-            margin: 0;
-        }
-
         .auth-title {
             margin: 12px 0 10px;
             font-family: var(--font-serif);
@@ -801,24 +793,6 @@
 
         .auth-submit:hover {
             background: var(--brand-red-dark);
-        }
-
-        .auth-after {
-            margin: 22px 0 0;
-            font-size: 13px;
-            line-height: 1.7;
-            color: #7a6a5c;
-            text-align: center;
-        }
-
-        .auth-after a {
-            color: var(--brand-red);
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .auth-after a:hover {
-            text-decoration: underline;
         }
 
         .auth-divider {

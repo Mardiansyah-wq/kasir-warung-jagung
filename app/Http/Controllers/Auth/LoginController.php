@@ -37,7 +37,7 @@ class LoginController extends Controller
 
             if ($pending && Hash::check($data['password'], $pending->getAuthPassword())) {
                 throw ValidationException::withMessages([
-                    'email' => 'Akun kamu sudah terdaftar dan sedang menunggu persetujuan pemilik cabang. Hubungi owner untuk mengaktifkannya.',
+                    'email' => 'Akun kamu belum aktif. Hubungi owner untuk mengaktifkannya.',
                 ]);
             }
 

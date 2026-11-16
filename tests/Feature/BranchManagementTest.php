@@ -113,28 +113,6 @@ class BranchManagementTest extends TestCase
             ->assertForbidden();
     }
 
-    public function test_registration_creates_inactive_staff_awaiting_approval(): void
-    {
-        $this->post(route('register'), [
-            'name' => 'Pendaftar Baru',
-            'address' => 'Jl. Contoh 5',
-            'phone' => '081211112222',
-            'email' => 'pendaftar@example.test',
-            'password' => 'rahasia123',
-        ])
-            ->assertRedirect(route('login'))
-            ->assertSessionHas('success');
-
-        $this->assertGuest();
-
-        $this->assertDatabaseHas('users', [
-            'email' => 'pendaftar@example.test',
-            'role' => User::ROLE_STAFF,
-            'is_active' => false,
-            'branch_id' => null,
-        ]);
-    }
-
     public function test_pending_staff_gets_clear_login_message(): void
     {
         $branch = Branch::create(['name' => 'Pusat', 'is_active' => true]);
@@ -151,7 +129,7 @@ class BranchManagementTest extends TestCase
         ])->assertSessionHasErrors('email');
 
         $this->assertStringContainsString(
-            'menunggu persetujuan',
+            'Akun kamu belum aktif',
             session('errors')->first('email'),
         );
     }

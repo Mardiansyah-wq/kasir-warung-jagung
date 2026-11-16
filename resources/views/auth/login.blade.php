@@ -70,12 +70,6 @@
                     <button type="submit" class="btn auth-submit">Masuk</button>
                 </form>
 
-                <p class="auth-after">
-                    Belum punya akses?<br>
-                    Hubungi owner untuk mendapatkan akses.<br>
-                    <a href="{{ route('register') }}">Daftar akun baru</a>
-                </p>
-
                 <div class="auth-divider" aria-hidden="true"></div>
 
                 <p class="auth-legal">

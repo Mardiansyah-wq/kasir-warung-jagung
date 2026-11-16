@@ -26,10 +26,23 @@ class AuthTest extends TestCase
             ->assertSee('Jagung Bakar WJT')
             ->assertSee('Selamat datang kembali')
             ->assertSee('Email')
-            ->assertSee('Daftar akun baru')
+            ->assertDontSee('Daftar akun baru')
             ->assertSee('data-password-toggle="password"', false)
             ->assertSee('data-password-text', false)
             ->assertSee('img/logo-mark.png', false);
+    }
+
+    public function test_public_registration_is_not_available(): void
+    {
+        $this->get('/register')->assertNotFound();
+
+        $this->post('/register', [
+            'name' => 'Pendaftar Baru',
+            'address' => 'Jl. Contoh 5',
+            'phone' => '081211112222',
+            'email' => 'pendaftar@example.test',
+            'password' => 'rahasia123',
+        ])->assertNotFound();
     }
 
     public function test_login_copy_is_not_limited_to_staff(): void
