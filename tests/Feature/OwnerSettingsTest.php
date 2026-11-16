@@ -86,6 +86,51 @@ class OwnerSettingsTest extends TestCase
             ->assertSee('Diskon kasir: aktif');
     }
 
+    public function test_discount_route_closes_again_after_owner_disables_it(): void
+    {
+        $owner = User::factory()->owner()->create();
+        [$branch, $staff, $variant] = $this->makeSetup();
+        $order = $this->makeOrder($branch, $staff, $variant);
+
+        $this->actingAs($owner)
+            ->patch(route('owner.settings.discount'), ['enabled' => 1])
+            ->assertRedirect(route('owner.settings.index'));
+
+        $this->actingAs($staff)
+            ->patch(route('staff.orders.discount', $order), ['discount_amount' => 1000])
+            ->assertRedirect(route('staff.pos.show', $order));
+
+        $this->actingAs($owner)
+            ->patch(route('owner.settings.discount'), ['enabled' => 0])
+            ->assertRedirect(route('owner.settings.index'));
+
+        $this->actingAs($staff)
+            ->patch(route('staff.orders.discount', $order), ['discount_amount' => 2000])
+            ->assertNotFound();
+
+        $this->assertFalse(Setting::discountsEnabled());
+        $this->assertEquals(1000.0, (float) $order->fresh()->discount_amount);
+    }
+
+    public function test_discount_setting_rejects_invalid_values(): void
+    {
+        $owner = User::factory()->owner()->create();
+
+        $this->actingAs($owner)
+            ->from(route('owner.settings.index'))
+            ->patch(route('owner.settings.discount'), ['enabled' => 'abc'])
+            ->assertRedirect(route('owner.settings.index'))
+            ->assertSessionHasErrors('enabled');
+
+        $this->actingAs($owner)
+            ->from(route('owner.settings.index'))
+            ->patch(route('owner.settings.discount'), ['enabled' => 2])
+            ->assertRedirect(route('owner.settings.index'))
+            ->assertSessionHasErrors('enabled');
+
+        $this->assertFalse(Setting::discountsEnabled());
+    }
+
     /**
      * @return array{0: Branch, 1: User, 2: MenuVariant}
      */
