@@ -3,7 +3,7 @@
 
 <div class="card" style="padding: 0">
     <div class="table-wrap">
-        <table class="data">
+        <table class="data responsive">
             <thead>
                 <tr>
                     <th>Waktu</th>
@@ -19,29 +19,29 @@
             <tbody>
                 @foreach ($logs as $log)
                     <tr>
-                        <td style="white-space: nowrap">
+                        <td data-label="Waktu" style="white-space: nowrap">
                             {{ $log->created_at?->format('d/m/Y') ?? '—' }}
                             <div class="muted" style="font-size: 12px">
                                 {{ $log->created_at?->format('H:i') }}
                             </div>
                         </td>
-                        <td>
+                        <td data-label="Pengguna">
                             {{ $log->user?->name ?? 'Sistem' }}
                             <div class="muted" style="font-size: 12px">
                                 {{ $log->user?->role ?? '—' }}
                             </div>
                         </td>
-                        <td>
+                        <td data-label="Aksi">
                             <span class="status {{ $log->actionTone() }}">{{ $log->actionLabel() }}</span>
                         </td>
-                        <td>
+                        <td data-label="Objek">
                             <strong>{{ $log->subject_label }}</strong>
                             <div class="muted" style="font-size: 12px">{{ $log->description }}</div>
                         </td>
                         @if ($showBranch)
-                            <td>{{ $log->branch?->name ?? '—' }}</td>
+                            <td data-label="Cabang">{{ $log->branch?->name ?? '—' }}</td>
                         @endif
-                        <td>
+                        <td data-label="Perubahan">
                             @php($lines = $log->changeLines())
                             @if ($lines === [])
                                 <span class="muted">—</span>

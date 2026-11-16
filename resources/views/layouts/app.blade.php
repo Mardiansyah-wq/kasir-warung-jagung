@@ -1280,6 +1280,48 @@
                 background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
                 background-attachment: local, local, scroll, scroll;
             }
+
+            table.data.responsive,
+            table.data.responsive tbody,
+            table.data.responsive tr,
+            table.data.responsive td {
+                display: block;
+                width: 100%;
+            }
+
+            table.data.responsive thead {
+                display: none;
+            }
+
+            table.data.responsive tr {
+                padding: 12px 14px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            table.data.responsive tr:last-child {
+                border-bottom: 0;
+            }
+
+            table.data.responsive td {
+                position: relative;
+                min-height: 22px;
+                padding: 3px 0 3px 96px;
+                border-bottom: 0;
+            }
+
+            table.data.responsive td::before {
+                position: absolute;
+                top: 3px;
+                left: 0;
+                width: 88px;
+                content: attr(data-label);
+                color: var(--muted);
+                font-size: 11px;
+                font-weight: 700;
+                letter-spacing: .03em;
+                line-height: 1.7;
+                text-transform: uppercase;
+            }
         }
 
         table.data {
