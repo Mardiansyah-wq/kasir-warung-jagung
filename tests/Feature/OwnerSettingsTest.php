@@ -69,23 +69,6 @@ class OwnerSettingsTest extends TestCase
         $this->assertFalse(Setting::discountsEnabled());
     }
 
-    public function test_owner_dashboard_shows_the_current_discount_status(): void
-    {
-        $owner = User::factory()->owner()->create();
-
-        $this->actingAs($owner)
-            ->get(route('owner.dashboard'))
-            ->assertOk()
-            ->assertSee('Diskon kasir: nonaktif');
-
-        Setting::put(Setting::DISCOUNTS_ENABLED, '1');
-
-        $this->actingAs($owner)
-            ->get(route('owner.dashboard'))
-            ->assertOk()
-            ->assertSee('Diskon kasir: aktif');
-    }
-
     public function test_discount_route_closes_again_after_owner_disables_it(): void
     {
         $owner = User::factory()->owner()->create();

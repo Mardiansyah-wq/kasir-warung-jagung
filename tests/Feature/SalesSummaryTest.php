@@ -41,7 +41,7 @@ class SalesSummaryTest extends TestCase
         $this->assertSame('2026-11-09', $range->previousEnd->toDateString());
         $this->assertSame(7, $range->days());
         $this->assertSame('10 – 16 November 2026', $range->label());
-        $this->assertSame('dari 7 hari sebelumnya', $range->previousLabel());
+        $this->assertSame('vs 7 hari lalu', $range->previousLabel());
     }
 
     public function test_unknown_range_falls_back_to_the_last_seven_days(): void
@@ -61,7 +61,7 @@ class SalesSummaryTest extends TestCase
         $this->assertSame('2026-10-01', $range->previousStart->toDateString());
         $this->assertSame('2026-10-16', $range->previousEnd->toDateString());
         $this->assertSame('1 – 16 November 2026', $range->label());
-        $this->assertSame('dari bulan lalu', $range->previousLabel());
+        $this->assertSame('vs bulan lalu', $range->previousLabel());
     }
 
     public function test_month_range_never_compares_past_the_previous_month_end(): void
@@ -150,7 +150,7 @@ class SalesSummaryTest extends TestCase
         $this->assertSame(100000.0, (float) $report['comparison']['previous']['revenue']);
         $this->assertSame(50000.0, (float) $report['comparison']['revenue_delta']);
         $this->assertEqualsWithDelta(50.0, $report['comparison']['revenue_delta_percent'], 0.001);
-        $this->assertSame('dari 7 hari sebelumnya', $report['comparison']['label']);
+        $this->assertSame('vs 7 hari lalu', $report['comparison']['label']);
     }
 
     public function test_empty_previous_period_does_not_produce_a_percentage(): void

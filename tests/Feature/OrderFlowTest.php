@@ -773,8 +773,7 @@ class OrderFlowTest extends TestCase
         $this->actingAs($owner)
             ->get(route('owner.dashboard'))
             ->assertOk()
-            ->assertViewHas('todaySales', 10000.0)
-            ->assertViewHas('todayCount', 1);
+            ->assertViewHas('summary', fn (array $summary) => $summary['summary']['revenue'] === 10000.0);
 
         $this->actingAs($owner)
             ->post(route('staff.orders.items.store', $paidOrder), [

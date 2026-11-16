@@ -146,7 +146,7 @@ class AuthTest extends TestCase
         $this->actingAs($owner)
             ->get('/owner/dashboard')
             ->assertOk()
-            ->assertSee('Dashboard Owner');
+            ->assertSee('Total Penjualan');
     }
 
     public function test_staff_can_open_staff_dashboard(): void

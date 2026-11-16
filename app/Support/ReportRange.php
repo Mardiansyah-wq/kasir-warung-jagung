@@ -80,9 +80,9 @@ final class ReportRange
     public function previousLabel(): string
     {
         return match ($this->preset) {
-            self::TODAY => 'dari hari sebelumnya',
-            self::MONTH => 'dari bulan lalu',
-            default => 'dari 7 hari sebelumnya',
+            self::TODAY => 'vs kemarin',
+            self::MONTH => 'vs bulan lalu',
+            default => 'vs 7 hari lalu',
         };
     }
 
