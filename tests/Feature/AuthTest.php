@@ -24,10 +24,21 @@ class AuthTest extends TestCase
         $this->get('/login')
             ->assertOk()
             ->assertSee('Jagung Bakar WJT')
-            ->assertSee('Selamat datang')
+            ->assertSee('Selamat datang kembali')
             ->assertSee('Email')
             ->assertSee('Daftar akun baru')
-            ->assertSee('data-password-toggle="password"', false);
+            ->assertSee('data-password-toggle="password"', false)
+            ->assertSee('data-password-text', false)
+            ->assertSee('img/logo-mark.png', false);
+    }
+
+    public function test_login_page_points_lost_password_to_the_owner(): void
+    {
+        $this->get('/login')
+            ->assertOk()
+            ->assertSee('Lupa kata sandi?')
+            ->assertSee('data-dialog-open="lupa-sandi"', false)
+            ->assertSee('Hubungi owner warung untuk reset password');
     }
 
     public function test_owner_is_redirected_to_owner_dashboard(): void

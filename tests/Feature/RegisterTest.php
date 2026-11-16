@@ -19,7 +19,7 @@ class RegisterTest extends TestCase
             ->assertSee('Alamat')
             ->assertSee('Nomor Telepon')
             ->assertSee('Email')
-            ->assertSee('Password')
+            ->assertSee('Kata sandi')
             ->assertSee('data-password-toggle="password"', false);
     }
 

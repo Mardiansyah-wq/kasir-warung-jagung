@@ -2,7 +2,7 @@
 
 @section('title', 'Masuk - Jagung Bakar WJT')
 
-@section('theme_color', '#2e2117')
+@section('theme_color', '#3c2820')
 
 @section('body_class', 'is-login')
 
@@ -11,10 +11,15 @@
         @include('partials.auth-aside')
 
         <section class="auth-main">
+            <p class="auth-help">
+                Butuh bantuan?
+                <button type="button" data-dialog-open="lupa-sandi">Hubungi administrator</button>
+            </p>
+
             <div class="auth-form-box">
-                <p class="auth-eyebrow auth-eyebrow-dark">Masuk ke akun</p>
-                <h1>Selamat datang</h1>
-                <p class="auth-sub">Masukkan email dan password untuk melanjutkan.</p>
+                <p class="auth-eyebrow auth-eyebrow-red">Akses pegawai</p>
+                <h1 class="auth-title">Selamat datang kembali</h1>
+                <p class="auth-sub">Masuk untuk mulai mengelola {{ config('app.name', 'Jagung Bakar WJT') }}.</p>
 
                 @include('partials.alerts')
 
@@ -28,7 +33,7 @@
                             type="email"
                             name="email"
                             value="{{ old('email') }}"
-                            placeholder="nama@gmail.com"
+                            placeholder="Masukkan email pegawai"
                             inputmode="email"
                             autocomplete="email"
                             required
@@ -37,30 +42,61 @@
                     </div>
 
                     <div class="field">
-                        <label for="password">Password</label>
-                        <div class="input-wrap">
+                        <label for="password">Kata sandi</label>
+                        <div class="auth-field-row">
                             <input
                                 id="password"
                                 type="password"
                                 name="password"
+                                placeholder="Masukkan kata sandi"
                                 autocomplete="current-password"
                                 required
                             >
-                            @include('partials.password-toggle', ['target' => 'password'])
+                            <button
+                                type="button"
+                                class="password-text-toggle"
+                                data-password-toggle="password"
+                                data-password-text
+                                aria-label="Tampilkan kata sandi"
+                                aria-pressed="false"
+                            >Tampilkan</button>
                         </div>
+                    </div>
+
+                    <div class="auth-meta">
+                        <button type="button" data-dialog-open="lupa-sandi">Lupa kata sandi?</button>
                     </div>
 
                     <button type="submit" class="btn auth-submit">Masuk</button>
                 </form>
 
-                <div class="auth-divider"><span>atau</span></div>
+                <p class="auth-after">
+                    Belum punya akses?<br>
+                    Hubungi administrator untuk mendapatkan akun.<br>
+                    <a href="{{ route('register') }}">Daftar akun baru</a>
+                </p>
 
-                <a href="{{ route('register') }}" class="btn auth-secondary">Daftar akun baru</a>
+                <div class="auth-divider" aria-hidden="true"></div>
 
-                <p class="auth-note">
-                    Akun staff sebaiknya dibuat owner lewat menu Staff.
+                <p class="auth-legal">
+                    Khusus pegawai {{ config('app.name', 'Jagung Bakar WJT') }}.<br>
+                    Jaga kerahasiaan akun dan kata sandi Anda.
                 </p>
             </div>
+
+            <p class="auth-footnote">Ruang admin &middot; {{ config('app.name', 'Jagung Bakar WJT') }}</p>
         </section>
     </div>
+
+    <dialog id="lupa-sandi" class="auth-dialog" aria-labelledby="lupa-sandi-title">
+        <h2 id="lupa-sandi-title">Lupa kata sandi?</h2>
+        <p>
+            Hubungi owner warung untuk reset password. Owner bisa mengganti password staff lewat
+            menu <strong>Staff</strong>, lalu tombol <strong>Reset password</strong>.
+        </p>
+
+        <form method="dialog" class="form-actions">
+            <button type="submit" class="btn">Mengerti</button>
+        </form>
+    </dialog>
 @endsection
