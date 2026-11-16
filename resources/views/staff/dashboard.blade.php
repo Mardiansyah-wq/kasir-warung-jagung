@@ -98,5 +98,9 @@
             <strong>Daftar Menu</strong>
             <span class="muted">{{ $menuCount }} menu aktif</span>
         </a>
+        <a href="{{ route('account.index') }}" class="quick quick-link">
+            <strong>Akun Saya</strong>
+            <span class="muted">Profil & password</span>
+        </a>
     </div>
 @endsection

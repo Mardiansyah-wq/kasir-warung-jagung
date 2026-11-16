@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\MenuImageController;
@@ -38,6 +39,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return redirect()->route(auth()->user()->homeRouteName());
     })->name('dashboard');
+
+    Route::get('/account', [AccountController::class, 'edit'])
+        ->name('account.index');
+    Route::patch('/account', [AccountController::class, 'updateProfile'])
+        ->name('account.update');
+    Route::patch('/account/password', [AccountController::class, 'updatePassword'])
+        ->name('account.password');
 
     Route::middleware('role:owner')->group(function () {
         Route::get('/owner/dashboard', [OwnerDashboardController::class, 'index'])

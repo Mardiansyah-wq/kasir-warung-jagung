@@ -81,6 +81,10 @@
                 <strong>Pengaturan</strong>
                 <span class="muted">Diskon kasir: {{ $discountsEnabled ? 'aktif' : 'nonaktif' }}</span>
             </a>
+            <a href="{{ route('account.index') }}" class="quick quick-link">
+                <strong>Akun Saya</strong>
+                <span class="muted">Profil & password</span>
+            </a>
         </div>
     </div>
 @endsection
