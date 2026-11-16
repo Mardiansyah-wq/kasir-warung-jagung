@@ -76,6 +76,44 @@
             text-overflow: ellipsis;
         }
 
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .header-account {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .header-account:hover > span:first-child {
+            text-decoration: underline;
+        }
+
+        .header-logout {
+            margin: 0;
+        }
+
+        .header-logout button {
+            min-height: 40px;
+            padding: 6px 12px;
+            border: 1px solid rgba(255, 255, 255, .45);
+            border-radius: 8px;
+            background: transparent;
+            color: #fff;
+            font: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .header-logout button:hover {
+            background: rgba(255, 255, 255, .15);
+        }
+
         .header-user {
             display: flex;
             flex-direction: column;
@@ -88,7 +126,7 @@
         }
 
         .header-user > span {
-            max-width: 40vw;
+            max-width: 34vw;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -99,6 +137,21 @@
             letter-spacing: .04em;
             text-transform: uppercase;
             opacity: .85;
+        }
+
+        @media (max-width: 767px) {
+            .header-inner {
+                gap: 8px;
+            }
+
+            .header-logout button {
+                min-height: 44px;
+                padding: 8px 12px;
+            }
+
+            .header-user > span {
+                max-width: 28vw;
+            }
         }
 
         .desktop-nav {
@@ -1999,15 +2052,18 @@
                         <a href="{{ route('staff.activity.index') }}" class="{{ request()->routeIs('staff.activity.*') ? 'active' : '' }}">Aktivitas</a>
                         <a href="{{ route('staff.menus.index') }}" class="{{ request()->routeIs('staff.menus.*') ? 'active' : '' }}">Menu</a>
                     @endif
-                    <form method="POST" action="{{ route('logout') }}">
+                </nav>
+
+                <div class="header-actions">
+                    <a href="{{ route('account.index') }}" class="header-user header-account">
+                        <span>{{ auth()->user()->name }}</span>
+                        <span class="role">{{ auth()->user()->role }}</span>
+                    </a>
+
+                    <form method="POST" action="{{ route('logout') }}" class="header-logout">
                         @csrf
                         <button type="submit">Keluar</button>
                     </form>
-                </nav>
-
-                <div class="header-user">
-                    <span>{{ auth()->user()->name }}</span>
-                    <span class="role">{{ auth()->user()->role }}</span>
                 </div>
             </div>
         </header>
@@ -2036,10 +2092,6 @@
                 <a href="{{ route('staff.activity.index') }}" class="{{ request()->routeIs('staff.activity.*') ? 'active' : '' }}">Aktivitas</a>
                 <a href="{{ route('staff.menus.index') }}" class="{{ request()->routeIs('staff.menus.*') ? 'active' : '' }}">Menu</a>
             @endif
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit">Keluar</button>
-            </form>
         </nav>
     @endauth
 
