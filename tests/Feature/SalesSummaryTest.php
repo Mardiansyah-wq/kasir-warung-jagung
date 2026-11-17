@@ -278,6 +278,54 @@ class SalesSummaryTest extends TestCase
         $this->assertSame('15 November 2026', $latest['date_label']);
     }
 
+    public function test_recent_orders_leave_out_cancelled_orders(): void
+    {
+        [$branch, $staff] = $this->makeBranchStaff('Pusat');
+
+        $paid = $this->makeOrder($branch, $staff, [
+            'business_date' => '2026-11-12',
+            'total_amount' => 15000,
+        ]);
+        $this->addItem($paid, 'Kopi Susu Senja', 'Reguler', 1, 15000);
+        $this->makePayment($paid, 15000, 'cash', '2026-11-12 10:00:00');
+
+        $this->makeOrder($branch, $staff, [
+            'business_date' => '2026-11-13',
+            'status' => Order::STATUS_CANCELLED,
+            'total_amount' => 20000,
+        ]);
+
+        $report = $this->service()->buildRange(ReportRange::make(ReportRange::WEEK));
+
+        $this->assertSame(1, $report['orders_total']);
+        $this->assertCount(1, $report['recent_orders']);
+        $this->assertSame($paid->order_code, $report['recent_orders'][0]['code']);
+    }
+
+    public function test_dashboard_shows_favorite_menu_and_latest_transactions(): void
+    {
+        [$branch, $staff] = $this->makeBranchStaff('Pusat');
+
+        $order = $this->makeOrder($branch, $staff, [
+            'business_date' => '2026-11-12',
+            'total_amount' => 25000,
+        ]);
+        $this->addItem($order, 'Kopi Susu Senja', 'Reguler', 2, 25000);
+        $this->makePayment($order, 25000, 'cash', '2026-11-12 10:00:00');
+
+        $owner = User::factory()->owner()->create();
+
+        $this->actingAs($owner)
+            ->get(route('owner.dashboard'))
+            ->assertOk()
+            ->assertSee('Favorit pelanggan')
+            ->assertSee('Kopi Susu Senja')
+            ->assertSee('2 terjual')
+            ->assertSee('Transaksi terbaru')
+            ->assertSee($order->order_code)
+            ->assertSee('Menampilkan 1 dari 1 transaksi');
+    }
+
     private function service(): DailyReportService
     {
         return app(DailyReportService::class);

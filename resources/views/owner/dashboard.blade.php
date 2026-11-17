@@ -283,6 +283,230 @@
             color: var(--muted-warm);
         }
 
+        .dash-split {
+            display: grid;
+            grid-template-columns: minmax(0, 1.95fr) minmax(0, 1fr);
+            gap: 16px;
+            align-items: stretch;
+        }
+
+        .dash-split > .dash-card {
+            min-width: 0;
+        }
+
+        .dash-fav-list {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .dash-fav {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+        }
+
+        .dash-fav-rank {
+            display: grid;
+            place-items: center;
+            flex: 0 0 auto;
+            width: 32px;
+            height: 32px;
+            border-radius: 7px;
+            background: #efe7d0;
+            color: #6b5b4d;
+            font-size: 12.5px;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .dash-fav-main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .dash-fav-name {
+            display: block;
+            overflow: hidden;
+            color: var(--brand-brown);
+            font-size: 13.5px;
+            font-weight: 600;
+            line-height: 1.35;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .dash-fav-sold {
+            display: block;
+            margin-top: 1px;
+            color: var(--muted-warm);
+            font-size: 12px;
+        }
+
+        .dash-fav-revenue {
+            flex: 0 0 auto;
+            color: var(--brand-brown);
+            font-size: 13.5px;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .dash-recent {
+            margin-top: 24px;
+        }
+
+        .dash-recent-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+            margin-bottom: 14px;
+        }
+
+        .dash-recent-title {
+            margin: 0;
+            font-family: var(--font-serif);
+            font-size: clamp(1.35rem, 2.2vw, 1.65rem);
+            font-weight: 700;
+            color: var(--brand-brown);
+        }
+
+        .dash-recent-link {
+            color: var(--brand-red);
+            font-size: 13.5px;
+            font-weight: 600;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .dash-recent-link:hover {
+            color: var(--brand-red-dark);
+            text-decoration: underline;
+        }
+
+        .dash-table-card {
+            overflow: hidden;
+            border: 1px solid var(--border-warm);
+            border-radius: 12px;
+            background: var(--surface-warm);
+        }
+
+        .dash-table-wrap {
+            overflow-x: auto;
+        }
+
+        .dash-table {
+            width: 100%;
+            min-width: 720px;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+
+        .dash-table th {
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--border-warm);
+            background: #f5eedb;
+            color: #8a7a6a;
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-align: left;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .dash-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid #eee5d0;
+            color: #55402f;
+            vertical-align: middle;
+        }
+
+        .dash-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .dash-table tbody tr:hover td {
+            background: #faf5e6;
+        }
+
+        .dash-table .is-right {
+            text-align: right;
+        }
+
+        .dash-table .dash-code {
+            color: var(--brand-brown);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .dash-table .dash-date,
+        .dash-table .dash-pay {
+            white-space: nowrap;
+        }
+
+        .dash-amount {
+            color: var(--brand-brown);
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .dash-table-empty {
+            padding: 28px 18px;
+            color: var(--muted-warm);
+            text-align: center;
+        }
+
+        .dash-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            background: #e4eedc;
+            color: #3f6b3a;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .dash-pill::before {
+            content: "";
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .dash-pill.is-partial {
+            background: #f7edcf;
+            color: #8a6a12;
+        }
+
+        .dash-pill.is-unpaid {
+            background: #f0ebdf;
+            color: #7a6a5c;
+        }
+
+        .dash-pill.is-cancelled {
+            background: #f2ddd6;
+            color: var(--brand-red);
+        }
+
+        .dash-table-foot {
+            padding: 14px 18px;
+            border-top: 1px solid var(--border-warm);
+            background: #faf5e6;
+            color: var(--muted-warm);
+            font-size: 12.5px;
+        }
+
         .dash-chart-body {
             display: flex;
             gap: 12px;
@@ -380,6 +604,103 @@
             }
         }
 
+        @media (max-width: 999px) {
+            .dash-split {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        @media (max-width: 860px) {
+            .dash-table-wrap {
+                overflow: visible;
+            }
+
+            .dash-table {
+                display: block;
+                min-width: 0;
+            }
+
+            .dash-table thead {
+                display: none;
+            }
+
+            .dash-table tbody {
+                display: block;
+            }
+
+            .dash-table tr {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) auto;
+                gap: 2px 12px;
+                padding: 14px 16px;
+                border-bottom: 1px solid #eee5d0;
+            }
+
+            .dash-table tr:last-child {
+                border-bottom: 0;
+            }
+
+            .dash-table td {
+                display: block;
+                padding: 0;
+                border: 0;
+            }
+
+            .dash-table tbody tr:hover td {
+                background: transparent;
+            }
+
+            .dash-table .dash-code {
+                grid-column: 1;
+                grid-row: 1;
+                color: #8a7a6a;
+                font-size: 12px;
+            }
+
+            .dash-table .dash-date {
+                grid-column: 1;
+                grid-row: 2;
+                color: var(--muted-warm);
+                font-size: 12px;
+            }
+
+            .dash-table .dash-items {
+                grid-column: 1 / -1;
+                grid-row: 3;
+                margin-top: 3px;
+                font-size: 13px;
+                line-height: 1.45;
+            }
+
+            .dash-table .dash-pay {
+                grid-column: 1;
+                grid-row: 4;
+                margin-top: 6px;
+                color: var(--muted-warm);
+                font-size: 12px;
+            }
+
+            .dash-table .dash-status {
+                grid-column: 2;
+                grid-row: 4;
+                margin-top: 6px;
+                text-align: right;
+            }
+
+            .dash-table .dash-amount {
+                grid-column: 2;
+                grid-row: 1 / span 2;
+                align-self: start;
+                font-size: 14px;
+            }
+
+            .dash-table .dash-table-empty {
+                grid-column: 1 / -1;
+                grid-row: 1;
+                padding: 24px 0;
+            }
+        }
+
         @media (max-width: 639px) {
             .dash-toolbar {
                 align-items: stretch;
@@ -398,11 +719,22 @@
             }
 
             .dash-tools {
+                flex-wrap: wrap;
                 width: 100%;
             }
 
-            .dash-box {
-                flex: 1;
+            .dash-tools > form {
+                flex: 1 1 100%;
+            }
+
+            .dash-tools > form .dash-box {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .dash-tools > .dash-box {
+                flex: 1 1 100%;
+                min-width: 0;
                 justify-content: center;
             }
 
@@ -429,6 +761,14 @@
                 font-size: 10px;
                 line-height: 1.3;
                 white-space: normal;
+            }
+
+            .dash-fav {
+                padding: 9px 0;
+            }
+
+            .dash-recent {
+                margin-top: 20px;
             }
         }
 
@@ -506,6 +846,19 @@
             'today' => 'Pendapatan hari ini',
             'month' => 'Pendapatan harian bulan ini',
             default => 'Pendapatan harian selama 7 hari terakhir',
+        };
+
+        $favSub = match ($range['preset']) {
+            'today' => 'Menu terlaris hari ini',
+            'month' => 'Menu terlaris bulan ini',
+            default => 'Menu terlaris 7 hari terakhir',
+        };
+
+        $statusClass = fn (string $status): string => match ($status) {
+            'paid' => '',
+            'partial' => 'is-partial',
+            'cancelled' => 'is-cancelled',
+            default => 'is-unpaid',
         };
     @endphp
 
@@ -610,7 +963,8 @@
         </article>
     </div>
 
-    <section class="dash-card">
+    <div class="dash-split">
+        <section class="dash-card">
         <header class="dash-card-head">
             <div>
                 <h2 class="dash-card-title">Tren penjualan</h2>
@@ -663,6 +1017,79 @@
                     @endforeach
                 </div>
             </div>
+        </div>
+        </section>
+
+        <section class="dash-card" aria-labelledby="dash-fav-title">
+            <header class="dash-card-head">
+                <div>
+                    <h2 class="dash-card-title" id="dash-fav-title">Favorit pelanggan</h2>
+                    <p class="dash-card-sub">{{ $favSub }}</p>
+                </div>
+            </header>
+
+            @if ($summary['top_products']->isEmpty())
+                <p class="dash-empty" style="margin: 0">Belum ada menu terjual pada rentang ini.</p>
+            @else
+                <ol class="dash-fav-list">
+                    @foreach ($summary['top_products'] as $index => $product)
+                        <li class="dash-fav">
+                            <span class="dash-fav-rank">{{ str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) }}</span>
+                            <span class="dash-fav-main">
+                                <span class="dash-fav-name" title="{{ $product['name'] }}">{{ $product['name'] }}</span>
+                                <span class="dash-fav-sold">{{ number_format($product['quantity'], 0, ',', '.') }} terjual</span>
+                            </span>
+                            <span class="dash-fav-revenue">{{ $rupiah($product['revenue']) }}</span>
+                        </li>
+                    @endforeach
+                </ol>
+            @endif
+        </section>
+    </div>
+
+    <section class="dash-recent" aria-labelledby="dash-recent-title">
+        <header class="dash-recent-head">
+            <h2 class="dash-recent-title" id="dash-recent-title">Transaksi terbaru</h2>
+            <a href="{{ route('owner.orders.index') }}" class="dash-recent-link">Lihat semua transaksi →</a>
+        </header>
+
+        <div class="dash-table-card">
+            <div class="dash-table-wrap">
+                <table class="dash-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">No. transaksi</th>
+                            <th scope="col">Tanggal pesan</th>
+                            <th scope="col">Pesanan</th>
+                            <th scope="col">Pembayaran</th>
+                            <th scope="col" class="is-right">Total</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($summary['recent_orders'] as $order)
+                            <tr>
+                                <td class="dash-code">{{ $order['code'] }}</td>
+                                <td class="dash-date">{{ $order['date_label'] }}</td>
+                                <td class="dash-items">{{ $order['items_label'] !== '' ? $order['items_label'] : '—' }}</td>
+                                <td class="dash-pay">{{ $order['payment_label'] }}</td>
+                                <td class="dash-amount is-right">{{ $rupiah($order['total']) }}</td>
+                                <td class="dash-status">
+                                    <span class="dash-pill {{ $statusClass($order['status']) }}">{{ $order['status_label'] }}</span>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="dash-table-empty">Belum ada transaksi pada rentang ini.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <footer class="dash-table-foot">
+                Menampilkan {{ $summary['recent_orders']->count() }} dari {{ number_format($summary['orders_total'], 0, ',', '.') }} transaksi
+            </footer>
         </div>
     </section>
 @endsection

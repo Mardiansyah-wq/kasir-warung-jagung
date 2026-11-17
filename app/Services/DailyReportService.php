@@ -371,6 +371,7 @@ class DailyReportService
     ): Collection {
         return Order::query()
             ->whereBetween('business_date', [$start->toDateString(), $end->toDateString()])
+            ->where('status', '!=', Order::STATUS_CANCELLED)
             ->when($branchId, fn ($query) => $query->where('branch_id', $branchId))
             ->with([
                 'items' => fn ($query) => $query->select(
