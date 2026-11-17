@@ -71,7 +71,7 @@
             <p class="muted">Pesanan dari seluruh cabang akan muncul di sini.</p>
         </div>
     @else
-        <div class="show-mobile">
+        <div class="show-mobile orders-cards">
             @foreach ($orders as $order)
                 @php
                     $paid = $order->paidAmount();
@@ -115,17 +115,17 @@
             @endforeach
         </div>
 
-        <div class="card hide-mobile" style="padding: 0">
+        <div class="card hide-mobile orders-table-wrap" style="padding: 0">
             <div class="table-wrap">
-                <table class="data">
+                <table class="data orders-table">
                     <thead>
                         <tr>
                             <th>Antrian</th>
                             <th>Pelanggan</th>
                             <th>Cabang</th>
                             <th>Waktu</th>
-                            <th>Kasir</th>
-                            <th class="amount">Item</th>
+                            <th class="col-secondary">Kasir</th>
+                            <th class="amount col-secondary">Item</th>
                             <th class="amount">Total</th>
                             <th class="amount">Dibayar</th>
                             <th class="amount">Sisa</th>
@@ -149,8 +149,8 @@
                                 </td>
                                 <td>{{ $order->branch?->name ?? '—' }}</td>
                                 <td>{{ $order->created_at?->format('d/m/Y H:i') }}</td>
-                                <td>{{ $order->creator?->name ?? '—' }}</td>
-                                <td class="amount">{{ $order->items_count }}</td>
+                                <td class="col-secondary">{{ $order->creator?->name ?? '—' }}</td>
+                                <td class="amount col-secondary">{{ $order->items_count }}</td>
                                 <td class="amount">Rp {{ number_format((float) $order->total_amount, 0, ',', '.') }}</td>
                                 <td class="amount">{{ $order->isCancelled() ? '—' : 'Rp '.number_format($paid, 0, ',', '.') }}</td>
                                 <td class="amount">{{ $order->isCancelled() ? '—' : 'Rp '.number_format($due, 0, ',', '.') }}</td>

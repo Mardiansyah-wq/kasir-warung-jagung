@@ -481,6 +481,13 @@
             overflow-wrap: anywhere;
         }
 
+        .order-title-name {
+            display: -webkit-box;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+
         h1 {
             margin: 0 0 4px;
             font-size: 1.5rem;
@@ -1955,6 +1962,7 @@
             font-weight: 700;
             letter-spacing: .02em;
             text-transform: uppercase;
+            white-space: nowrap;
         }
 
         .status-draft {
@@ -2364,6 +2372,31 @@
             font-size: 13px;
         }
 
+        /* Order history table */
+        .orders-table {
+            min-width: 900px;
+        }
+
+        .orders-table th,
+        .orders-table td {
+            white-space: nowrap;
+        }
+
+        .orders-table td:nth-child(2) {
+            min-width: 170px;
+            white-space: normal;
+        }
+
+        @media (max-width: 1439px) {
+            .orders-table .col-secondary {
+                display: none;
+            }
+        }
+
+        table.data .btn {
+            white-space: nowrap;
+        }
+
         .order-hero {
             display: flex;
             align-items: flex-start;
@@ -2460,6 +2493,17 @@
 
             .hide-mobile {
                 display: none !important;
+            }
+        }
+
+        /* Order history: keep cards until the wide table fits */
+        @media (max-width: 1279px) {
+            .orders-cards {
+                display: block;
+            }
+
+            .orders-table-wrap {
+                display: none;
             }
         }
 

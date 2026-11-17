@@ -6,7 +6,7 @@
     <div class="page-head no-print">
         <div>
             <h1>Pesanan {{ $order->queueLabel() }}</h1>
-            <p class="muted">{{ $order->customer_name }} · {{ $order->branch?->name }} · {{ $order->order_code }}</p>
+            <p class="muted order-title-name">{{ $order->customer_name }} · {{ $order->branch?->name }} · {{ $order->order_code }}</p>
         </div>
         <div class="cart-controls" style="margin-top: 0">
             <a href="{{ route('owner.orders.index') }}" class="btn btn-sm btn-ghost">← Riwayat</a>
