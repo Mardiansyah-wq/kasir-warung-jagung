@@ -476,6 +476,11 @@
             min-width: 0;
         }
 
+        .page-head h1,
+        .page-head p {
+            overflow-wrap: anywhere;
+        }
+
         h1 {
             margin: 0 0 4px;
             font-size: 1.5rem;
@@ -2089,6 +2094,22 @@
             white-space: nowrap;
         }
 
+        .receipt-line > .receipt-name {
+            flex: 0 1 auto;
+            min-width: 0;
+            text-align: right;
+            white-space: normal;
+            overflow-wrap: anywhere;
+        }
+
+        .receipt-line-name > :first-child {
+            flex: 0 0 auto;
+        }
+
+        .receipt-line-name > .receipt-name {
+            flex: 1 1 auto;
+        }
+
         .receipt-line.total {
             margin-top: 8px;
             padding-top: 10px;
@@ -2284,6 +2305,10 @@
             gap: 10px;
         }
 
+        .order-card-head > div {
+            min-width: 0;
+        }
+
         .queue-number {
             font-size: 1.45rem;
             font-weight: 800;
@@ -2292,9 +2317,14 @@
         }
 
         .order-card h2 {
+            display: -webkit-box;
             margin: 2px 0 0;
+            overflow: hidden;
+            overflow-wrap: anywhere;
             font-size: 1rem;
             line-height: 1.25;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
         }
 
         .order-card-meta {
@@ -2347,6 +2377,10 @@
             background: var(--surface);
         }
 
+        .order-hero > div {
+            min-width: 0;
+        }
+
         .order-hero .queue-number {
             font-size: 2rem;
         }
@@ -2363,6 +2397,7 @@
 
         .order-hero h1 {
             margin: 2px 0 4px;
+            overflow-wrap: anywhere;
             font-size: 1.35rem;
         }
 

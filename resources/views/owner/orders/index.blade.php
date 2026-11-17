@@ -82,7 +82,7 @@
                     <div class="order-card-head">
                         <div>
                             <div class="queue-number">{{ $order->queueLabel() }}</div>
-                            <h2>{{ $order->customer_name }}</h2>
+                            <h2 title="{{ $order->customer_name }}">{{ $order->customer_name }}</h2>
                         </div>
                         <span class="status status-{{ $order->status }}">{{ $order->statusLabel() }}</span>
                     </div>

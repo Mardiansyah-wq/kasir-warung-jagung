@@ -26,9 +26,9 @@
             <span>Nomor Antrian</span>
             <strong class="money-big">{{ $order->queueLabel() }}</strong>
         </div>
-        <div class="receipt-line">
+        <div class="receipt-line receipt-line-name">
             <span>Nama Pelanggan</span>
-            <strong>{{ $order->customer_name }}</strong>
+            <strong class="receipt-name">{{ $order->customer_name }}</strong>
         </div>
         <div class="receipt-line">
             <span>Tipe Pesanan</span>
