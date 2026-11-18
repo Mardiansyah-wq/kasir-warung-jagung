@@ -9,30 +9,31 @@
 
 <div class="receipt">
     <div class="receipt-head">
-        <h1>{{ config('app.name', 'Jagung Bakar WJT') }}</h1>
+        <div class="receipt-logo-wrap">
+            <img src="{{ asset('img/logo-mark.png') }}" alt="{{ config('app.name', 'Jagung Bakar WJT') }}" class="receipt-logo">
+        </div>
+        <h1 class="receipt-brand-title">{{ config('app.name', 'Jagung Bakar WJT') }}</h1>
         <div class="receipt-meta">
             <strong>{{ $order->branch?->name ?? 'Cabang' }}</strong>
             @if ($order->branch?->address)
                 <span>{{ $order->branch->address }}</span>
             @endif
             @if ($order->branch?->phone)
-                <span>{{ $order->branch->phone }}</span>
+                <span>Telp: {{ $order->branch->phone }}</span>
             @endif
         </div>
     </div>
 
-    <div class="receipt-meta" style="padding: 10px 0; border-bottom: 1px dashed var(--border)">
-        <div class="receipt-line">
-            <span>Nomor Antrian</span>
-            <strong class="money-big">{{ $order->queueLabel() }}</strong>
-        </div>
+    <div class="receipt-queue-box">
+        <span class="receipt-queue-caption">Nomor Antrian</span>
+        <strong class="receipt-queue-number">{{ $order->queueLabel() }}</strong>
+        <span class="receipt-queue-type">{{ $order->orderTypeLabel() }}</span>
+    </div>
+
+    <div class="receipt-meta receipt-info-section">
         <div class="receipt-line receipt-line-name">
             <span>Nama Pelanggan</span>
             <strong class="receipt-name">{{ $order->customer_name }}</strong>
-        </div>
-        <div class="receipt-line">
-            <span>Tipe Pesanan</span>
-            <span>{{ $order->orderTypeLabel() }}</span>
         </div>
         <div class="receipt-line">
             <span>Kode</span>
@@ -60,30 +61,30 @@
 
     <div class="receipt-items">
         @forelse ($order->items as $item)
-            <div class="receipt-line">
-                <div>
-                    <strong>
+            <div class="receipt-line receipt-item-row">
+                <div class="receipt-item-info">
+                    <strong class="receipt-item-name">
                         {{ $item->quantity }}× {{ $item->product_name_snapshot }}
                         @if ($item->is_addon)
                             <span class="addon-tag">Tambahan</span>
                         @endif
                     </strong>
-                    <div class="muted">{{ $item->variant_name_snapshot }}</div>
+                    <div class="muted receipt-item-variant">{{ $item->variant_name_snapshot }}</div>
                     @if ($hasTopping($item))
-                        <div class="muted">+ topping Rp {{ number_format((float) $item->topping_price, 0, ',', '.') }}</div>
+                        <div class="muted receipt-item-topping">+ topping Rp {{ number_format((float) $item->topping_price, 0, ',', '.') }}</div>
                     @endif
-                    <div class="muted">
+                    <div class="muted receipt-item-price">
                         Rp {{ number_format((float) $item->unit_price + (float) $item->topping_price, 0, ',', '.') }} / item
                     </div>
                 </div>
-                <strong>Rp {{ number_format((float) $item->line_total, 0, ',', '.') }}</strong>
+                <strong class="receipt-item-total">Rp {{ number_format((float) $item->line_total, 0, ',', '.') }}</strong>
             </div>
         @empty
             <p class="muted">Belum ada item.</p>
         @endforelse
     </div>
 
-    <div style="padding-top: 10px">
+    <div class="receipt-summary">
         <div class="receipt-line">
             <span>Subtotal</span>
             <span>Rp {{ number_format((float) $order->subtotal, 0, ',', '.') }}</span>
@@ -116,11 +117,11 @@
     </div>
 
     @if ($payments->isNotEmpty())
-        <div style="padding-top: 10px; margin-top: 10px; border-top: 1px dashed var(--border)">
-            <div class="muted" style="margin-bottom: 4px">Riwayat Pembayaran</div>
+        <div class="receipt-payments">
+            <div class="muted receipt-section-heading">Riwayat Pembayaran</div>
 
             @foreach ($payments as $payment)
-                <div style="padding: 6px 0; border-bottom: 1px dotted var(--border)">
+                <div class="receipt-payment-item">
                     <div class="receipt-line">
                         <span>{{ $payment->methodLabel() }}</span>
                         <strong>Rp {{ number_format((float) $payment->amount, 0, ',', '.') }}</strong>
@@ -150,14 +151,17 @@
     @endif
 
     @if ($order->notes)
-        <div style="padding-top: 10px; margin-top: 10px; border-top: 1px dashed var(--border)">
-            <div class="muted">Catatan</div>
-            <p style="margin: 2px 0 0">{{ $order->notes }}</p>
+        <div class="receipt-notes">
+            <div class="muted receipt-section-heading">Catatan Khusus</div>
+            <p class="receipt-notes-content">{{ $order->notes }}</p>
         </div>
     @endif
 
-    <p class="receipt-foot">
-        Terima kasih sudah berbelanja.<br>
-        {{ $order->statusLabel() }} · {{ $order->queueLabel() }} · {{ $order->order_code }}
-    </p>
+    <div class="receipt-foot">
+        <p class="receipt-thankyou">Terima kasih sudah berbelanja!</p>
+        <p class="receipt-tagline">Nikmati kehangatan jagung bakar & pisang spesial kami.</p>
+        <div class="receipt-barcode-code">
+            {{ $order->statusLabel() }} · {{ $order->queueLabel() }} · {{ $order->order_code }}
+        </div>
+    </div>
 </div>
