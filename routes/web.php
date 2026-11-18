@@ -176,5 +176,8 @@ Route::middleware('auth')->group(function () {
         ->whereIn('size', ['image', 'thumb'])
         ->name('media.menus.show');
 
+    Route::get('/media/users/{user}/avatar', [AccountController::class, 'avatar'])
+        ->name('media.users.avatar');
+
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });

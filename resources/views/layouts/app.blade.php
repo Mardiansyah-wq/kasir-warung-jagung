@@ -221,6 +221,64 @@
             place-items: center;
         }
 
+        .sidebar-avatar-img {
+            flex: 0 0 auto;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid rgba(244, 239, 226, .35);
+        }
+
+        .account-avatar-wrap {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 6px;
+        }
+
+        .account-avatar-preview {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #f2e6c4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--border);
+            flex: 0 0 68px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .06);
+        }
+
+        .account-avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .account-avatar-initials {
+            font-size: 22px;
+            font-weight: 700;
+            color: #5a4020;
+        }
+
+        .account-avatar-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .account-avatar-remove-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--brand-red, #b43020);
+            cursor: pointer;
+            margin-top: 4px;
+        }
+
         .sidebar-user-text {
             display: flex;
             flex-direction: column;

@@ -48,15 +48,21 @@
             @endforeach
         </nav>
 
-        <button type="button" class="sidebar-link" data-dialog-open="pusat-bantuan">
-            @include('partials.nav-icon', ['name' => 'help'])
-            <span>Pusat bantuan</span>
-        </button>
+        @unless ($user->isOwner())
+            <button type="button" class="sidebar-link" data-dialog-open="pusat-bantuan">
+                @include('partials.nav-icon', ['name' => 'help'])
+                <span>Pusat bantuan</span>
+            </button>
+        @endunless
 
         <hr class="sidebar-divider">
 
         <div class="sidebar-user">
-            <span class="sidebar-avatar" aria-hidden="true">{{ $initials }}</span>
+            @if ($user->avatarUrl())
+                <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="sidebar-avatar-img">
+            @else
+                <span class="sidebar-avatar" aria-hidden="true">{{ $user->initials() }}</span>
+            @endif
             <span class="sidebar-user-text">
                 <span class="sidebar-user-name">{{ $user->name }}</span>
                 <span class="sidebar-user-role">{{ $user->isOwner() ? 'Owner' : 'Staff' }}</span>
@@ -72,14 +78,16 @@
     </div>
 </aside>
 
-<dialog id="pusat-bantuan" class="auth-dialog" aria-labelledby="pusat-bantuan-title">
-    <h2 id="pusat-bantuan-title">Pusat bantuan</h2>
-    <p>
-        Butuh bantuan akun, stok, atau pesanan? Hubungi owner warung. Owner bisa mengatur akun
-        staff, mengoreksi stok, dan membuka akses lewat menu <strong>Pengaturan</strong>.
-    </p>
+@unless ($user->isOwner())
+    <dialog id="pusat-bantuan" class="auth-dialog" aria-labelledby="pusat-bantuan-title">
+        <h2 id="pusat-bantuan-title">Pusat bantuan</h2>
+        <p>
+            Butuh bantuan akun, stok, atau pesanan? Hubungi owner warung. Owner bisa mengatur akun
+            staff, mengoreksi stok, dan membuka akses lewat menu <strong>Pengaturan</strong>.
+        </p>
 
-    <form method="dialog" class="form-actions">
-        <button type="submit" class="btn">Mengerti</button>
-    </form>
-</dialog>
+        <form method="dialog" class="form-actions">
+            <button type="submit" class="btn">Mengerti</button>
+        </form>
+    </dialog>
+@endunless

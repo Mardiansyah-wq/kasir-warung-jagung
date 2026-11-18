@@ -22,7 +22,7 @@ class NavigationShellTest extends TestCase
             ->assertSee('Kelola Akun Pegawai')
             ->assertSee('Riwayat Pesanan')
             ->assertSee('Log Aktivitas')
-            ->assertSee('Pusat bantuan')
+            ->assertDontSee('Pusat bantuan')
             ->assertSee('aria-current="page"', false)
             ->assertSee('Ardi Pratama')
             ->assertSee('Owner')
@@ -40,6 +40,7 @@ class NavigationShellTest extends TestCase
             ->assertSee('Kasir')
             ->assertSee('Cabang Pusat')
             ->assertSee('Kedai buka')
+            ->assertSee('Pusat bantuan')
             ->assertDontSee('Kelola Akun Pegawai')
             ->assertSee('Staff');
     }

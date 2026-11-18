@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['branch_id', 'name', 'email', 'phone', 'address', 'username', 'password_hash', 'role', 'is_active'])]
+#[Fillable(['branch_id', 'name', 'email', 'phone', 'address', 'photo_path', 'username', 'password_hash', 'role', 'is_active'])]
 #[Hidden(['password_hash'])]
 class User extends Authenticatable
 {
@@ -37,6 +37,20 @@ class User extends Authenticatable
     public function branch(): BelongsTo
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    public function avatarUrl(): ?string
+    {
+        return $this->photo_path
+            ? route('media.users.avatar', $this)
+            : null;
+    }
+
+    public function initials(): string
+    {
+        $words = preg_split('/\s+/', trim($this->name)) ?: [];
+
+        return collect($words)->filter()->take(2)->map(fn ($word) => mb_strtoupper(mb_substr($word, 0, 1)))->implode('');
     }
 
     /**

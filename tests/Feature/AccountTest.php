@@ -154,4 +154,50 @@ class AccountTest extends TestCase
             ->assertRedirect(route('account.index'))
             ->assertSessionHasErrors('password');
     }
+
+    public function test_user_can_upload_profile_photo(): void
+    {
+        \Illuminate\Support\Facades\Storage::fake('local');
+
+        $user = User::factory()->create();
+        $file = \Illuminate\Http\UploadedFile::fake()->image('avatar.jpg', 200, 200);
+
+        $this->actingAs($user)
+            ->patch(route('account.update'), [
+                'name' => $user->name,
+                'email' => $user->email,
+                'photo' => $file,
+            ])
+            ->assertRedirect(route('account.index'))
+            ->assertSessionHasNoErrors();
+
+        $user->refresh();
+        $this->assertNotNull($user->photo_path);
+        \Illuminate\Support\Facades\Storage::disk('local')->assertExists($user->photo_path);
+
+        $this->actingAs($user)
+            ->get(route('media.users.avatar', $user))
+            ->assertOk();
+    }
+
+    public function test_user_can_remove_profile_photo(): void
+    {
+        \Illuminate\Support\Facades\Storage::fake('local');
+
+        \Illuminate\Support\Facades\Storage::disk('local')->put('avatars/old.jpg', 'fake-image-content');
+        $user = User::factory()->create(['photo_path' => 'avatars/old.jpg']);
+
+        $this->actingAs($user)
+            ->patch(route('account.update'), [
+                'name' => $user->name,
+                'email' => $user->email,
+                'remove_photo' => '1',
+            ])
+            ->assertRedirect(route('account.index'))
+            ->assertSessionHasNoErrors();
+
+        $user->refresh();
+        $this->assertNull($user->photo_path);
+        \Illuminate\Support\Facades\Storage::disk('local')->assertMissing('avatars/old.jpg');
+    }
 }
