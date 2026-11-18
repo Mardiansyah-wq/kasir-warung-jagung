@@ -3,28 +3,28 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="@yield('theme_color', '#b45309')">
+    <meta name="theme-color" content="@yield('theme_color', '#3c2820')">
     <title>@yield('title', 'Jagung Bakar WJT')</title>
     <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('img/apple-touch-icon.png') }}">
     <style>
         :root {
-            --brand: #b45309;
-            --brand-dark: #92400e;
+            --brand: #b43020;
+            --brand-dark: #96281a;
             --bg: #f6f5f2;
             --surface: #fff;
             --border: #e5e0d8;
             --text: #1f2937;
             --muted: #6b7280;
-            --brand-brown: #3c2820;
-            --brand-amber: #e0bc48;
+            --brand-brown: #36251e;
+            --brand-amber: #e0b747;
             --brand-red: #b43020;
             --brand-red-dark: #96281a;
-            --bg-warm: #f4f0e4;
-            --surface-warm: #fcfcf4;
-            --border-warm: #dcd4bc;
-            --text-warm: #3e2b21;
-            --muted-warm: #7a6a5c;
+            --bg-warm: #f6f0e5;
+            --surface-warm: #fffdf7;
+            --border-warm: #e4d6c2;
+            --text-warm: #36251e;
+            --muted-warm: #72645d;
             --font-serif: "Lora", Georgia, "Times New Roman", serif;
         }
 
@@ -81,7 +81,7 @@
             gap: 16px;
             height: 100vh;
             height: 100dvh;
-            padding: 22px 14px 16px;
+            padding: 22px 10px 16px;
             overflow-y: auto;
             background: var(--brand-brown);
             color: #f4efe2;
@@ -141,16 +141,16 @@
         .sidebar-link {
             display: flex;
             align-items: center;
-            gap: 11px;
+            gap: 9px;
             width: 100%;
             min-height: 42px;
-            padding: 9px 12px;
+            padding: 9px 9px;
             border: 0;
             border-radius: 8px;
             background: transparent;
             color: #e7dcc8;
             font: inherit;
-            font-size: 13.5px;
+            font-size: 12.5px;
             font-weight: 600;
             line-height: 1.3;
             text-align: left;
@@ -756,8 +756,8 @@
         }
 
         .quick-link:hover {
-            border-color: var(--brand);
-            background: #fff7ed;
+            border-color: var(--brand-amber);
+            background: #fdf6e6;
         }
 
         .quick-group-title {
@@ -836,7 +836,7 @@
         select:focus,
         textarea:focus {
             border-color: var(--brand);
-            outline: 2px solid #f0c38a;
+            outline: 2px solid #e8cd8c;
             outline-offset: 1px;
         }
 
@@ -1395,9 +1395,10 @@
         }
 
         .chip.active {
-            border-color: var(--brand);
-            background: var(--brand);
-            color: #fff;
+            border-color: var(--brand-amber);
+            background: var(--brand-amber);
+            color: var(--brand-brown);
+            font-weight: 700;
         }
 
         .menu-grid {
@@ -1426,7 +1427,7 @@
         }
 
         .menu-card-button:focus-visible {
-            outline: 3px solid #f0c38a;
+            outline: 3px solid #e8cd8c;
             outline-offset: 2px;
         }
 
@@ -1495,7 +1496,7 @@
 
         .menu-price {
             margin: 6px 0 0;
-            color: var(--brand-dark);
+            color: var(--brand-brown);
             font-size: 14px;
             font-weight: 700;
         }
@@ -1510,10 +1511,10 @@
             display: inline-block;
             margin: 6px 0 0;
             padding: 4px 8px;
-            border: 1px dashed #fdba74;
+            border: 1px dashed #e3b7a6;
             border-radius: 6px;
-            background: #fff7ed;
-            color: #9a3412;
+            background: #fdf3ee;
+            color: #8a2f1c;
             font-size: 11px;
             line-height: 1.35;
         }
@@ -1753,7 +1754,7 @@
         }
 
         .variant-meta strong {
-            color: var(--brand-dark);
+            color: var(--brand-brown);
         }
 
         @media (min-width: 560px) {
@@ -1816,8 +1817,8 @@
         }
 
         .pos-menu-card:hover {
-            border-color: var(--brand);
-            background: #fffbf5;
+            border-color: var(--brand-amber);
+            background: #fdf6e6;
         }
 
         .pos-menu-card:disabled {
@@ -1831,7 +1832,7 @@
         }
 
         .pos-menu-card .price {
-            color: var(--brand-dark);
+            color: var(--brand-brown);
             font-size: 13px;
             font-weight: 700;
         }
@@ -1883,7 +1884,7 @@
         }
 
         .cart-item-top .line-total {
-            color: var(--brand-dark);
+            color: var(--brand-brown);
             font-weight: 700;
             white-space: nowrap;
         }
@@ -2292,7 +2293,7 @@
             font-size: 2.2rem;
             font-weight: 900;
             line-height: 1.1;
-            color: var(--brand, #b45309);
+            color: var(--brand-brown, #3c2820);
             margin: 2px 0;
             letter-spacing: -0.02em;
         }
@@ -2335,7 +2336,7 @@
 
         .receipt-item-topping {
             font-size: 12px;
-            color: var(--brand, #b45309);
+            color: var(--brand, #b43020);
             font-weight: 600;
         }
 
@@ -2596,7 +2597,7 @@
             gap: 10px;
             padding: 14px;
             border: 1px solid var(--border);
-            border-left: 4px solid var(--brand);
+            border-left: 4px solid var(--brand-amber);
             border-radius: 12px;
             background: var(--surface);
             box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
@@ -2665,7 +2666,7 @@
         }
 
         .order-card-money strong {
-            color: var(--brand-dark);
+            color: var(--brand-brown);
         }
 
         .order-card-actions {
@@ -2792,7 +2793,7 @@
         .money-big {
             font-size: 1.2rem;
             font-weight: 800;
-            color: var(--brand-dark);
+            color: var(--brand-brown);
         }
 
         /* Responsive helpers */
