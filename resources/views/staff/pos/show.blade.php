@@ -137,7 +137,7 @@
 
                 @if ($items->isEmpty())
                     <p class="muted" style="margin: 14px 0">
-                        Belum ada item. Pilih menu di sebelah kiri untuk mulai pesanan.
+                        Belum ada item. Pilih menu untuk mulai pesanan.
                     </p>
                 @else
                     @foreach ($items as $item)
@@ -405,25 +405,6 @@
                 @endif
             </aside>
         </div>
-
-        @if ($order->isActive())
-            <div class="pos-mobile-bar no-print" data-pos-switcher>
-                <button
-                    type="button"
-                    class="pos-mobile-tab {{ $items->isEmpty() ? 'active' : '' }}"
-                    data-pos-tab="menu"
-                >Menu</button>
-                <button
-                    type="button"
-                    class="pos-mobile-tab {{ $items->isEmpty() ? '' : 'active' }}"
-                    data-pos-tab="tagihan"
-                >
-                    Tagihan
-                    <strong>{{ $itemCount }} item · Rp {{ number_format($totalAmount, 0, ',', '.') }}</strong>
-                </button>
-            </div>
-            <div class="pos-mobile-spacer no-print"></div>
-        @endif
 
         <dialog id="variant-dialog" class="sheet" aria-labelledby="variant-title">
             <div class="sheet-handle"></div>

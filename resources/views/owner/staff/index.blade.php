@@ -22,7 +22,7 @@
     @else
         <div class="card" style="padding: 0">
             <div class="table-wrap">
-                <table class="data">
+                <table class="data responsive">
                     <thead>
                         <tr>
                             <th>Nama</th>
@@ -35,21 +35,21 @@
                     <tbody>
                         @foreach ($staff as $user)
                             <tr>
-                                <td>
+                                <td data-label="Nama">
                                     {{ $user->name }}
                                     @if ($user->phone)
                                         <div class="muted">{{ $user->phone }}</div>
                                     @endif
                                 </td>
-                                <td>{{ $user->email }}</td>
-                                <td>
+                                <td data-label="Email">{{ $user->email }}</td>
+                                <td data-label="Cabang">
                                     @if ($user->branch)
                                         {{ $user->branch->name }}
                                     @else
                                         <span class="muted">Belum diassign</span>
                                     @endif
                                 </td>
-                                <td>
+                                <td data-label="Status">
                                     @if ($user->is_active)
                                         <span class="status status-ready">Aktif</span>
                                     @elseif ($user->branch_id === null)
@@ -58,7 +58,7 @@
                                         <span class="status status-completed">Nonaktif</span>
                                     @endif
                                 </td>
-                                <td>
+                                <td data-label="Aksi">
                                     @if (! $user->is_active && $user->branch_id === null)
                                         <form
                                             method="POST"

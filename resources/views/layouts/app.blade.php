@@ -424,6 +424,118 @@
             white-space: nowrap;
         }
 
+        /* Shell mobile — mengikuti desain 06 · Mobile */
+        .mobile-shell {
+            display: none;
+        }
+
+        @media (max-width: 1099px) {
+            .topbar {
+                display: none;
+            }
+
+            body {
+                background: var(--bg-warm);
+            }
+
+            .mobile-shell {
+                display: block;
+                flex: 0 0 auto;
+            }
+
+            .mobile-brand {
+                padding: 16px 20px 14px;
+                padding-top: calc(16px + env(safe-area-inset-top));
+                background: var(--brand-brown);
+                color: #f9f4e6;
+            }
+
+            .mobile-brand-row {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 12px;
+            }
+
+            .mobile-brand-name {
+                min-width: 0;
+                overflow-wrap: anywhere;
+                font-family: var(--font-serif);
+                font-size: 1.45rem;
+                font-weight: 600;
+                line-height: 1.15;
+                letter-spacing: -.01em;
+                color: #fff9ef;
+            }
+
+            .mobile-open {
+                display: inline-flex;
+                flex: 0 0 auto;
+                align-items: center;
+                gap: 6px;
+                padding-top: 4px;
+                color: var(--brand-amber);
+                font-size: 12px;
+                font-weight: 700;
+                white-space: nowrap;
+            }
+
+            .mobile-open::before {
+                content: "";
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background: currentColor;
+            }
+
+            .mobile-open.closed {
+                color: #b4a9a1;
+            }
+
+            .mobile-brand-sub {
+                margin: 4px 0 0;
+                color: #c9bcae;
+                font-size: 12.5px;
+                line-height: 1.4;
+            }
+
+            .mobile-nav {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 8px;
+                padding: 12px 12px 14px;
+                border-bottom: 1px solid var(--border-warm);
+                background: #f6f0e5;
+            }
+
+            .mobile-tab {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 37px;
+                padding: 6px 8px;
+                border-radius: 10px;
+                background: var(--surface-warm);
+                color: #72645d;
+                font-size: 13px;
+                font-weight: 600;
+                line-height: 1.2;
+                text-align: center;
+                text-decoration: none;
+            }
+
+            .mobile-tab.active {
+                background: #e0b747;
+                color: var(--brand-brown);
+                font-weight: 700;
+            }
+
+            .mobile-tab:focus-visible {
+                outline: 2px solid var(--brand-brown);
+                outline-offset: 2px;
+            }
+        }
+
         .drawer-backdrop {
             position: fixed;
             inset: 0;
@@ -2709,7 +2821,7 @@
             }
         }
 
-        /* Mobile running-tab switcher */
+        /* Kasir mobile: satu halaman scroll (keranjang lalu pilih sajian) */
         .pos-mobile-bar,
         .pos-mobile-spacer {
             display: none;
@@ -2717,69 +2829,30 @@
 
         @media (max-width: 899px) {
             .pos-pane {
-                display: none;
-            }
-
-            .pos-pane.is-active {
                 display: block;
             }
 
-            .pos-mobile-bar {
-                position: fixed;
-                right: 0;
-                bottom: 0;
-                left: 0;
-                z-index: 19;
+            .pos-layout {
                 display: flex;
-                gap: 8px;
-                padding: 8px 12px;
-                padding-bottom: calc(8px + env(safe-area-inset-bottom));
-                border-top: 1px solid var(--border);
-                background: var(--surface);
-                box-shadow: 0 -2px 10px rgba(0, 0, 0, .08);
-            }
-
-            .pos-mobile-tab {
-                display: flex;
-                flex: 1;
                 flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 1px;
-                min-height: 46px;
-                padding: 6px 10px;
-                border: 1px solid var(--border);
-                border-radius: 10px;
-                background: #fff;
-                color: var(--text);
-                font: inherit;
-                font-size: 13px;
-                font-weight: 600;
-                cursor: pointer;
+                align-items: stretch;
+                gap: 14px;
             }
 
-            .pos-mobile-tab strong {
-                color: var(--brand-dark);
-                font-size: 12px;
-                max-width: 100%;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
+            .pos-cart {
+                order: 1;
             }
 
-            .pos-mobile-tab.active {
-                border-color: var(--brand);
-                background: var(--brand);
-                color: #fff;
+            .pos-pane[data-pos-pane="menu"] {
+                order: 2;
             }
 
-            .pos-mobile-tab.active strong {
-                color: #fff;
+            .pos-menu-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
-            .pos-mobile-spacer {
-                display: block;
-                height: 74px;
+            .pos-menu-card {
+                min-height: 96px;
             }
         }
 
@@ -2807,9 +2880,123 @@
             }
         }
 
+        @media (min-width: 900px) and (max-width: 1099px) {
+            .pos-cart {
+                top: 12px;
+            }
+        }
+
+        /* Penyesuaian mobile-first (ditempatkan terakhir agar menang cascade) */
+        @media (max-width: 1099px) {
+            .shell-main main {
+                padding: 16px 20px calc(28px + env(safe-area-inset-bottom));
+            }
+
+            .card,
+            .order-card,
+            .order-hero,
+            .cart,
+            .new-order,
+            .receipt {
+                border-color: var(--border-warm);
+                background: var(--surface-warm);
+                box-shadow: none;
+            }
+
+            .order-card {
+                padding: 16px;
+                border-left-width: 1px;
+                border-radius: 14px;
+                gap: 8px;
+            }
+
+            .order-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-head {
+                margin-bottom: 14px;
+            }
+
+            .page-head h1 {
+                font-family: var(--font-serif);
+                font-size: 1.55rem;
+                letter-spacing: -.01em;
+            }
+
+            .chips {
+                margin-bottom: 12px;
+            }
+
+            .chip {
+                border-color: var(--border-warm);
+                background: var(--surface-warm);
+                color: #72645d;
+            }
+
+            .chip.active {
+                border-color: #e0b747;
+                background: #e0b747;
+                color: var(--brand-brown);
+                font-weight: 700;
+            }
+
+            .btn {
+                border-radius: 10px;
+            }
+
+            .btn-ghost {
+                border-color: var(--border-warm);
+                background: var(--surface-warm);
+            }
+
+            .btn-ghost:hover {
+                background: #f2e9d8;
+            }
+
+            .order-card-actions {
+                gap: 8px;
+            }
+
+            .order-card-actions .btn {
+                flex: 1 1 45%;
+                min-height: 42px;
+            }
+
+            .order-card-actions form {
+                display: contents;
+            }
+
+            .status {
+                white-space: nowrap;
+            }
+
+            .new-order {
+                padding: 16px;
+            }
+
+            .pos-cart {
+                padding: 16px;
+            }
+
+            .receipt {
+                padding: 18px;
+                border-radius: 12px;
+            }
+
+            .table-wrap > table.data:not(.responsive) {
+                min-width: 720px;
+            }
+
+            .stat-label {
+                font-size: 12px;
+            }
+        }
+
         @media print {
             .sidebar,
             .topbar,
+            .mobile-shell,
             .drawer-backdrop,
             .no-print,
             .flash,
@@ -2904,6 +3091,7 @@
 
             <div class="shell-main">
                 @include('partials.topbar')
+                @include('partials.mobile-header')
 
                 <main>
                     @yield('content')

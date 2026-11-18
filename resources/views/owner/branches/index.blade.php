@@ -22,7 +22,7 @@
     @else
         <div class="card" style="padding: 0">
             <div class="table-wrap">
-                <table class="data">
+                <table class="data responsive">
                     <thead>
                         <tr>
                             <th>Nama Cabang</th>
@@ -35,20 +35,20 @@
                     <tbody>
                         @foreach ($branches as $branch)
                             <tr>
-                                <td>
+                                <td data-label="Cabang">
                                     {{ $branch->name }}
                                     <div class="muted">{{ $branch->users_count ?? $branch->users()->count() }} staff</div>
                                 </td>
-                                <td>{{ $branch->address ?: '—' }}</td>
-                                <td>{{ $branch->phone ?: '—' }}</td>
-                                <td>
+                                <td data-label="Alamat">{{ $branch->address ?: '—' }}</td>
+                                <td data-label="Telepon">{{ $branch->phone ?: '—' }}</td>
+                                <td data-label="Status">
                                     @if ($branch->is_active)
                                         <span class="status status-ready">Aktif</span>
                                     @else
                                         <span class="status status-completed">Nonaktif</span>
                                     @endif
                                 </td>
-                                <td>
+                                <td data-label="Aksi">
                                     <div style="display: flex; gap: 6px; flex-wrap: wrap">
                                         <a href="{{ route('owner.branches.edit', $branch) }}" class="btn btn-sm btn-ghost">Ubah</a>
 
