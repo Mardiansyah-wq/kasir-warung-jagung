@@ -23,8 +23,8 @@
         </div>
     @else
         <p class="hint" style="margin-bottom: 14px">
-            Setiap perubahan stok tercatat di riwayat stok dan log aktivitas.
-            Pilih <strong>Kurangi</strong> saat barang rusak atau tumpah, dan wajib isi catatan alasannya.
+            Catatan wajib diisi saat memilih <strong>Kurangi</strong>.
+            Semua perubahan stok tercatat di riwayat stok dan log aktivitas.
         </p>
 
         @foreach ($menus as $menu)
@@ -37,15 +37,14 @@
                 @foreach ($menu->variants as $variant)
                     @php
                         $stock = $variant->stockFor($branch->id);
+                        $modeOut = old('variant_id') == $variant->id && old('mode') === 'out';
                     @endphp
 
                     <div class="stock-row" id="variant-{{ $variant->id }}">
-                        <div>
-                            <strong>{{ $variant->displayName() }}</strong>
-                            <div class="muted">
-                                Rp {{ number_format((float) $variant->selling_price, 0, ',', '.') }}
-                                · <span class="stock-pill {{ $stock < 1 ? 'low' : '' }}">Stok {{ $stock }}</span>
-                            </div>
+                        <div class="stock-row-main">
+                            <strong class="stock-row-name">{{ $variant->displayName() }}</strong>
+                            <span class="stock-row-price">Rp {{ number_format((float) $variant->selling_price, 0, ',', '.') }}</span>
+                            <span class="stock-pill {{ $stock < 1 ? 'low' : '' }}">Stok {{ $stock }}</span>
                         </div>
 
                         <form method="POST" action="{{ route('staff.stock.store') }}" data-stock-form>
@@ -54,7 +53,7 @@
 
                             <select name="mode" data-stock-mode aria-label="Jenis perubahan stok {{ $menu->name }} {{ $variant->displayName() }}">
                                 <option value="in" @selected(old('variant_id') == $variant->id && old('mode') !== 'out')>Tambah (+)</option>
-                                <option value="out" @selected(old('variant_id') == $variant->id && old('mode') === 'out')>Kurangi (−)</option>
+                                <option value="out" @selected($modeOut)>Kurangi (−)</option>
                             </select>
 
                             <input
@@ -74,6 +73,7 @@
                                 placeholder="Catatan (wajib jika kurangi)"
                                 data-stock-note
                                 aria-label="Catatan stok {{ $menu->name }} {{ $variant->displayName() }}"
+                                @unless ($modeOut) hidden @endunless
                             >
 
                             <button type="submit" class="btn btn-sm">Simpan</button>
@@ -90,7 +90,34 @@
                 <p class="muted" style="margin: 0">Belum ada pergerakan stok.</p>
             </div>
         @else
-            <div class="card" style="padding: 0">
+            <div class="stock-history-cards">
+                @foreach ($movements as $movement)
+                    <article class="stock-history-card">
+                        <div class="stock-history-head">
+                            @if ($movement->movement_type === 'in')
+                                <span class="status status-finalized">Masuk</span>
+                            @elseif ($movement->movement_type === 'out')
+                                <span class="status status-cancelled">Keluar</span>
+                            @else
+                                <span class="status status-draft">Koreksi</span>
+                            @endif
+                            <span class="stock-history-time">{{ $movement->occurred_at?->format('d/m/Y H:i') }}</span>
+                            <span class="stock-history-qty">
+                                {{ $movement->movement_type === 'in' ? '+' : ($movement->movement_type === 'out' ? '−' : '=') }}{{ $movement->quantity }}
+                            </span>
+                        </div>
+                        <p class="stock-history-menu">
+                            {{ $movement->variant?->menu?->name ?? '—' }}
+                            <span class="muted">· {{ $movement->variant?->displayName() }}</span>
+                        </p>
+                        <p class="stock-history-meta">
+                            {{ $movement->user?->name ?? '—' }}@if ($movement->note) · {{ $movement->note }}@endif
+                        </p>
+                    </article>
+                @endforeach
+            </div>
+
+            <div class="card stock-history-table" style="padding: 0">
                 <div class="table-wrap">
                     <table class="data">
                         <thead>
@@ -146,6 +173,7 @@
             const sync = function () {
                 const reduce = mode.value === 'out';
                 note.required = reduce;
+                note.hidden = !reduce;
                 note.placeholder = reduce ? 'Catatan wajib: rusak / tumpah' : 'Catatan (opsional)';
             };
 

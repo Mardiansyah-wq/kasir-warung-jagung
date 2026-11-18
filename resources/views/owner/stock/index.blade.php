@@ -37,7 +37,7 @@
                         @endforeach
                     </select>
                 </div>
-                <button type="submit" class="btn">Tampilkan</button>
+                <button type="submit" class="btn filter-submit">Tampilkan</button>
             </form>
         @endif
 
@@ -52,8 +52,8 @@
             </div>
         @else
             <p class="hint" style="margin-bottom: 14px">
-                <strong>Koreksi</strong> berarti stok dijadikan sejumlah angka yang diisi (bukan ditambah).
-                Stok saat ini untuk {{ $branch->name }}.
+                <strong>Koreksi</strong> mengubah stok menjadi angka yang diisi, bukan menambah.
+                Stok untuk {{ $branch->name }}.
             </p>
 
             @foreach ($menus as $menu)
@@ -67,12 +67,10 @@
                         @php($stock = $variant->stockFor($branch->id))
 
                         <div class="stock-row" id="variant-{{ $variant->id }}">
-                            <div>
-                                <strong>{{ $variant->displayName() }}</strong>
-                                <div class="muted">
-                                    Rp {{ number_format((float) $variant->selling_price, 0, ',', '.') }}
-                                    · <span class="stock-pill {{ $stock < 1 ? 'low' : '' }}">Stok {{ $stock }}</span>
-                                </div>
+                            <div class="stock-row-main">
+                                <strong class="stock-row-name">{{ $variant->displayName() }}</strong>
+                                <span class="stock-row-price">Rp {{ number_format((float) $variant->selling_price, 0, ',', '.') }}</span>
+                                <span class="stock-pill {{ $stock < 1 ? 'low' : '' }}">Stok {{ $stock }}</span>
                             </div>
 
                             <form method="POST" action="{{ route('owner.stock.store') }}">

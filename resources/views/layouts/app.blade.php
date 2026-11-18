@@ -2464,21 +2464,53 @@
         }
 
         .group-title {
-            margin: 22px 0 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 20px 0 8px;
             font-size: 1rem;
+        }
+
+        .group-title .badge {
+            flex: 0 0 auto;
         }
 
         .stock-row {
             display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 10px;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 8px 12px;
             align-items: center;
-            padding: 10px 0;
+            padding: 11px 0;
             border-bottom: 1px solid var(--border);
         }
 
         .stock-row:last-child {
             border-bottom: 0;
+        }
+
+        .stock-row-main {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px 8px;
+            min-width: 0;
+        }
+
+        .stock-row-name {
+            font-size: 13.5px;
+            line-height: 1.3;
+            overflow-wrap: anywhere;
+        }
+
+        .stock-row-price {
+            color: var(--muted);
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .stock-row-main .stock-pill {
+            flex: 0 0 auto;
+            margin-left: auto;
         }
 
         .stock-row form {
@@ -2508,31 +2540,172 @@
             font-size: 13px;
         }
 
-        @media (max-width: 720px) {
-            .stock-row {
-                grid-template-columns: 1fr;
-            }
-
-            .stock-row form {
-                flex-wrap: wrap;
-            }
-
-            .stock-row form select,
-            .stock-row form input[type="number"] {
-                flex: 1 1 120px;
-                width: auto;
-            }
-
-            .stock-row form input[type="text"] {
-                flex: 1 1 100%;
-                width: auto;
-            }
+        .stock-row input[type="text"][hidden] {
+            display: none;
         }
 
         .stock-row .btn {
             min-height: 44px;
             padding: 8px 14px;
             font-size: 13px;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 720px) {
+            .group-title {
+                margin: 18px 0 8px;
+                font-size: .95rem;
+            }
+
+            .stock-row {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 6px;
+                padding: 10px 0;
+            }
+
+            .stock-row-main {
+                flex-wrap: nowrap;
+                gap: 3px 8px;
+            }
+
+            .stock-row-name {
+                flex: 1 1 auto;
+                min-width: 0;
+                font-size: 13.5px;
+            }
+
+            .stock-row-price {
+                display: none;
+            }
+
+            .stock-row form {
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .stock-row form select {
+                flex: 1 1 0;
+                width: auto;
+                min-width: 0;
+                padding: 8px 6px;
+                font-size: 12.5px;
+            }
+
+            .stock-row form input[type="number"] {
+                flex: 0 0 62px;
+                width: 62px;
+                padding: 8px 4px;
+                font-size: 13px;
+            }
+
+            .stock-row form input[type="text"] {
+                flex: 1 1 100%;
+                width: auto;
+                font-size: 13px;
+                order: 9;
+            }
+
+            .stock-row select,
+            .stock-row input[type="number"] {
+                min-height: 40px;
+            }
+
+            .stock-row .btn {
+                flex: 0 0 auto;
+                min-height: 40px;
+                padding: 8px 12px;
+                font-size: 12.5px;
+            }
+        }
+
+        @media (max-width: 359px) {
+            .stock-row form {
+                gap: 5px;
+            }
+
+            .stock-row form select {
+                padding: 7px 4px;
+                font-size: 12px;
+            }
+
+            .stock-row form input[type="number"] {
+                flex: 0 0 52px;
+                width: 52px;
+                font-size: 12.5px;
+            }
+
+            .stock-row .btn {
+                padding: 7px 9px;
+                font-size: 12px;
+            }
+        }
+
+        /* Riwayat stok: kartu di layar sempit, tabel di layar lebar */
+        .stock-history-cards {
+            display: none;
+        }
+
+        .stock-history-card {
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface);
+        }
+
+        .stock-history-card + .stock-history-card {
+            margin-top: 8px;
+        }
+
+        .stock-history-head {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stock-history-time {
+            color: var(--muted);
+            font-size: 11.5px;
+            white-space: nowrap;
+        }
+
+        .stock-history-qty {
+            margin-left: auto;
+            color: var(--brand-brown);
+            font-size: 14px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .stock-history-menu {
+            margin: 6px 0 0;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.35;
+            overflow-wrap: anywhere;
+        }
+
+        .stock-history-meta {
+            margin: 2px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 899px) {
+            .stock-history-cards {
+                display: block;
+            }
+
+            .stock-history-table {
+                display: none;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .filter-bar .filter-submit {
+                display: none;
+            }
         }
 
         /* Order board & running tab styles */
@@ -2898,7 +3071,8 @@
             .order-hero,
             .cart,
             .new-order,
-            .receipt {
+            .receipt,
+            .stock-history-card {
                 border-color: var(--border-warm);
                 background: var(--surface-warm);
                 box-shadow: none;
