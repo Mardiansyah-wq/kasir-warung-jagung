@@ -2125,6 +2125,131 @@
             white-space: nowrap;
         }
 
+        /* Tabel ringkas: kolom opsional disembunyikan di layar sempit */
+        .table-narrow .row-sub,
+        .table-narrow .row-code,
+        .table-narrow .label-narrow,
+        .table-narrow .foot-narrow {
+            display: none;
+        }
+
+        .bar-line {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 6px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #f3f4f6;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: var(--brand);
+        }
+
+        .bar-value {
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 899px) {
+            table.data.table-narrow {
+                table-layout: fixed;
+                font-size: 12.5px;
+            }
+
+            table.data.table-narrow th,
+            table.data.table-narrow td {
+                padding: 8px 6px;
+                white-space: normal;
+                overflow-wrap: anywhere;
+            }
+
+            table.data.table-narrow th {
+                font-size: 10.5px;
+                letter-spacing: .02em;
+            }
+
+            .table-narrow .col-optional {
+                display: none;
+            }
+
+            .table-narrow .label-wide {
+                display: none;
+            }
+
+            .table-narrow .label-narrow {
+                display: inline;
+            }
+
+            .table-narrow .foot-wide {
+                display: none;
+            }
+
+            .table-narrow .foot-narrow {
+                display: table-row;
+            }
+
+            .table-narrow .row-sub {
+                display: block;
+                margin-top: 4px;
+                font-size: 11px;
+                font-weight: 400;
+                line-height: 1.5;
+            }
+
+            table.data.table-narrow td.amount {
+                white-space: normal;
+            }
+
+            .table-narrow .status {
+                padding: 2px 6px;
+                font-size: 9.5px;
+                letter-spacing: 0;
+            }
+
+            .table-narrow .bar-line {
+                flex-direction: column-reverse;
+                align-items: stretch;
+                gap: 4px;
+            }
+
+            .table-narrow .bar-value {
+                font-size: 12px;
+            }
+
+            /* Laporan harian: antrian, pelanggan, item, total */
+            .table-narrow th.col-queue { width: 22%; }
+            .table-narrow th.col-customer { width: 34%; }
+            .table-narrow th.col-items { width: 15%; }
+            .table-narrow th.col-total { width: 29%; }
+
+            /* Laporan mingguan: hari, pesanan, uang masuk */
+            .table-narrow th.col-day { width: 32%; }
+            .table-narrow th.col-orders { width: 30%; }
+            .table-narrow th.col-revenue { width: 38%; }
+
+            .report-pair {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        @media (max-width: 359px) {
+            table.data.table-narrow {
+                font-size: 11.5px;
+            }
+
+            table.data.table-narrow th,
+            table.data.table-narrow td {
+                padding: 7px 5px;
+            }
+        }
+
         .status {
             display: inline-block;
             padding: 3px 8px;
@@ -3157,10 +3282,6 @@
             .receipt {
                 padding: 18px;
                 border-radius: 12px;
-            }
-
-            .table-wrap > table.data:not(.responsive) {
-                min-width: 720px;
             }
 
             .stat-label {

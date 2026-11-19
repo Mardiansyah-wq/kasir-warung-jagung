@@ -112,19 +112,19 @@
             </div>
         @else
             <div class="table-wrap" style="margin-top: 12px">
-                <table class="data">
+                <table class="data table-narrow">
                     <thead>
                         <tr>
-                            <th>Antrian</th>
-                            <th>Pelanggan</th>
-                            <th>Cabang</th>
-                            <th>Waktu</th>
-                            <th>Kasir</th>
-                            <th class="amount">Item</th>
-                            <th class="amount">Total</th>
-                            <th class="amount">Dibayar</th>
-                            <th>Status</th>
-                            <th>Bayar</th>
+                            <th class="col-queue"><span class="label-wide">Antrian</span><span class="label-narrow">No</span></th>
+                            <th class="col-customer"><span class="label-wide">Pelanggan</span><span class="label-narrow">Nama</span></th>
+                            <th class="col-optional">Cabang</th>
+                            <th class="col-optional">Waktu</th>
+                            <th class="col-optional">Kasir</th>
+                            <th class="col-items amount">Item</th>
+                            <th class="col-total amount">Total</th>
+                            <th class="col-optional amount">Dibayar</th>
+                            <th class="col-optional">Status</th>
+                            <th class="col-optional">Bayar</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -133,20 +133,31 @@
                                 <td><strong>{{ $order->queueLabel() }}</strong></td>
                                 <td>
                                     {{ $order->customer_name }}
-                                    <div class="muted" style="font-size: 12px">{{ $order->order_code }}</div>
+                                    <div class="muted row-code" style="font-size: 12px">{{ $order->order_code }}</div>
+                                    <span class="row-sub">
+                                        <span class="status status-{{ $order->status }}">{{ $order->statusLabel() }}</span>
+                                        @unless ($order->isCancelled())
+                                            <span class="status status-{{ $order->paymentStatus() }}">{{ $order->paymentStatusLabel() }}</span>
+                                        @endunless
+                                    </span>
                                 </td>
-                                <td>{{ $order->branch?->name ?? '—' }}</td>
-                                <td>{{ $order->created_at?->format('H:i') ?? '—' }}</td>
-                                <td>{{ $order->creator?->name ?? '—' }}</td>
-                                <td class="amount">{{ $order->items_count }}</td>
-                                <td class="amount">Rp {{ number_format((float) $order->total_amount, 0, ',', '.') }}</td>
-                                <td class="amount">
+                                <td class="col-optional">{{ $order->branch?->name ?? '—' }}</td>
+                                <td class="col-optional">{{ $order->created_at?->format('H:i') ?? '—' }}</td>
+                                <td class="col-optional">{{ $order->creator?->name ?? '—' }}</td>
+                                <td class="col-items amount">{{ $order->items_count }}</td>
+                                <td class="col-total amount">
+                                    Rp {{ number_format((float) $order->total_amount, 0, ',', '.') }}
+                                    @if (! $order->isCancelled() && $order->balanceDue() > 0)
+                                        <span class="row-sub muted">Dibayar Rp {{ number_format($order->paidAmount(), 0, ',', '.') }}</span>
+                                    @endif
+                                </td>
+                                <td class="col-optional amount">
                                     {{ $order->isCancelled() ? '—' : 'Rp '.number_format($order->paidAmount(), 0, ',', '.') }}
                                 </td>
-                                <td>
+                                <td class="col-optional">
                                     <span class="status status-{{ $order->status }}">{{ $order->statusLabel() }}</span>
                                 </td>
-                                <td>
+                                <td class="col-optional">
                                     @if ($order->isCancelled())
                                         <span class="muted">—</span>
                                     @else
@@ -163,7 +174,7 @@
         @endif
     </div>
 
-    <div class="grid" style="align-items: start">
+    <div class="grid report-pair" style="align-items: start">
         <div class="card" style="padding: 0">
             <div style="padding: 16px 16px 0">
                 <h2>Metode Pembayaran</h2>

@@ -129,61 +129,72 @@
         </div>
 
         <div class="table-wrap" style="margin-top: 12px">
-            <table class="data">
+            <table class="data table-narrow">
                 <thead>
                     <tr>
-                        <th>Hari</th>
-                        <th>Tanggal</th>
-                        <th class="amount">Pesanan</th>
-                        <th class="amount">Dibayar</th>
-                        <th>Uang Masuk</th>
-                        <th class="amount">Nilai Pesanan</th>
-                        <th class="amount">Batal</th>
+                        <th class="col-day">Hari</th>
+                        <th class="col-optional">Tanggal</th>
+                        <th class="col-orders amount">Pesanan</th>
+                        <th class="col-optional amount">Dibayar</th>
+                        <th class="col-revenue">Uang Masuk</th>
+                        <th class="col-optional amount">Nilai Pesanan</th>
+                        <th class="col-optional amount">Batal</th>
                     </tr>
                 </thead>
                 <tbody>
                     @php($maxRevenue = collect($report['days'])->max('revenue') ?: 1)
                     @foreach ($report['days'] as $day)
-                        <tr @if ($day['is_today']) style="background: #fff7ed" @endif>
+                        <tr @if ($day['is_today']) style="background: #fdf6e6" @endif>
                             <td>
                                 <strong>{{ $day['day_label'] }}</strong>
                                 @if ($day['is_today'])
-                                    <span class="badge" style="margin-left: 4px">Hari ini</span>
+                                    <span class="badge col-optional" style="margin-left: 4px">Hari ini</span>
                                 @endif
+                                <span class="row-sub muted">
+                                    {{ $day['date_label'] }}@if ($day['is_today']) · Hari ini @endif
+                                </span>
                             </td>
-                            <td>{{ $day['date_label'] }}</td>
-                            <td class="amount">{{ $day['orders_total'] }}</td>
-                            <td class="amount">{{ $day['paid_orders'] }}</td>
-                            <td style="min-width: 170px">
-                                <div style="display: flex; align-items: center; gap: 8px">
-                                    <div style="flex: 1; height: 6px; border-radius: 999px; background: #f3f4f6; overflow: hidden">
-                                        <div style="height: 100%; width: {{ $day['revenue'] > 0 ? max(4, ($day['revenue'] / $maxRevenue) * 100) : 0 }}%; background: var(--brand)"></div>
+                            <td class="col-optional">{{ $day['date_label'] }}</td>
+                            <td class="col-orders amount">
+                                {{ $day['orders_total'] }}
+                                <span class="row-sub muted">{{ $day['paid_orders'] }} dibayar</span>
+                            </td>
+                            <td class="col-optional amount">{{ $day['paid_orders'] }}</td>
+                            <td class="col-revenue">
+                                <div class="bar-line">
+                                    <div class="bar-track">
+                                        <div class="bar-fill" style="width: {{ $day['revenue'] > 0 ? max(4, ($day['revenue'] / $maxRevenue) * 100) : 0 }}%"></div>
                                     </div>
-                                    <span style="white-space: nowrap; font-size: 13px">
+                                    <span class="bar-value">
                                         Rp {{ number_format($day['revenue'], 0, ',', '.') }}
                                     </span>
                                 </div>
                             </td>
-                            <td class="amount">Rp {{ number_format($day['gross_sales'], 0, ',', '.') }}</td>
-                            <td class="amount">{{ $day['orders_cancelled'] }}</td>
+                            <td class="col-optional amount">Rp {{ number_format($day['gross_sales'], 0, ',', '.') }}</td>
+                            <td class="col-optional amount">{{ $day['orders_cancelled'] }}</td>
                         </tr>
                     @endforeach
                 </tbody>
                 <tfoot>
-                    <tr>
+                    <tr class="foot-wide">
                         <th colspan="2">Total</th>
+                        <th class="col-orders amount">{{ $report['summary']['orders_total'] }}</th>
+                        <th class="col-optional amount">{{ $report['summary']['paid_orders'] }}</th>
+                        <th class="col-revenue">Rp {{ number_format($report['summary']['revenue'], 0, ',', '.') }}</th>
+                        <th class="col-optional amount">Rp {{ number_format($report['summary']['gross_sales'], 0, ',', '.') }}</th>
+                        <th class="col-optional amount">{{ $report['summary']['orders_cancelled'] }}</th>
+                    </tr>
+                    <tr class="foot-narrow">
+                        <th>Total</th>
                         <th class="amount">{{ $report['summary']['orders_total'] }}</th>
-                        <th class="amount">{{ $report['summary']['paid_orders'] }}</th>
                         <th>Rp {{ number_format($report['summary']['revenue'], 0, ',', '.') }}</th>
-                        <th class="amount">Rp {{ number_format($report['summary']['gross_sales'], 0, ',', '.') }}</th>
-                        <th class="amount">{{ $report['summary']['orders_cancelled'] }}</th>
                     </tr>
                 </tfoot>
             </table>
         </div>
     </div>
 
-    <div class="grid" style="align-items: start">
+    <div class="grid report-pair" style="align-items: start">
         <div class="card" style="padding: 0">
             <div style="padding: 16px 16px 0">
                 <h2>Metode Pembayaran</h2>
