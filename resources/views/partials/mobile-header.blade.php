@@ -44,9 +44,23 @@
             <strong class="mobile-brand-name">{{ config('app.name', 'Jagung Bakar WJT') }}</strong>
             <span class="mobile-open {{ $storeOpen ? '' : 'closed' }}">{{ $storeOpen ? 'Buka' : 'Tutup' }}</span>
         </div>
-        <p class="mobile-brand-sub">
-            {{ now()->locale('id')->translatedFormat('l, j F Y') }} · {{ $user->name }}
-        </p>
+        <div class="mobile-meta">
+            <p class="mobile-brand-sub">
+                {{ now()->locale('id')->translatedFormat('l, j F Y') }} · {{ $user->name }}
+            </p>
+            <div class="mobile-account">
+                <a
+                    href="{{ route('account.index') }}"
+                    class="mobile-account-link {{ request()->routeIs('account.*') ? 'active' : '' }}"
+                >Akun</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="mobile-logout" aria-label="Keluar dari akun" title="Keluar">
+                        @include('partials.nav-icon', ['name' => 'logout'])
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <nav class="mobile-nav" aria-label="Navigasi mobile">

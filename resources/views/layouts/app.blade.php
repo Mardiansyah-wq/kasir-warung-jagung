@@ -492,11 +492,76 @@
                 color: #b4a9a1;
             }
 
+            .mobile-meta {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                gap: 8px 12px;
+                margin-top: 6px;
+            }
+
             .mobile-brand-sub {
-                margin: 4px 0 0;
+                flex: 1 1 auto;
+                min-width: 0;
+                margin: 0;
                 color: #c9bcae;
                 font-size: 12.5px;
                 line-height: 1.4;
+            }
+
+            .mobile-account {
+                display: flex;
+                flex: 0 0 auto;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .mobile-account form {
+                margin: 0;
+            }
+
+            .mobile-account-link {
+                padding: 5px 11px;
+                border-radius: 999px;
+                background: rgba(244, 239, 226, .12);
+                color: #f3e8d6;
+                font-size: 12px;
+                font-weight: 600;
+                text-decoration: none;
+            }
+
+            .mobile-account-link.active {
+                background: var(--brand-amber);
+                color: var(--brand-brown);
+            }
+
+            .mobile-logout {
+                display: grid;
+                width: 30px;
+                height: 30px;
+                border: 0;
+                border-radius: 999px;
+                background: rgba(244, 239, 226, .12);
+                color: #f3e8d6;
+                cursor: pointer;
+                place-items: center;
+            }
+
+            .mobile-logout:hover {
+                background: rgba(180, 48, 32, .45);
+                color: #fff;
+            }
+
+            .mobile-logout .nav-icon {
+                width: 16px;
+                height: 16px;
+            }
+
+            .mobile-account-link:focus-visible,
+            .mobile-logout:focus-visible {
+                outline: 2px solid var(--brand-amber);
+                outline-offset: 2px;
             }
 
             .mobile-nav {
