@@ -11,20 +11,16 @@
         :root {
             --brand: #b43020;
             --brand-dark: #96281a;
-            --bg: #f6f5f2;
-            --surface: #fff;
-            --border: #e5e0d8;
-            --text: #1f2937;
-            --muted: #6b7280;
+            /* Warm palette as default (was --bg-warm etc.) */
+            --bg: #f6f0e5;
+            --surface: #fffdf7;
+            --border: #e4d6c2;
+            --text: #36251e;
+            --muted: #72645d;
             --brand-brown: #36251e;
             --brand-amber: #e0b747;
             --brand-red: #b43020;
             --brand-red-dark: #96281a;
-            --bg-warm: #f6f0e5;
-            --surface-warm: #fffdf7;
-            --border-warm: #e4d6c2;
-            --text-warm: #36251e;
-            --muted-warm: #72645d;
             --font-serif: "Lora", Georgia, "Times New Roman", serif;
         }
 
@@ -884,9 +880,9 @@
             width: 100%;
             margin-top: 0;
             padding: 12px;
-            border: 1px solid #cfc7bb;
+            border: 1px solid var(--border);
             border-radius: 8px;
-            background: #fff;
+            background: var(--surface);
             color: var(--text);
             font: inherit;
             font-size: 16px;
@@ -1407,12 +1403,12 @@
 
         .btn-ghost {
             border: 1px solid var(--border);
-            background: #fff;
+            background: var(--surface);
             color: var(--text);
         }
 
         .btn-ghost:hover {
-            background: #f5f5f4;
+            background: var(--bg);
         }
 
         .btn-sm {
@@ -1450,7 +1446,7 @@
             padding: 8px 14px;
             border: 1px solid var(--border);
             border-radius: 999px;
-            background: #fff;
+            background: var(--surface);
             color: var(--muted);
             font: inherit;
             font-size: 13px;
@@ -2439,7 +2435,7 @@
             height: 56px;
             object-fit: contain;
             border-radius: 50%;
-            background: #fff;
+            background: var(--surface);
             padding: 2px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
         }
@@ -2494,9 +2490,9 @@
             font-weight: 700;
             padding: 2px 10px;
             border-radius: 999px;
-            background: #fff;
-            border: 1px solid var(--border-warm, #dcd4bc);
-            color: var(--brand-brown, #3c2820);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--brand-brown);
         }
 
         .receipt-info-section {
