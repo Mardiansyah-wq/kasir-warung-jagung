@@ -20,14 +20,16 @@ class StoreMenuVariantRequest extends FormRequest
     {
         $menu = $this->route('menu');
         $menuId = $menu instanceof Menu ? $menu->id : null;
+        $type = $this->input('type');
 
         return [
+            'type' => ['nullable', 'string', 'max:50'],
             'variant_name' => [
                 'required',
                 'string',
                 'max:100',
                 Rule::unique('menu_variants', 'variant_name')
-                    ->where(fn ($query) => $query->where('menu_id', $menuId)),
+                    ->where(fn ($query) => $query->where('menu_id', $menuId)->where('type', $type)),
             ],
             'selling_price' => ['required', 'numeric', 'min:0', 'max:9999999999'],
             'is_active' => ['sometimes', 'boolean'],

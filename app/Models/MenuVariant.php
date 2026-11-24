@@ -35,6 +35,34 @@ class MenuVariant extends Model
             : $this->variant_name;
     }
 
+    /**
+     * Label jenis penyajian (misal: Utuh, Serut, Pisang Raja, Es, Panas).
+     */
+    public function typeLabel(): ?string
+    {
+        if (strcasecmp((string) $this->variant_name, 'utuh') === 0 || strcasecmp((string) $this->type, 'utuh') === 0) {
+            return 'Utuh';
+        }
+
+        if (strcasecmp((string) $this->variant_name, 'serut') === 0 || strcasecmp((string) $this->type, 'serut') === 0) {
+            return 'Serut';
+        }
+
+        return $this->type;
+    }
+
+    /**
+     * Label rasa / variasi spesifik (misal: Pedas Manis, Original, Keju Susu).
+     */
+    public function flavourLabel(): string
+    {
+        if (strcasecmp((string) $this->variant_name, 'utuh') === 0 || strcasecmp((string) $this->variant_name, 'serut') === 0) {
+            return $this->type ?: $this->variant_name;
+        }
+
+        return $this->variant_name;
+    }
+
     public function stocks(): HasMany
     {
         return $this->hasMany(BranchStock::class);

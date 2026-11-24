@@ -50,17 +50,23 @@
         accept="image/jpeg,image/png,image/webp"
         data-menu-image
     >
-    <span class="hint">JPG/PNG/WebP. Foto besar otomatis dikompres; hasil upload maks 2MB.</span>
+    <span class="hint">Format JPG/PNG/WebP. Foto otomatis dikompres; hasil upload maks 2MB.</span>
 
     <div class="image-preview" data-image-preview hidden>
         <img alt="Pratinjau foto" data-image-preview-img>
-        <span class="hint" data-image-info></span>
+        <div class="image-preview-info">
+            <span class="image-preview-tag">Foto Baru Dipilih</span>
+            <span class="hint" data-image-info></span>
+        </div>
     </div>
 
     @if ($editing && $menu->thumbUrl())
         <div class="current-image">
             <img src="{{ $menu->thumbUrl() }}" alt="Foto {{ $menu->name }}">
-            <span class="hint">Foto saat ini. Pilih file baru untuk mengganti.</span>
+            <div class="image-preview-info">
+                <span class="image-preview-tag">Foto Saat Ini</span>
+                <span class="hint">Pilih file baru di atas jika ingin mengganti foto ini.</span>
+            </div>
         </div>
     @endif
 </div>

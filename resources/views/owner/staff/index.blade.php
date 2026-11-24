@@ -83,7 +83,7 @@
                                             <button type="submit" class="btn btn-sm">Setujui</button>
                                         </form>
                                     @else
-                                        <div style="display: flex; gap: 6px; flex-wrap: wrap">
+                                        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center">
                                             <a href="{{ route('owner.staff.edit', $user) }}" class="btn btn-sm btn-ghost">Ubah</a>
 
                                             <form method="POST" action="{{ route('owner.staff.toggle', $user) }}">
@@ -92,24 +92,6 @@
                                                 <button type="submit" class="btn btn-sm btn-ghost">
                                                     {{ $user->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
                                                 </button>
-                                            </form>
-
-                                            <form
-                                                method="POST"
-                                                action="{{ route('owner.staff.reset-password', $user) }}"
-                                                style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap"
-                                            >
-                                                @csrf
-                                                <input
-                                                    type="password"
-                                                    name="password"
-                                                    class="input-inline"
-                                                    minlength="8"
-                                                    placeholder="Password baru"
-                                                    aria-label="Password baru untuk {{ $user->name }}"
-                                                    required
-                                                >
-                                                <button type="submit" class="btn btn-sm btn-ghost">Reset</button>
                                             </form>
                                         </div>
                                     @endif

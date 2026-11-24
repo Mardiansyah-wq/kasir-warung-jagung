@@ -216,6 +216,7 @@ class MenuController extends Controller
         ActivityLogger $logger,
     ): RedirectResponse {
         $variant = $menu->variants()->create([
+            'type' => $request->validated('type'),
             'variant_name' => $request->validated('variant_name'),
             'selling_price' => $request->validated('selling_price'),
             'is_active' => $request->boolean('is_active'),
@@ -253,6 +254,7 @@ class MenuController extends Controller
         $before = $this->variantSnapshot($variant);
 
         $variant->update([
+            'type' => $request->validated('type'),
             'variant_name' => $request->validated('variant_name'),
             'selling_price' => $request->validated('selling_price'),
             'is_active' => $request->boolean('is_active'),

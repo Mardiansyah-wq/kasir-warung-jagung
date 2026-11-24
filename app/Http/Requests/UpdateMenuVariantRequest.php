@@ -23,14 +23,16 @@ class UpdateMenuVariantRequest extends FormRequest
         $variant = $this->route('variant');
         $menuId = $menu instanceof Menu ? $menu->id : null;
         $variantId = $variant instanceof MenuVariant ? $variant->id : null;
+        $type = $this->input('type');
 
         return [
+            'type' => ['nullable', 'string', 'max:50'],
             'variant_name' => [
                 'required',
                 'string',
                 'max:100',
                 Rule::unique('menu_variants', 'variant_name')
-                    ->where(fn ($query) => $query->where('menu_id', $menuId))
+                    ->where(fn ($query) => $query->where('menu_id', $menuId)->where('type', $type))
                     ->ignore($variantId),
             ],
             'selling_price' => ['required', 'numeric', 'min:0', 'max:9999999999'],

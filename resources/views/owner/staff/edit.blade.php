@@ -51,10 +51,29 @@
                     @endforeach
                 </select>
             </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Ganti Password Staff</h2>
+            <p class="muted">Isi hanya jika ingin mengubah atau me-reset password akun staff ini.</p>
+
+            <div class="field">
+                <label for="password">Password Baru (opsional)</label>
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    minlength="8"
+                    maxlength="255"
+                    placeholder="Minimal 8 karakter (kosongkan jika tidak diubah)"
+                    autocomplete="new-password"
+                >
+                <span class="hint">Kosongkan jika tidak ingin mengganti password lama staff.</span>
+            </div>
 
             <p class="hint">
-                Status akun: {{ $user->is_active ? 'Aktif' : 'Nonaktif' }}.
-                Untuk mengubah status, gunakan tombol di halaman Manajemen Staff.
+                Status akun saat ini: <strong>{{ $user->is_active ? 'Aktif' : 'Nonaktif' }}</strong>.
+                Untuk mengubah status akun, gunakan tombol aktifkan/nonaktifkan di halaman Manajemen Staff.
             </p>
         </div>
 

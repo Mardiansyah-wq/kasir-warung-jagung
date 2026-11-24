@@ -172,8 +172,17 @@
                         price.textContent = rupiah.format(Number(variant.price) || 0);
 
                         const stock = document.createElement('span');
-                        stock.className = 'muted';
-                        stock.textContent = 'Stok: ' + (Number(variant.stock) || 0);
+                        const stockVal = Number(variant.stock) || 0;
+                        if (stockVal <= 0) {
+                            stock.className = 'stock-badge badge-out';
+                            stock.textContent = 'Habis';
+                        } else if (stockVal <= 5) {
+                            stock.className = 'stock-badge badge-low';
+                            stock.textContent = 'Sisa ' + stockVal;
+                        } else {
+                            stock.className = 'stock-badge badge-safe';
+                            stock.textContent = 'Stok ' + stockVal;
+                        }
 
                         meta.append(price, stock);
                         row.append(name, meta);

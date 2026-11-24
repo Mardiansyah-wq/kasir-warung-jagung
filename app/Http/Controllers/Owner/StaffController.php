@@ -86,15 +86,22 @@ class StaffController extends Controller
             'phone' => ['required', 'string', 'max:30'],
             'address' => ['required', 'string', 'max:500'],
             'branch_id' => ['required', 'exists:branches,id'],
+            'password' => ['nullable', 'string', 'min:8', 'max:255'],
         ]);
 
-        $user->update([
+        $payload = [
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'address' => $data['address'],
             'branch_id' => $data['branch_id'],
-        ]);
+        ];
+
+        if (! empty($data['password'])) {
+            $payload['password_hash'] = $data['password'];
+        }
+
+        $user->update($payload);
 
         return redirect()->route('owner.staff.index')->with('success', '✅ Data staff berhasil diperbarui.');
     }
