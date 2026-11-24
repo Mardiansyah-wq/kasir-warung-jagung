@@ -11,16 +11,24 @@
         :root {
             --brand: #b43020;
             --brand-dark: #96281a;
-            /* Warm palette as default (was --bg-warm etc.) */
+            /* Warm palette as default */
             --bg: #f6f0e5;
             --surface: #fffdf7;
             --border: #e4d6c2;
             --text: #36251e;
             --muted: #72645d;
             --brand-brown: #36251e;
+            --brand-brown-light: #4a342a;
             --brand-amber: #e0b747;
+            --brand-amber-dark: #c99c2d;
             --brand-red: #b43020;
             --brand-red-dark: #96281a;
+            /* Explicit warm aliases for comprehensive compatibility */
+            --bg-warm: #f6f0e5;
+            --surface-warm: #fffdf7;
+            --border-warm: #e4d6c2;
+            --text-warm: #36251e;
+            --muted-warm: #72645d;
             --font-serif: "Lora", Georgia, "Times New Roman", serif;
         }
 
@@ -115,6 +123,19 @@
             letter-spacing: .2em;
             text-transform: uppercase;
             color: var(--brand-amber);
+        }
+
+        .sidebar-brand-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        /* Tombol tutup hanya dipakai saat sidebar berubah jadi drawer */
+        .sidebar-close-btn {
+            display: none;
         }
 
         .sidebar-nav,
@@ -453,15 +474,66 @@
                 gap: 12px;
             }
 
+            .mobile-brand-left {
+                display: flex;
+                flex: 1 1 auto;
+                align-items: center;
+                gap: 10px;
+                min-width: 0;
+            }
+
+            .mobile-menu-btn {
+                display: grid;
+                flex: 0 0 auto;
+                width: 38px;
+                height: 38px;
+                padding: 0;
+                border: 1px solid rgba(255, 249, 239, .18);
+                border-radius: 10px;
+                background: rgba(255, 249, 239, .08);
+                color: #f9f4e6;
+                cursor: pointer;
+                place-items: center;
+            }
+
+            .mobile-menu-btn svg {
+                width: 19px;
+                height: 19px;
+            }
+
+            .mobile-menu-btn:hover,
+            .mobile-menu-btn:focus-visible {
+                background: rgba(255, 249, 239, .16);
+                outline: none;
+            }
+
+            .mobile-brand-title-wrap {
+                display: flex;
+                flex-direction: column;
+                min-width: 0;
+            }
+
             .mobile-brand-name {
                 min-width: 0;
                 overflow-wrap: anywhere;
                 font-family: var(--font-serif);
-                font-size: 1.45rem;
+                font-size: 1.25rem;
                 font-weight: 600;
                 line-height: 1.15;
                 letter-spacing: -.01em;
                 color: #fff9ef;
+            }
+
+            .mobile-brand-role {
+                overflow: hidden;
+                margin-top: 2px;
+                color: var(--brand-amber);
+                font-size: 10px;
+                font-weight: 700;
+                letter-spacing: .14em;
+                text-overflow: ellipsis;
+                text-transform: uppercase;
+                white-space: nowrap;
             }
 
             .mobile-open {
@@ -648,6 +720,31 @@
 
             .sidebar.is-open {
                 transform: none;
+            }
+
+            .sidebar-close-btn {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                display: grid;
+                width: 32px;
+                height: 32px;
+                padding: 0;
+                border: 0;
+                border-radius: 8px;
+                background: rgba(244, 239, 226, .1);
+                color: #f4efe2;
+                cursor: pointer;
+                place-items: center;
+            }
+
+            .sidebar-close-btn:hover {
+                background: rgba(180, 48, 32, .5);
+            }
+
+            .sidebar-close-btn svg {
+                width: 18px;
+                height: 18px;
             }
 
             .topbar-menu {
@@ -1464,8 +1561,15 @@
 
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 12px;
+        }
+
+        @media (min-width: 720px) {
+            .menu-grid {
+                grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+                gap: 16px;
+            }
         }
 
         .menu-card {
@@ -1494,7 +1598,7 @@
 
         .menu-thumb {
             position: relative;
-            aspect-ratio: 1 / 1;
+            aspect-ratio: 4 / 3;
             overflow: hidden;
             background: #f5f5f4;
         }
@@ -1582,14 +1686,37 @@
 
         .menu-actions {
             display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
+            gap: 8px;
             margin-top: auto;
             padding-top: 10px;
         }
 
+        .menu-actions .btn {
+            flex: 1 1 0;
+            justify-content: center;
+            padding-inline: 8px;
+        }
+
         .menu-actions form {
+            display: flex;
+            flex: 1 1 0;
             margin: 0;
+        }
+
+        .menu-actions form .btn {
+            width: 100%;
+        }
+
+        @media (max-width: 480px) {
+            .menu-actions {
+                gap: 6px;
+            }
+
+            .menu-actions .btn {
+                padding-inline: 4px;
+                font-size: 11.5px;
+                letter-spacing: 0;
+            }
         }
 
         .badge-muted {
@@ -2765,30 +2892,34 @@
             }
 
             .stock-row form {
-                flex-wrap: wrap;
+                display: grid;
+                grid-template-columns: 92px minmax(0, 1fr);
                 gap: 6px;
             }
 
             .stock-row form select {
-                flex: 1 1 0;
-                width: auto;
+                grid-column: 1 / -1;
+                width: 100%;
                 min-width: 0;
-                padding: 8px 6px;
-                font-size: 12.5px;
+                padding: 8px 10px;
+                font-size: 13px;
             }
 
             .stock-row form input[type="number"] {
-                flex: 0 0 62px;
-                width: 62px;
-                padding: 8px 4px;
-                font-size: 13px;
+                width: 100%;
+                padding: 8px;
+                font-size: 14px;
             }
 
             .stock-row form input[type="text"] {
-                flex: 1 1 100%;
-                width: auto;
-                font-size: 13px;
+                grid-column: 1 / -1;
                 order: 9;
+                width: 100%;
+                font-size: 13px;
+            }
+
+            .stock-row form .btn {
+                width: 100%;
             }
 
             .stock-row select,
@@ -3187,8 +3318,51 @@
             display: none;
         }
 
+        .pos-mobile-switcher {
+            display: none;
+        }
+
         @media (max-width: 899px) {
+            .pos-mobile-switcher {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 4px;
+                margin: 0 0 14px;
+                padding: 4px;
+                border-radius: 12px;
+                background: #efe4d1;
+            }
+
+            .pos-mobile-tab {
+                min-height: 40px;
+                padding: 6px 8px;
+                border: 0;
+                border-radius: 9px;
+                background: transparent;
+                color: #6b5a4d;
+                font: inherit;
+                font-size: 12.5px;
+                font-weight: 700;
+                line-height: 1.25;
+                cursor: pointer;
+            }
+
+            .pos-mobile-tab.active {
+                background: var(--surface);
+                color: var(--brand-brown);
+                box-shadow: 0 1px 3px rgba(54, 37, 30, .14);
+            }
+
+            .pos-mobile-tab:focus-visible {
+                outline: 2px solid var(--brand-brown);
+                outline-offset: 1px;
+            }
+
             .pos-pane {
+                display: none;
+            }
+
+            .pos-pane.is-active {
                 display: block;
             }
 

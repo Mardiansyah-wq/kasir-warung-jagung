@@ -4,27 +4,32 @@
 
     $shortLabels = [
         'Total Penjualan' => 'Penjualan',
-        'Dashboard' => 'Penjualan',
+        'Dashboard' => 'Ringkasan',
+        'Kasir' => 'Kasir',
         'Kelola Akun Pegawai' => 'Pegawai',
         'Kelola Menu' => 'Menu',
         'Kelola Stok' => 'Stok',
         'Riwayat Pesanan' => 'Riwayat',
         'Log Aktivitas' => 'Aktivitas',
+        'Laporan' => 'Laporan',
+        'Cabang' => 'Cabang',
+        'Pengaturan' => 'Pengaturan',
     ];
 
+    // Urutan tab mobile. Sisanya tetap bisa dibuka lewat tombol menu (drawer).
     $order = [
         'owner.dashboard' => 1,
         'staff.dashboard' => 1,
-        'owner.staff.index' => 2,
-        'owner.menus.index' => 3,
-        'staff.menus.index' => 3,
-        'owner.stock.index' => 4,
-        'staff.stock.index' => 4,
-        'owner.reports.index' => 5,
-        'staff.pos.index' => 5,
-        'owner.orders.index' => 6,
-        'staff.orders.index' => 6,
-        'staff.activity.index' => 7,
+        'owner.reports.index' => 2,
+        'staff.pos.index' => 2,
+        'owner.orders.index' => 3,
+        'staff.orders.index' => 3,
+        'owner.menus.index' => 4,
+        'staff.menus.index' => 4,
+        'owner.stock.index' => 5,
+        'staff.stock.index' => 5,
+        'owner.staff.index' => 6,
+        'staff.activity.index' => 6,
         'owner.activity.index' => 7,
     ];
 
@@ -41,7 +46,24 @@
 <div class="mobile-shell">
     <div class="mobile-brand">
         <div class="mobile-brand-row">
-            <strong class="mobile-brand-name">{{ config('app.name', 'Jagung Bakar WJT') }}</strong>
+            <div class="mobile-brand-left">
+                <button
+                    type="button"
+                    class="mobile-menu-btn"
+                    data-drawer-open
+                    aria-controls="app-sidebar"
+                    aria-expanded="false"
+                    aria-label="Buka menu navigasi"
+                >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                        <path d="M4 7h16M4 12h16M4 17h16"/>
+                    </svg>
+                </button>
+                <div class="mobile-brand-title-wrap">
+                    <strong class="mobile-brand-name">{{ config('app.name', 'Jagung Bakar WJT') }}</strong>
+                    <span class="mobile-brand-role">{{ $user->isOwner() ? 'Owner' : ($user->branch?->name ?? 'Staff') }}</span>
+                </div>
+            </div>
             <span class="mobile-open {{ $storeOpen ? '' : 'closed' }}">{{ $storeOpen ? 'Buka' : 'Tutup' }}</span>
         </div>
         <div class="mobile-meta">

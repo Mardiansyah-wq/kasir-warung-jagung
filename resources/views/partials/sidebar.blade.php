@@ -7,20 +7,27 @@
 
 <aside class="sidebar" id="app-sidebar" aria-label="Navigasi utama">
     <div class="sidebar-brand">
-        <img
-            src="{{ asset('img/logo-mark.png') }}"
-            alt=""
-            class="sidebar-logo"
-            width="52"
-            height="52"
-            decoding="async"
-        >
-        <span class="sidebar-name">{{ config('app.name', 'Jagung Bakar WJT') }}</span>
-        <span class="sidebar-tagline">Ruang administrasi</span>
+        <div class="sidebar-brand-content">
+            <img
+                src="{{ asset('img/logo-mark.png') }}"
+                alt=""
+                class="sidebar-logo"
+                width="52"
+                height="52"
+                decoding="async"
+            >
+            <span class="sidebar-name">{{ config('app.name', 'Jagung Bakar WJT') }}</span>
+            <span class="sidebar-tagline">{{ $user->isOwner() ? 'Ruang administrasi' : ($user->branch?->name ?? 'Kasir warung') }}</span>
+        </div>
+        <button type="button" class="sidebar-close-btn" data-drawer-close aria-label="Tutup navigasi">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+        </button>
     </div>
 
     <nav class="sidebar-nav" aria-label="Menu utama">
-        <span class="sidebar-group">Ruang admin</span>
+        <span class="sidebar-group">{{ $user->isOwner() ? 'Ruang Admin' : 'Operasional Kasir' }}</span>
 
         @foreach ($navigation['main'] as $item)
             <a

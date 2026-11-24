@@ -72,6 +72,18 @@
                     >{{ \App\Models\Menu::categoryLabelFor($item) }}</a>
                 @endforeach
             </div>
+
+            <div class="pos-mobile-switcher no-print" data-pos-switcher>
+                <button type="button" class="pos-mobile-tab {{ $items->isEmpty() ? 'active' : '' }}" data-pos-tab="menu">
+                    Pilih Menu
+                </button>
+                <button type="button" class="pos-mobile-tab {{ ! $items->isEmpty() ? 'active' : '' }}" data-pos-tab="tagihan">
+                    Tagihan ({{ $itemCount }})
+                    @if ($totalAmount > 0)
+                        · Rp {{ number_format($totalAmount, 0, ',', '.') }}
+                    @endif
+                </button>
+            </div>
         @endif
 
         <div class="pos-layout">
