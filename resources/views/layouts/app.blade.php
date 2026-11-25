@@ -4929,6 +4929,128 @@
             }
         }
 
+        /* Mobile comfort: readable inputs, friendly tap targets, safe text wrapping. */
+        @media (max-width: 767px) {
+            input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+            select:not([hidden]),
+            textarea {
+                font-size: 16px;
+            }
+
+            .sidebar-close-btn,
+            .sidebar-logout button,
+            .mobile-menu-btn,
+            .mobile-account-link,
+            .mobile-logout,
+            .mobile-tab,
+            .dash-recent-link {
+                display: inline-flex;
+                min-width: 44px;
+                min-height: 44px;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .chip,
+            .btn-sm,
+            .pager a,
+            .pager button,
+            .stock-filter-btn,
+            .menu-type-tab-btn,
+            .type-shortcut-btn,
+            .stock-mode-radio span,
+            .stepper-btn,
+            .stepper-input,
+            .btn-stock-submit,
+            .stock-search-clear,
+            details > summary {
+                min-height: 44px;
+            }
+
+            .chip,
+            .stock-filter-btn,
+            .menu-type-tab-btn,
+            .type-shortcut-btn {
+                display: inline-flex;
+                align-items: center;
+            }
+
+            .pager {
+                flex-wrap: wrap;
+                justify-content: center;
+                row-gap: 8px;
+            }
+
+            .pager > div {
+                flex: 1 1 120px;
+                text-align: center;
+            }
+
+            .activity-card-subject,
+            .activity-card-desc,
+            .activity-changes-box,
+            .activity-card-footer,
+            .receipt-line > :last-child,
+            .receipt-item-name,
+            .receipt-item-variant,
+            .receipt-meta,
+            .receipt-notes-content {
+                overflow-wrap: anywhere;
+            }
+
+            .receipt-line > :last-child,
+            .receipt-meta {
+                white-space: normal;
+            }
+
+            .chips,
+            .stock-filter-pills,
+            .menu-type-tabs {
+                scrollbar-width: thin;
+            }
+
+            .stock-menu-title,
+            .stock-item-title-row {
+                flex-wrap: wrap;
+                row-gap: 6px;
+            }
+
+            .stock-menu-title > span:first-child,
+            .stock-item-name,
+            .stock-item-price {
+                min-width: 0;
+                overflow-wrap: anywhere;
+            }
+
+            .stock-item-badge-wrap {
+                margin-left: auto;
+            }
+
+            .stock-menu-header {
+                flex-wrap: wrap;
+            }
+
+            .receipt-brand-title,
+            .receipt-item-total {
+                overflow-wrap: anywhere;
+            }
+
+            .receipt-item-total {
+                text-align: right;
+            }
+
+            .receipt-item-row {
+                gap: 8px;
+            }
+
+            .variant-row input,
+            .variant-row .check,
+            .variant-row .btn,
+            .variant-row-add .btn {
+                min-height: 44px;
+            }
+        }
+
         @media print {
             .sidebar,
             .topbar,

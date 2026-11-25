@@ -2,6 +2,43 @@
 
 @section('title', 'Papan Pesanan - Jagung Bakar WJT')
 
+@section('body_class', 'page-staff-pos')
+
+@push('styles')
+    <style>
+        body.page-staff-pos .pos-shortage-banner {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 14px;
+            padding: 12px 14px;
+            border: 1px solid #f6cfc9;
+            border-radius: 10px;
+            background: #fdf3f2;
+            color: #8a2c20;
+            font-size: 13px;
+        }
+
+        body.page-staff-pos .pos-shortage-banner .btn {
+            width: 100%;
+        }
+
+        @media (max-width: 1099px) {
+            body.page-staff-pos .order-card-actions > :last-child {
+                flex-basis: 100%;
+            }
+        }
+
+        @media (min-width: 600px) {
+            body.page-staff-pos .pos-shortage-banner .btn {
+                width: auto;
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head">
         <div>
@@ -17,9 +54,10 @@
     @include('partials.alerts')
 
     @if (session('stock_shortage') || $errors->has('stock'))
-        <p class="hint" style="margin: -8px 0 14px">
+        <div class="pos-shortage-banner">
+            <span>Stok tidak mencukupi untuk pesanan ini.</span>
             <a href="{{ route('staff.stock.index') }}" class="btn btn-sm">Tambah Stok Sekarang</a>
-        </p>
+        </div>
     @endif
 
     @unless ($branch)
@@ -89,9 +127,17 @@
         </form>
 
         @if ($orders->isEmpty())
+            @php
+                $hasFilters = $status !== 'active' || $search !== '';
+            @endphp
             <div class="card empty">
-                <h2>Belum ada pesanan</h2>
-                <p class="muted">Isi nama pelanggan di atas untuk membuat pesanan pertama.</p>
+                <h2>{{ $hasFilters ? 'Tidak ada pesanan untuk filter ini' : 'Belum ada pesanan' }}</h2>
+                <p class="muted">
+                    {{ $hasFilters ? 'Coba ubah status atau kata kunci pencarian.' : 'Isi nama pelanggan di atas untuk membuat pesanan pertama.' }}
+                </p>
+                @if ($hasFilters)
+                    <a href="{{ route('staff.pos.index') }}" class="btn btn-ghost">Reset filter</a>
+                @endif
             </div>
         @else
             <div class="order-grid">

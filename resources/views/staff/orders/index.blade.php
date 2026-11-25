@@ -2,6 +2,24 @@
 
 @section('title', 'Riwayat Pesanan - Jagung Bakar WJT')
 
+@section('body_class', 'page-staff-orders')
+
+@push('styles')
+    <style>
+        @media (max-width: 1099px) {
+            body.page-staff-orders .order-card {
+                border-left: 4px solid var(--border-warm);
+            }
+
+            body.page-staff-orders .order-open { border-left-color: var(--brand-amber); }
+            body.page-staff-orders .order-processing { border-left-color: #925807; }
+            body.page-staff-orders .order-ready { border-left-color: #3f6b3a; }
+            body.page-staff-orders .order-completed { border-left-color: #72645d; }
+            body.page-staff-orders .order-cancelled { border-left-color: #b43020; }
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head">
         <div>
@@ -41,9 +59,17 @@
     </form>
 
     @if ($orders->isEmpty())
+        @php
+            $hasFilters = (bool) $status || $search !== '' || $date !== '';
+        @endphp
         <div class="card empty">
-            <h2>Belum ada pesanan</h2>
-            <p class="muted">Pesanan yang dibuat di kasir akan muncul di sini.</p>
+            <h2>{{ $hasFilters ? 'Tidak ada hasil untuk filter ini' : 'Belum ada pesanan' }}</h2>
+            <p class="muted">
+                {{ $hasFilters ? 'Coba ubah status, tanggal, atau kata kunci pencarian.' : 'Pesanan yang dibuat di kasir akan muncul di sini.' }}
+            </p>
+            @if ($hasFilters)
+                <a href="{{ route('staff.orders.index') }}" class="btn btn-ghost">Reset filter</a>
+            @endif
         </div>
     @else
         <div class="show-mobile orders-cards">
@@ -161,13 +187,13 @@
             <div class="pager">
                 <div>
                     @if (! $orders->onFirstPage())
-                        <a href="{{ $orders->previousPageUrl() }}">← Sebelumnya</a>
+                        <a href="{{ $orders->previousPageUrl() }}" class="btn btn-sm btn-ghost">← Sebelumnya</a>
                     @endif
                 </div>
                 <span class="muted">Halaman {{ $orders->currentPage() }} dari {{ $orders->lastPage() }}</span>
                 <div>
                     @if ($orders->hasMorePages())
-                        <a href="{{ $orders->nextPageUrl() }}">Berikutnya →</a>
+                        <a href="{{ $orders->nextPageUrl() }}" class="btn btn-sm btn-ghost">Berikutnya →</a>
                     @endif
                 </div>
             </div>

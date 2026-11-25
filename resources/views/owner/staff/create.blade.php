@@ -2,6 +2,31 @@
 
 @section('title', 'Tambah Staff - Jagung Bakar WJT')
 
+@section('body_class', 'page-owner-staff-form')
+
+@push('styles')
+    <style>
+        body.page-owner-staff-form .form-card .hint,
+        body.page-owner-staff-form .form-card .muted {
+            display: block;
+            margin-top: 6px;
+            overflow-wrap: anywhere;
+        }
+
+        body.page-owner-staff-form .staff-password-wrap {
+            position: relative;
+        }
+
+        body.page-owner-staff-form .staff-password-wrap input {
+            padding-right: 48px;
+        }
+
+        body.page-owner-staff-form .staff-password-wrap .toggle-password {
+            right: 2px;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head">
         <div>
@@ -41,7 +66,10 @@
 
             <div class="field">
                 <label for="password">Password</label>
-                <input id="password" type="password" name="password" minlength="8" required>
+                <div class="staff-password-wrap">
+                    <input id="password" type="password" name="password" minlength="8" autocomplete="new-password" required>
+                    @include('partials.password-toggle', ['target' => 'password'])
+                </div>
                 <span class="hint">Minimal 8 karakter. Sampaikan ke staff agar bisa dipakai login.</span>
             </div>
 

@@ -2,6 +2,32 @@
 
 @section('title', 'Kelola Stok - Jagung Bakar WJT')
 
+@section('body_class', 'page-owner-stock')
+
+@push('styles')
+    <style>
+        body.page-owner-stock .stock-variant-count {
+            white-space: nowrap;
+        }
+
+        body.page-owner-stock .stock-item-title-row,
+        body.page-owner-stock .stock-item-header {
+            flex-wrap: wrap;
+            row-gap: 6px;
+        }
+
+        body.page-owner-stock .stock-item-name,
+        body.page-owner-stock .stock-item-price {
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+
+        body.page-owner-stock .stock-item-badge-wrap {
+            margin-left: auto;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head">
         <div>
@@ -127,7 +153,7 @@
                                 <span>{{ $menu->name }}</span>
                                 <span class="badge">{{ $menu->categoryLabel() }}</span>
                             </h2>
-                            <span class="muted" style="font-size: 12px">{{ $menu->variants->count() }} varian</span>
+                            <span class="muted stock-variant-count">{{ $menu->variants->count() }} varian</span>
                         </div>
 
                         {{-- Sub-filter Jenis Penyajian jika menu memiliki beberapa jenis (misal Utuh & Serut) --}}

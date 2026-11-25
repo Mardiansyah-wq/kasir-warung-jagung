@@ -2,6 +2,27 @@
 
 @section('title', 'Pengaturan - Jagung Bakar WJT')
 
+@section('body_class', 'page-owner-settings')
+
+@push('styles')
+    <style>
+        body.page-owner-settings .form-card .hint,
+        body.page-owner-settings .form-card .muted {
+            overflow-wrap: anywhere;
+        }
+
+        body.page-owner-settings .form-actions {
+            margin-top: 0;
+        }
+
+        @media (max-width: 639px) {
+            body.page-owner-settings .form-actions .btn {
+                width: 100%;
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head">
         <div>

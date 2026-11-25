@@ -2,6 +2,24 @@
 
 @section('title', 'Manajemen Cabang - Jagung Bakar WJT')
 
+@section('body_class', 'page-owner-branches')
+
+@push('styles')
+    <style>
+        body.page-owner-branches .table-wrap td[data-label="Aksi"] > div {
+            row-gap: 8px;
+        }
+
+        body.page-owner-branches .table-wrap td[data-label="Aksi"] .btn {
+            min-height: 44px;
+        }
+
+        body.page-owner-branches .table-wrap td {
+            overflow-wrap: anywhere;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head">
         <div>

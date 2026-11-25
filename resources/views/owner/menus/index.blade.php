@@ -2,6 +2,35 @@
 
 @section('title', 'Kelola Menu - Jagung Bakar WJT')
 
+@section('body_class', 'page-owner-menus')
+
+@push('styles')
+    <style>
+        @media (max-width: 719px) {
+            body.page-owner-menus .menu-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        body.page-owner-menus .menu-title-row h2,
+        body.page-owner-menus .menu-desc,
+        body.page-owner-menus .topping-note {
+            overflow-wrap: anywhere;
+        }
+
+        body.page-owner-menus .summary-pill,
+        body.page-owner-menus .menu-actions .btn {
+            min-height: 44px;
+        }
+
+        @media (min-width: 481px) and (max-width: 719px) {
+            body.page-owner-menus .menu-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head">
         <div>

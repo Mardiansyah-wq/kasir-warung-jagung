@@ -2,6 +2,22 @@
 
 @section('title', 'Tambah Menu - Jagung Bakar WJT')
 
+@section('body_class', 'page-owner-menu-form')
+
+@push('styles')
+    <style>
+        body.page-owner-menu-form .form-card .hint {
+            display: block;
+            margin-top: 6px;
+            overflow-wrap: anywhere;
+        }
+
+        body.page-owner-menu-form .form-section h2 {
+            overflow-wrap: anywhere;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head">
         <div>

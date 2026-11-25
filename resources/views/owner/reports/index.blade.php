@@ -2,6 +2,27 @@
 
 @section('title', 'Laporan Harian - Jagung Bakar WJT')
 
+@section('body_class', 'page-owner-report')
+
+@push('styles')
+    <style>
+        body.page-owner-report .stat-value,
+        body.page-owner-report .card .muted {
+            overflow-wrap: anywhere;
+        }
+
+        body.page-owner-report .report-meta {
+            text-align: right;
+        }
+
+        @media (max-width: 639px) {
+            body.page-owner-report .report-meta {
+                text-align: left;
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head">
         <div>
@@ -89,7 +110,7 @@
                 <h2>{{ $report['date_label'] }}</h2>
                 <p class="muted">{{ $report['branch_label'] }} · {{ $report['summary']['orders_total'] }} pesanan</p>
             </div>
-            <div style="text-align: right">
+            <div class="report-meta">
                 <p class="muted">
                     Selesai {{ $report['summary']['orders_completed'] }} ·
                     Berjalan {{ $report['summary']['orders_active'] }} ·

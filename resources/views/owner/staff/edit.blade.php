@@ -2,6 +2,31 @@
 
 @section('title', 'Ubah Staff - Jagung Bakar WJT')
 
+@section('body_class', 'page-owner-staff-form')
+
+@push('styles')
+    <style>
+        body.page-owner-staff-form .form-card .hint,
+        body.page-owner-staff-form .form-card .muted {
+            display: block;
+            margin-top: 6px;
+            overflow-wrap: anywhere;
+        }
+
+        body.page-owner-staff-form .staff-password-wrap {
+            position: relative;
+        }
+
+        body.page-owner-staff-form .staff-password-wrap input {
+            padding-right: 48px;
+        }
+
+        body.page-owner-staff-form .staff-password-wrap .toggle-password {
+            right: 2px;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head">
         <div>
@@ -59,15 +84,18 @@
 
             <div class="field">
                 <label for="password">Password Baru (opsional)</label>
-                <input
-                    id="password"
-                    type="password"
-                    name="password"
-                    minlength="8"
-                    maxlength="255"
-                    placeholder="Minimal 8 karakter (kosongkan jika tidak diubah)"
-                    autocomplete="new-password"
-                >
+                <div class="staff-password-wrap">
+                    <input
+                        id="password"
+                        type="password"
+                        name="password"
+                        minlength="8"
+                        maxlength="255"
+                        placeholder="Minimal 8 karakter (kosongkan jika tidak diubah)"
+                        autocomplete="new-password"
+                    >
+                    @include('partials.password-toggle', ['target' => 'password'])
+                </div>
                 <span class="hint">Kosongkan jika tidak ingin mengganti password lama staff.</span>
             </div>
 

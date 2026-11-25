@@ -604,7 +604,7 @@
             }
         }
 
-        @media (max-width: 999px) {
+        @media (max-width: 1199px) {
             .dash-split {
                 grid-template-columns: minmax(0, 1fr);
             }
@@ -772,9 +772,18 @@
             }
         }
 
+        .dash-range {
+            min-height: 44px;
+        }
+
         @media (max-width: 419px) {
             .dash-stats {
                 grid-template-columns: minmax(0, 1fr);
+                gap: 8px;
+            }
+
+            .dash-stat {
+                min-height: 112px;
             }
         }
 

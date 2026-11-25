@@ -2,6 +2,35 @@
 
 @section('title', 'Edit Menu - Jagung Bakar WJT')
 
+@section('body_class', 'page-owner-menu-form page-owner-menu-edit')
+
+@push('styles')
+    <style>
+        body.page-owner-menu-form .form-card .hint {
+            display: block;
+            margin-top: 6px;
+            overflow-wrap: anywhere;
+        }
+
+        body.page-owner-menu-form .form-section h2 {
+            overflow-wrap: anywhere;
+        }
+
+        body.page-owner-menu-edit .page-head p {
+            overflow-wrap: anywhere;
+        }
+
+        body.page-owner-menu-edit .variant-edit-title,
+        body.page-owner-menu-edit .live-preview-box {
+            overflow-wrap: anywhere;
+        }
+
+        body.page-owner-menu-edit .variant-edit-badges {
+            flex-wrap: wrap;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head">
         <div>
@@ -235,7 +264,7 @@
                 </div>
 
                 <input type="hidden" name="is_active" value="1">
-                <button type="submit" class="btn btn-sm" style="min-height: 40px">+ Tambah Varian</button>
+                <button type="submit" class="btn btn-sm">+ Tambah Varian</button>
             </form>
 
             <div class="live-preview-box" id="newVariantPreview">

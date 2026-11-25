@@ -2,6 +2,47 @@
 
 @section('title', 'Pesanan '.$order->queueLabel().' - Jagung Bakar WJT')
 
+@section('body_class', 'page-staff-order-show')
+
+@push('styles')
+    <style>
+        body.page-staff-order-show .page-head .cart-controls {
+            width: 100%;
+        }
+
+        body.page-staff-order-show .page-head .cart-controls .btn {
+            flex: 1 1 auto;
+        }
+
+        body.page-staff-order-show .order-title-name {
+            overflow-wrap: anywhere;
+        }
+
+        body.page-staff-order-show .cart-controls form {
+            display: flex;
+            flex: 1 1 auto;
+        }
+
+        body.page-staff-order-show .cart-controls form .btn {
+            width: 100%;
+        }
+
+        body.page-staff-order-show .btn-block {
+            overflow-wrap: anywhere;
+        }
+
+        body.page-staff-order-show .hint {
+            overflow-wrap: anywhere;
+        }
+
+        @media (min-width: 640px) {
+            body.page-staff-order-show .page-head .cart-controls {
+                width: auto;
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
     @php
         $paid = $order->paidAmount();

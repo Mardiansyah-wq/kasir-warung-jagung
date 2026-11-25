@@ -2,6 +2,43 @@
 
 @section('title', 'Menu - Jagung Bakar WJT')
 
+@section('body_class', 'page-staff-menus')
+
+@push('styles')
+    <style>
+        @media (max-width: 719px) {
+            body.page-staff-menus .menu-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        body.page-staff-menus .menu-title-row h2,
+        body.page-staff-menus .topping-note,
+        body.page-staff-menus .variant-name {
+            overflow-wrap: anywhere;
+        }
+
+        body.page-staff-menus .variant-item {
+            gap: 8px;
+        }
+
+        body.page-staff-menus .variant-name {
+            min-width: 0;
+        }
+
+        body.page-staff-menus .variant-meta {
+            flex: 0 0 auto;
+            text-align: right;
+        }
+
+        @media (min-width: 481px) and (max-width: 719px) {
+            body.page-staff-menus .menu-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head">
         <div>

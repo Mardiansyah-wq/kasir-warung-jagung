@@ -2,6 +2,30 @@
 
 @section('title', 'Pesanan '.$order->queueLabel().' - Jagung Bakar WJT')
 
+@section('body_class', 'page-owner-order-show')
+
+@push('styles')
+    <style>
+        body.page-owner-order-show .page-head .cart-controls {
+            width: 100%;
+        }
+
+        body.page-owner-order-show .page-head .cart-controls .btn {
+            flex: 1 1 auto;
+        }
+
+        body.page-owner-order-show .order-title-name {
+            overflow-wrap: anywhere;
+        }
+
+        @media (min-width: 640px) {
+            body.page-owner-order-show .page-head .cart-controls {
+                width: auto;
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head no-print">
         <div>

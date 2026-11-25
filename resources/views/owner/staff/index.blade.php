@@ -2,6 +2,38 @@
 
 @section('title', 'Manajemen Staff - Jagung Bakar WJT')
 
+@section('body_class', 'page-owner-staff')
+
+@push('styles')
+    <style>
+        body.page-owner-staff .staff-identity h2,
+        body.page-owner-staff .staff-identity p,
+        body.page-owner-staff .staff-reset form {
+            overflow-wrap: anywhere;
+        }
+
+        body.page-owner-staff .staff-actions {
+            row-gap: 8px;
+        }
+
+        @media (max-width: 639px) {
+            body.page-owner-staff .staff-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            body.page-owner-staff .staff-pending {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            body.page-owner-staff .staff-pending select,
+            body.page-owner-staff .staff-pending .btn {
+                width: 100%;
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head">
         <div>

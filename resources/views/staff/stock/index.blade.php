@@ -2,6 +2,21 @@
 
 @section('title', 'Kelola Stok - Jagung Bakar WJT')
 
+@section('body_class', 'page-staff-stock')
+
+@push('styles')
+    <style>
+        body.page-staff-stock .stock-variant-count {
+            white-space: nowrap;
+        }
+
+        body.page-staff-stock .stock-item-header {
+            flex-wrap: wrap;
+            row-gap: 6px;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head">
         <div>
@@ -98,7 +113,7 @@
                             <span>{{ $menu->name }}</span>
                             <span class="badge">{{ $menu->categoryLabel() }}</span>
                         </h2>
-                        <span class="muted" style="font-size: 12px">{{ $menu->variants->count() }} varian</span>
+                        <span class="muted stock-variant-count">{{ $menu->variants->count() }} varian</span>
                     </div>
 
                     {{-- Sub-filter Jenis Penyajian jika menu memiliki beberapa jenis (misal Utuh & Serut) --}}
@@ -226,7 +241,7 @@
         </div>
 
         <!-- Bagian Riwayat Stok Terbaru -->
-        <h2 class="group-title" style="margin-top: 32px">Riwayat Stok Terbaru</h2>
+        <h2 class="group-title">Riwayat Stok Terbaru</h2>
 
         @if ($movements->isEmpty())
             <div class="card empty">

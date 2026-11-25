@@ -2,6 +2,28 @@
 
 @section('title', 'Log Aktivitas - Jagung Bakar WJT')
 
+@section('body_class', 'page-owner-activity')
+
+@push('styles')
+    <style>
+        body.page-owner-activity .filter-bar .filter-search {
+            flex: 1 1 200px;
+        }
+
+        body.page-owner-activity .activity-card-subject,
+        body.page-owner-activity .activity-card-desc,
+        body.page-owner-activity .activity-card-user,
+        body.page-owner-activity .activity-changes-box,
+        body.page-owner-activity .activity-card-footer {
+            overflow-wrap: anywhere;
+        }
+
+        body.page-owner-activity .activity-card-user span:last-child {
+            text-transform: capitalize;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head">
         <div>
@@ -64,7 +86,7 @@
             </select>
         </div>
 
-        <div class="field" style="flex: 1 1 200px">
+        <div class="field filter-search">
             <label for="search">Cari</label>
             <input type="search" id="search" name="search" value="{{ $search }}" placeholder="Nama menu, varian, cabang, atau keterangan">
         </div>

@@ -207,6 +207,9 @@
         }
 
         .sd-section-head a {
+            display: inline-flex;
+            min-height: 44px;
+            align-items: center;
             color: var(--brand);
             font-size: 13px;
             font-weight: 600;
@@ -279,6 +282,20 @@
             font-size: 12px;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+
+        body.page-staff-dash .stat-value {
+            white-space: nowrap;
+        }
+
+        body.page-staff-dash .quick-grid {
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        }
+
+        @media (max-width: 1099px) {
+            body.page-staff-dash .order-card {
+                border-left: 4px solid var(--brand-amber);
+            }
         }
 
         @media (min-width: 900px) {

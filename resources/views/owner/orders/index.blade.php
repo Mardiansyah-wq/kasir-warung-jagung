@@ -2,6 +2,34 @@
 
 @section('title', 'Riwayat Pesanan - Jagung Bakar WJT')
 
+@section('body_class', 'page-owner-orders')
+
+@push('styles')
+    <style>
+        body.page-owner-orders .order-card-actions .btn {
+            min-height: 44px;
+        }
+
+        body.page-owner-orders .order-card-money > span {
+            display: inline-flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        @media (max-width: 1099px) {
+            body.page-owner-orders .order-card {
+                border-left: 4px solid var(--border-warm);
+            }
+
+            body.page-owner-orders .order-open { border-left-color: var(--brand-amber); }
+            body.page-owner-orders .order-processing { border-left-color: #925807; }
+            body.page-owner-orders .order-ready { border-left-color: #3f6b3a; }
+            body.page-owner-orders .order-completed { border-left-color: #72645d; }
+            body.page-owner-orders .order-cancelled { border-left-color: #b43020; }
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head">
         <div>
@@ -131,7 +159,7 @@
                             <th class="amount">Sisa</th>
                             <th>Status</th>
                             <th>Bayar</th>
-                            <th></th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -178,13 +206,13 @@
             <div class="pager">
                 <div>
                     @if (! $orders->onFirstPage())
-                        <a href="{{ $orders->previousPageUrl() }}">← Sebelumnya</a>
+                        <a href="{{ $orders->previousPageUrl() }}" class="btn btn-sm btn-ghost">← Sebelumnya</a>
                     @endif
                 </div>
                 <span class="muted">Halaman {{ $orders->currentPage() }} dari {{ $orders->lastPage() }}</span>
                 <div>
                     @if ($orders->hasMorePages())
-                        <a href="{{ $orders->nextPageUrl() }}">Berikutnya →</a>
+                        <a href="{{ $orders->nextPageUrl() }}" class="btn btn-sm btn-ghost">Berikutnya →</a>
                     @endif
                 </div>
             </div>

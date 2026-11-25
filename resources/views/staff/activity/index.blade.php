@@ -2,6 +2,28 @@
 
 @section('title', 'Log Aktivitas Stok - Jagung Bakar WJT')
 
+@section('body_class', 'page-staff-activity')
+
+@push('styles')
+    <style>
+        body.page-staff-activity .filter-bar .filter-search {
+            flex: 1 1 200px;
+        }
+
+        body.page-staff-activity .activity-card-subject,
+        body.page-staff-activity .activity-card-desc,
+        body.page-staff-activity .activity-card-user,
+        body.page-staff-activity .activity-changes-box,
+        body.page-staff-activity .activity-card-footer {
+            overflow-wrap: anywhere;
+        }
+
+        body.page-staff-activity .activity-card-user span:last-child {
+            text-transform: capitalize;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head">
         <div>
@@ -48,7 +70,7 @@
                 </select>
             </div>
 
-            <div class="field" style="flex: 1 1 200px">
+            <div class="field filter-search">
                 <label for="search">Cari</label>
                 <input type="search" id="search" name="search" value="{{ $search }}" placeholder="Nama menu, varian, atau keterangan">
             </div>
@@ -61,9 +83,17 @@
         </form>
 
         @if ($logs->isEmpty())
+            @php
+                $hasFilters = (bool) $from || (bool) $to || (bool) $userId || $search !== '';
+            @endphp
             <div class="card empty">
-                <h2>Belum ada aktivitas stok</h2>
-                <p class="muted">Penambahan, pengurangan, dan koreksi stok akan tercatat di sini.</p>
+                <h2>{{ $hasFilters ? 'Tidak ada aktivitas untuk filter ini' : 'Belum ada aktivitas stok' }}</h2>
+                <p class="muted">
+                    {{ $hasFilters ? 'Coba ubah rentang tanggal, staff, atau kata kunci.' : 'Penambahan, pengurangan, dan koreksi stok akan tercatat di sini.' }}
+                </p>
+                @if ($hasFilters)
+                    <a href="{{ route('staff.activity.index') }}" class="btn btn-ghost">Reset filter</a>
+                @endif
             </div>
         @else
             @include('partials.activity-table', ['logs' => $logs])

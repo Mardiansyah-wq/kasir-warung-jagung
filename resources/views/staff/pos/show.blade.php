@@ -2,6 +2,64 @@
 
 @section('title', 'Pesanan '.$order->queueLabel().' - Jagung Bakar WJT')
 
+@section('body_class', 'page-staff-pos-show')
+
+@push('styles')
+    <style>
+        body.page-staff-pos-show .cart-controls {
+            row-gap: 8px;
+        }
+
+        body.page-staff-pos-show .pos-mobile-tab {
+            min-height: 44px;
+            overflow-wrap: anywhere;
+        }
+
+        body.page-staff-pos-show .pos-tab-total {
+            display: block;
+            margin-top: 2px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        body.page-staff-pos-show details > summary {
+            display: flex;
+            min-height: 44px;
+            align-items: center;
+        }
+
+        body.page-staff-pos-show details > summary:focus-visible {
+            outline: 2px solid var(--brand-amber);
+            outline-offset: 2px;
+        }
+
+        body.page-staff-pos-show .summary-line--note {
+            align-items: flex-start;
+        }
+
+        body.page-staff-pos-show .summary-line--note > :last-child {
+            flex: 1 1 auto;
+            min-width: 0;
+            max-width: 70%;
+            overflow-wrap: anywhere;
+            text-align: right;
+            white-space: normal;
+        }
+
+        body.page-staff-pos-show .pos-menu-card:disabled {
+            opacity: .72;
+        }
+
+        @media (min-width: 900px) {
+            body.page-staff-pos-show .pos-cart {
+                max-height: calc(100dvh - 110px);
+                overflow-y: auto;
+                scrollbar-width: thin;
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
     @php
         $items = $order->items;
@@ -80,7 +138,7 @@
                 <button type="button" class="pos-mobile-tab {{ ! $items->isEmpty() ? 'active' : '' }}" data-pos-tab="tagihan">
                     Tagihan ({{ $itemCount }})
                     @if ($totalAmount > 0)
-                        · Rp {{ number_format($totalAmount, 0, ',', '.') }}
+                        <span class="pos-tab-total">Rp {{ number_format($totalAmount, 0, ',', '.') }}</span>
                     @endif
                 </button>
             </div>
@@ -149,7 +207,7 @@
 
                 @if ($items->isEmpty())
                     <p class="muted" style="margin: 14px 0">
-                        Belum ada item. Pilih menu untuk mulai pesanan.
+                        {{ $order->isActive() ? 'Belum ada item. Pilih menu untuk mulai pesanan.' : 'Pesanan ini belum memiliki item.' }}
                     </p>
                 @else
                     @foreach ($items as $item)
@@ -340,9 +398,9 @@
                             </form>
                         </details>
                     @elseif ($order->notes)
-                        <div class="summary-line" style="margin-top: 10px">
+                        <div class="summary-line summary-line--note" style="margin-top: 10px">
                             <span class="muted">Catatan</span>
-                            <span style="text-align: right">{{ $order->notes }}</span>
+                            <span>{{ $order->notes }}</span>
                         </div>
                     @endif
 

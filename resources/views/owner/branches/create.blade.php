@@ -2,6 +2,19 @@
 
 @section('title', 'Tambah Cabang - Jagung Bakar WJT')
 
+@section('body_class', 'page-owner-branches-form')
+
+@push('styles')
+    <style>
+        body.page-owner-branches-form .form-card .hint,
+        body.page-owner-branches-form .form-card .muted {
+            display: block;
+            margin-top: 6px;
+            overflow-wrap: anywhere;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-head">
         <div>
