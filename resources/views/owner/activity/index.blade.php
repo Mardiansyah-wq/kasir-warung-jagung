@@ -10,10 +10,7 @@
         </div>
         <div class="head-actions">
             <a href="{{ route('owner.stock.index') }}" class="btn btn-ghost">Kelola Stok</a>
-            <span class="role-chip role-chip-owner">
-                <span class="role-chip-dot" aria-hidden="true"></span>
-                Owner
-            </span>
+            @include('partials.role-chip', ['role' => 'owner'])
         </div>
     </div>
 

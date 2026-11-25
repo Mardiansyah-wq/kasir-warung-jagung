@@ -918,10 +918,32 @@
             background: #fdf6e6;
         }
 
+        .role-chip-staff {
+            border-color: #c7e5cb;
+            background: #edf7ed;
+            color: #1e7039;
+        }
+
         .role-chip-dot {
             width: 7px;
             height: 7px;
             border-radius: 50%;
+            background: var(--brand-amber);
+            box-shadow: 0 0 0 3px rgba(224, 183, 71, .18);
+        }
+
+        .role-chip-staff .role-chip-dot {
+            background: #3f6b3a;
+            box-shadow: 0 0 0 3px rgba(63, 107, 58, .15);
+        }
+
+        .role-chip-hero {
+            border-color: rgba(232, 205, 140, .35);
+            background: rgba(255, 253, 247, .08);
+            color: #f2dfb4;
+        }
+
+        .role-chip-hero .role-chip-dot {
             background: var(--brand-amber);
             box-shadow: 0 0 0 3px rgba(224, 183, 71, .18);
         }

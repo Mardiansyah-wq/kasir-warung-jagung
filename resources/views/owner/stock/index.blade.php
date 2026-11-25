@@ -10,9 +10,9 @@
                 Tambah, kurangi, atau koreksi stok per cabang. Semua perubahan tercatat di log aktivitas.
             </p>
         </div>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center">
+        <div class="head-actions">
             <a href="{{ route('owner.activity.index', ['action' => 'stock']) }}" class="btn btn-ghost">Log Stok</a>
-            <span class="badge">Owner</span>
+            @include('partials.role-chip', ['role' => 'owner'])
         </div>
     </div>
 

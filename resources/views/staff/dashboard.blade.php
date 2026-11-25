@@ -80,29 +80,6 @@
             font-size: 13.5px;
         }
 
-        .sd-role {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 11px;
-            border: 1px solid rgba(232, 205, 140, .35);
-            border-radius: 999px;
-            background: rgba(255, 253, 247, .08);
-            color: #f2dfb4;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: .05em;
-            text-transform: uppercase;
-        }
-
-        .sd-role::before {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--brand-amber);
-            content: "";
-        }
-
         body.page-staff-dash .grid.stats {
             margin-bottom: 16px;
         }
@@ -341,7 +318,7 @@
                 <h1>Dashboard Staff</h1>
                 <p>Cabang: {{ $branch?->name ?? 'Belum ditentukan' }}</p>
             </div>
-            <span class="sd-role">Staff</span>
+            @include('partials.role-chip', ['role' => 'staff', 'hero' => true])
         </div>
     </div>
 

@@ -8,7 +8,7 @@
             <h1>Menu</h1>
             <p class="muted">{{ $branch?->name ?? 'Cabang belum ditentukan' }}</p>
         </div>
-        <span class="badge">Staff</span>
+        @include('partials.role-chip', ['role' => 'staff'])
     </div>
 
     <div class="chips">

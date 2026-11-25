@@ -11,9 +11,9 @@
                 {{ $branch?->name ?? 'cabang kamu' }}.
             </p>
         </div>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap">
+        <div class="head-actions">
             <a href="{{ route('staff.stock.index') }}" class="btn btn-ghost">Kelola Stok</a>
-            <span class="badge">Staff</span>
+            @include('partials.role-chip', ['role' => 'staff'])
         </div>
     </div>
 

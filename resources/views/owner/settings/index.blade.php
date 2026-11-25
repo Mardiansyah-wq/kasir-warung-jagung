@@ -8,7 +8,7 @@
             <h1>Pengaturan</h1>
             <p class="muted">Atur fitur operasional yang dipakai di kasir.</p>
         </div>
-        <span class="badge">Owner</span>
+        @include('partials.role-chip', ['role' => 'owner'])
     </div>
 
     @include('partials.alerts')

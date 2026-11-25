@@ -8,9 +8,9 @@
             <h1>Kelola Stok</h1>
             <p class="muted">{{ $branch?->name ?? 'Cabang belum ditentukan' }}</p>
         </div>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center">
+        <div class="head-actions">
             <a href="{{ route('staff.activity.index') }}" class="btn btn-ghost">Log Aktivitas</a>
-            <span class="badge">Staff</span>
+            @include('partials.role-chip', ['role' => 'staff'])
         </div>
     </div>
 

@@ -8,13 +8,14 @@
             <h1>Akun Saya</h1>
             <p class="muted">
                 {{ $user->name }} · {{ $user->email }}
+                @unless ($user->isOwner())
+                    · {{ $user->branch?->name ?? 'Staff' }}
+                @endunless
             </p>
         </div>
-        @if ($user->isOwner())
-            <span class="badge">Owner</span>
-        @else
-            <span class="badge">{{ $user->branch?->name ?? 'Staff' }}</span>
-        @endif
+        <div class="head-actions">
+            @include('partials.role-chip', ['role' => $user->isOwner() ? 'owner' : 'staff'])
+        </div>
     </div>
 
     @include('partials.alerts')

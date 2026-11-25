@@ -868,14 +868,17 @@
             <p class="dash-sub">Setiap cangkir punya cerita. Lihat penjualan kedai Anda.</p>
         </div>
 
-        <a
-            href="{{ route('owner.reports.index', array_filter(['date' => today()->toDateString(), 'branch_id' => $branchId])) }}"
-            class="dash-download"
-            title="Buka laporan untuk mengunduh PDF atau Excel"
-        >
-            @include('partials.nav-icon', ['name' => 'download'])
-            <span>Unduh laporan</span>
-        </a>
+        <div class="head-actions">
+            @include('partials.role-chip', ['role' => 'owner'])
+            <a
+                href="{{ route('owner.reports.index', array_filter(['date' => today()->toDateString(), 'branch_id' => $branchId])) }}"
+                class="dash-download"
+                title="Buka laporan untuk mengunduh PDF atau Excel"
+            >
+                @include('partials.nav-icon', ['name' => 'download'])
+                <span>Unduh laporan</span>
+            </a>
+        </div>
     </div>
 
     <div class="dash-toolbar">

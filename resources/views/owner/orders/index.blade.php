@@ -8,7 +8,7 @@
             <h1>Riwayat Pesanan</h1>
             <p class="muted">Semua cabang. Owner hanya dapat melihat.</p>
         </div>
-        <span class="badge">Owner</span>
+        @include('partials.role-chip', ['role' => 'owner'])
     </div>
 
     @include('partials.alerts')
