@@ -63,7 +63,7 @@
                         <span class="staff-avatar" aria-hidden="true">{{ $initial }}</span>
                         <div class="staff-identity">
                             <h2>{{ $user->name }}</h2>
-                            <p>{{ $user->email }}</p>
+                            <p title="{{ $user->email }}">{{ $user->email }}</p>
                         </div>
 
                         @if ($user->is_active)

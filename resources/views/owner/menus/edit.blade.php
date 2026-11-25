@@ -121,7 +121,7 @@
                                     type="text"
                                     name="type"
                                     value="{{ $variant->type }}"
-                                    placeholder="Misal: Utuh, Serut, Pisang Raja"
+                                    placeholder="Misal: Utuh"
                                     aria-label="Jenis varian"
                                     maxlength="50"
                                 >
@@ -134,7 +134,7 @@
                                     type="text"
                                     name="variant_name"
                                     value="{{ $variant->variant_name }}"
-                                    placeholder="Misal: Original, Pedas Manis, Keju"
+                                    placeholder="Misal: Original"
                                     aria-label="Nama varian"
                                     maxlength="100"
                                     required
@@ -215,7 +215,7 @@
                         id="new_variant_type"
                         type="text"
                         name="type"
-                        placeholder="{{ $isCorn ? 'Misal: Utuh atau Serut' : ($isBanana ? 'Misal: Pisang Raja atau Pisang Kepok' : ($isDrink ? 'Misal: Es atau Panas' : 'Misal: Reguler')) }}"
+                        placeholder="{{ $isCorn ? 'Misal: Utuh / Serut' : ($isBanana ? 'Misal: Pisang Raja' : ($isDrink ? 'Misal: Es / Panas' : 'Misal: Reguler')) }}"
                         aria-label="Jenis penyajian baru"
                         maxlength="50"
                         autocomplete="off"
@@ -244,7 +244,7 @@
                         id="new_variant_name"
                         type="text"
                         name="variant_name"
-                        placeholder="Misal: Original, Pedas Manis, Keju"
+                        placeholder="Misal: Original"
                         aria-label="Nama varian baru"
                         maxlength="100"
                         required

@@ -6,10 +6,6 @@
 
 @push('styles')
     <style>
-        body.page-staff-activity .filter-bar .filter-search {
-            flex: 1 1 200px;
-        }
-
         body.page-staff-activity .activity-card-subject,
         body.page-staff-activity .activity-card-desc,
         body.page-staff-activity .activity-card-user,
@@ -72,7 +68,7 @@
 
             <div class="field filter-search">
                 <label for="search">Cari</label>
-                <input type="search" id="search" name="search" value="{{ $search }}" placeholder="Nama menu, varian, atau keterangan">
+                <input type="search" id="search" name="search" value="{{ $search }}" placeholder="Menu, varian, keterangan">
             </div>
 
             <button type="submit" class="btn">Filter</button>

@@ -47,9 +47,9 @@
             <input type="date" id="date" name="date" value="{{ $date }}">
         </div>
 
-        <div class="field" style="flex: 1 1 200px">
+        <div class="field filter-search">
             <label for="search">Cari</label>
-            <input type="search" id="search" name="search" value="{{ $search }}" placeholder="Nama, #nomor, atau kode order">
+            <input type="search" id="search" name="search" value="{{ $search }}" placeholder="Nama / nomor / kode">
         </div>
 
         <button type="submit" class="btn">Filter</button>

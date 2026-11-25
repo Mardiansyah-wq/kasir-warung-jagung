@@ -118,7 +118,7 @@
             <input type="hidden" name="status" value="{{ $status }}">
             <div class="field" style="flex: 1 1 220px">
                 <label for="search">Cari nama / nomor pesanan</label>
-                <input type="search" id="search" name="search" value="{{ $search }}" placeholder="Budi, #023, atau kode order">
+                <input type="search" id="search" name="search" value="{{ $search }}" placeholder="Nama / nomor / kode">
             </div>
             <button type="submit" class="btn">Cari</button>
             @if ($search !== '')

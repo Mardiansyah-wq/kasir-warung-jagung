@@ -4,7 +4,9 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class AccountTest extends TestCase
@@ -30,7 +32,8 @@ class AccountTest extends TestCase
         $this->actingAs($staff)
             ->get(route('account.index'))
             ->assertOk()
-            ->assertSee('Akun Saya');
+            ->assertSee('Akun Saya')
+            ->assertDontSee('src=""', false);
     }
 
     public function test_guest_is_redirected_to_login(): void
@@ -157,10 +160,10 @@ class AccountTest extends TestCase
 
     public function test_user_can_upload_profile_photo(): void
     {
-        \Illuminate\Support\Facades\Storage::fake('local');
+        Storage::fake('local');
 
         $user = User::factory()->create();
-        $file = \Illuminate\Http\UploadedFile::fake()->image('avatar.jpg', 200, 200);
+        $file = UploadedFile::fake()->image('avatar.jpg', 200, 200);
 
         $this->actingAs($user)
             ->patch(route('account.update'), [
@@ -173,7 +176,7 @@ class AccountTest extends TestCase
 
         $user->refresh();
         $this->assertNotNull($user->photo_path);
-        \Illuminate\Support\Facades\Storage::disk('local')->assertExists($user->photo_path);
+        Storage::disk('local')->assertExists($user->photo_path);
 
         $this->actingAs($user)
             ->get(route('media.users.avatar', $user))
@@ -182,9 +185,9 @@ class AccountTest extends TestCase
 
     public function test_user_can_remove_profile_photo(): void
     {
-        \Illuminate\Support\Facades\Storage::fake('local');
+        Storage::fake('local');
 
-        \Illuminate\Support\Facades\Storage::disk('local')->put('avatars/old.jpg', 'fake-image-content');
+        Storage::disk('local')->put('avatars/old.jpg', 'fake-image-content');
         $user = User::factory()->create(['photo_path' => 'avatars/old.jpg']);
 
         $this->actingAs($user)
@@ -198,6 +201,6 @@ class AccountTest extends TestCase
 
         $user->refresh();
         $this->assertNull($user->photo_path);
-        \Illuminate\Support\Facades\Storage::disk('local')->assertMissing('avatars/old.jpg');
+        Storage::disk('local')->assertMissing('avatars/old.jpg');
     }
 }

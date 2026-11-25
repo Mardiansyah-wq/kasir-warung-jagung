@@ -204,7 +204,7 @@
 
         .pa-upload-btn {
             display: inline-flex;
-            min-height: 42px;
+            min-height: 44px;
             align-items: center;
             gap: 8px;
             width: fit-content;
@@ -279,6 +279,12 @@
             margin-top: 0;
         }
 
+        @media (max-width: 767px) {
+            .pa-remove {
+                min-height: 44px;
+            }
+        }
+
         @media (min-width: 760px) {
             .pa-hero {
                 flex-direction: row;
@@ -317,7 +323,7 @@
                     <span class="pa-initials pa-hidden" id="avatar-initials">{{ $user->initials() }}</span>
                 @else
                     <span class="pa-initials" id="avatar-initials">{{ $user->initials() }}</span>
-                    <img src="" alt="" id="avatar-preview" class="pa-hidden">
+                    <img alt="" id="avatar-preview" class="pa-hidden">
                 @endif
             </div>
 

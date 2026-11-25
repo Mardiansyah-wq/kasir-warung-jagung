@@ -52,7 +52,7 @@
                         type="text"
                         name="type"
                         value="{{ old('type') }}"
-                        placeholder="Misal: Utuh, Serut, Pisang Raja, Es"
+                        placeholder="Misal: Utuh / Serut"
                         maxlength="50"
                         aria-describedby="type-hint"
                         autocomplete="off"
@@ -69,7 +69,7 @@
                         type="text"
                         name="variant_name"
                         value="{{ old('variant_name') }}"
-                        placeholder="Misal: Original, Pedas Manis, Keju"
+                        placeholder="Misal: Original, Keju"
                         maxlength="100"
                         aria-describedby="variant-hint"
                         required

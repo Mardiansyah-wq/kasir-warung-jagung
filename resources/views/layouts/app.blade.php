@@ -171,7 +171,7 @@
             align-items: center;
             gap: 9px;
             width: 100%;
-            min-height: 42px;
+            min-height: 44px;
             padding: 9px 9px;
             border: 0;
             border-radius: 8px;
@@ -1084,12 +1084,12 @@
         .toggle-password {
             position: absolute;
             top: 50%;
-            right: 4px;
+            right: 2px;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             padding: 0;
             border: 0;
             border-radius: 8px;
@@ -1314,7 +1314,7 @@
             position: absolute;
             top: 50%;
             right: 6px;
-            min-height: 40px;
+            min-height: 44px;
             padding: 0 10px;
             border: 0;
             border-radius: 6px;
@@ -1930,6 +1930,13 @@
             width: 100%;
             margin: 0;
             min-height: 40px;
+        }
+
+        .variant-row input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            min-height: 18px;
+            margin: 0;
         }
 
         .variant-row .check {
@@ -2865,6 +2872,16 @@
 
         .filter-bar .field {
             margin: 0;
+        }
+
+        .filter-bar .filter-search {
+            min-width: 0;
+        }
+
+        @media (min-width: 600px) {
+            .filter-bar .filter-search {
+                flex: 1 1 200px;
+            }
         }
 
         .filter-bar input,
@@ -3896,7 +3913,7 @@
 
             .order-card-actions .btn {
                 flex: 1 1 45%;
-                min-height: 42px;
+                min-height: 44px;
             }
 
             .order-card-actions form {
@@ -4251,13 +4268,19 @@
             position: relative;
             display: flex;
             align-items: center;
-            flex: 1 1 260px;
+            flex: 0 0 auto;
             min-width: 0;
             background: var(--surface-warm);
             border: 1px solid var(--border-warm);
             border-radius: 10px;
             padding: 0 12px;
             transition: border-color .15s ease, box-shadow .15s ease;
+        }
+
+        @media (min-width: 640px) {
+            .stock-search-wrap {
+                flex: 1 1 260px;
+            }
         }
 
         .stock-search-wrap:focus-within {
@@ -4687,6 +4710,12 @@
             .stock-stepper {
                 flex: 1 1 auto;
                 justify-content: space-between;
+                min-width: 0;
+            }
+
+            .stepper-btn {
+                flex: 0 0 44px;
+                width: 44px;
             }
 
             .stepper-input {
@@ -4870,6 +4899,7 @@
             .stepper-input,
             .btn-stock-submit,
             .stock-search-clear,
+            .check,
             details > summary {
                 min-height: 44px;
             }
@@ -4955,6 +4985,14 @@
             .variant-row .btn,
             .variant-row-add .btn {
                 min-height: 44px;
+            }
+        }
+
+        @media (max-width: 359px) {
+            .staff-identity p {
+                overflow-wrap: anywhere;
+                text-overflow: clip;
+                white-space: normal;
             }
         }
 
