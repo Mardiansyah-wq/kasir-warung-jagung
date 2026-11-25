@@ -54,10 +54,21 @@
             color: var(--text);
             font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
             line-height: 1.5;
+            -webkit-tap-highlight-color: rgba(180, 48, 32, .12);
         }
 
         a {
             color: inherit;
+        }
+
+        ::selection {
+            background: rgba(224, 183, 71, .35);
+            color: var(--brand-brown);
+        }
+
+        :where(a, button, summary, [role="button"]):focus-visible {
+            outline: 2px solid var(--brand);
+            outline-offset: 2px;
         }
 
         /* Shell: sidebar + topbar */
