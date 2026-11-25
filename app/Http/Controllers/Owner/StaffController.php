@@ -7,6 +7,8 @@ use App\Models\Branch;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class StaffController extends Controller
@@ -43,7 +45,7 @@ class StaffController extends Controller
             'phone' => ['required', 'string', 'max:30'],
             'address' => ['required', 'string', 'max:500'],
             'password' => ['required', 'string', 'min:8', 'max:255'],
-            'branch_id' => ['required', 'exists:branches,id'],
+            'branch_id' => ['required', Rule::exists('branches', 'id')->where('is_active', true)],
         ]);
 
         User::create([
@@ -85,7 +87,7 @@ class StaffController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id],
             'phone' => ['required', 'string', 'max:30'],
             'address' => ['required', 'string', 'max:500'],
-            'branch_id' => ['required', 'exists:branches,id'],
+            'branch_id' => ['required', Rule::exists('branches', 'id')->where('is_active', true)],
             'password' => ['nullable', 'string', 'min:8', 'max:255'],
         ]);
 
@@ -103,6 +105,10 @@ class StaffController extends Controller
 
         $user->update($payload);
 
+        if (! empty($data['password'])) {
+            $this->revokeSessions($user);
+        }
+
         return redirect()->route('owner.staff.index')->with('success', '✅ Data staff berhasil diperbarui.');
     }
 
@@ -114,12 +120,13 @@ class StaffController extends Controller
 
         if ($user->is_active) {
             $user->update(['is_active' => false]);
+            $this->revokeSessions($user);
 
             return redirect()->route('owner.staff.index')->with('success', '✅ Staff berhasil dinonaktifkan.');
         }
 
         $data = $request->validate([
-            'branch_id' => ['required', 'exists:branches,id'],
+            'branch_id' => ['required', Rule::exists('branches', 'id')->where('is_active', true)],
         ]);
 
         $user->update([
@@ -144,6 +151,19 @@ class StaffController extends Controller
             'password_hash' => $request->password,
         ]);
 
+        $this->revokeSessions($user);
+
         return redirect()->route('owner.staff.index')->with('success', '✅ Password staff berhasil direset.');
+    }
+
+    private function revokeSessions(User $user): void
+    {
+        if (config('session.driver') !== 'database') {
+            return;
+        }
+
+        DB::table(config('session.table', 'sessions'))
+            ->where('user_id', $user->id)
+            ->delete();
     }
 }

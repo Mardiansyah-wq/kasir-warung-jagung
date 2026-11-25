@@ -59,7 +59,7 @@
                         @else
                             <div class="menu-placeholder">{{ $menu->categoryEmoji() }}</div>
                         @endif
-                        <span class="badge">{{ $menu->categoryLabel() }}</span>
+                        <span class="badge badge-cat-{{ $menu->category }}">{{ $menu->categoryLabel() }}</span>
                     </div>
 
                     <div class="menu-body">

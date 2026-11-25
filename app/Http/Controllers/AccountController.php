@@ -71,8 +71,11 @@ class AccountController extends Controller
             ->with('success', 'Profil berhasil diperbarui.');
     }
 
-    public function avatar(User $user): BinaryFileResponse
+    public function avatar(Request $request, User $user): BinaryFileResponse
     {
+        $viewer = $request->user();
+
+        abort_unless($viewer->id === $user->id || $viewer->isOwner(), 403);
         abort_if(! $user->photo_path, 404);
 
         $disk = Storage::disk('local');
@@ -111,6 +114,8 @@ class AccountController extends Controller
         $request->user()->update([
             'password_hash' => $data['password'],
         ]);
+
+        $request->session()->put('auth_password_hash', (string) $request->user()->getAuthPassword());
 
         return redirect()
             ->route('account.index')

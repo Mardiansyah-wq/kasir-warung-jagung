@@ -47,6 +47,8 @@ class LoginController extends Controller
         }
 
         $request->session()->regenerate();
+        $request->session()->put('auth_user_id', $request->user()->id);
+        $request->session()->put('auth_password_hash', (string) $request->user()->getAuthPassword());
 
         return redirect()->intended(route($request->user()->homeRouteName()));
     }

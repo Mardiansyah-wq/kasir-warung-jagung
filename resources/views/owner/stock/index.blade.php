@@ -214,7 +214,7 @@
                                                 </label>
                                                 <label class="stock-mode-radio" title="Koreksi stok langsung ke angka ini">
                                                     <input type="radio" name="mode" value="set" @checked($selectedMode === 'set') data-mode-radio>
-                                                    <span>= Set</span>
+                                                    <span>Koreksi (=)</span>
                                                 </label>
                                             </div>
 

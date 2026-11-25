@@ -22,6 +22,12 @@ class OrderController extends Controller
         $branchId = $request->integer('branch_id') ?: null;
         $search = trim($request->string('search')->toString());
 
+        $filters = $request->validate([
+            'date' => ['nullable', 'date_format:Y-m-d'],
+        ]);
+
+        $date = $filters['date'] ?? null;
+
         $orders = Order::query()
             ->when($branchId, fn ($query) => $query->where('branch_id', $branchId))
             ->when($status, fn ($query) => $query->where('status', $status))
@@ -35,7 +41,7 @@ class OrderController extends Controller
                     }
                 });
             })
-            ->when($request->filled('date'), fn ($query) => $query->whereDate('created_at', $request->date('date')))
+            ->when($date, fn ($query) => $query->whereDate('created_at', $date))
             ->with(['branch', 'creator', 'payments'])
             ->withSum(['payments as paid_amount' => fn ($query) => $query->where('status', Payment::STATUS_PAID)], 'amount')
             ->withCount('items')
@@ -53,7 +59,7 @@ class OrderController extends Controller
             'status' => $status,
             'branchId' => $branchId,
             'search' => $search,
-            'date' => $request->string('date')->toString(),
+            'date' => $date ?? '',
             'todaySales' => (float) (clone $todayPayments)->sum('amount'),
             'todayCount' => (clone $todayPayments)->count(),
         ]);

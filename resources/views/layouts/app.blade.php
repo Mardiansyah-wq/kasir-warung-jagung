@@ -633,33 +633,26 @@
             }
 
             .mobile-nav {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                padding: 10px 14px;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 6px;
+                padding: 9px 12px;
                 border-bottom: 1px solid var(--border-warm);
                 background: var(--bg-warm);
             }
 
-            .mobile-nav::-webkit-scrollbar {
-                display: none;
-            }
-
             .mobile-tab {
                 display: inline-flex;
-                flex: 0 0 auto;
+                min-width: 0;
                 align-items: center;
                 justify-content: center;
                 min-height: 36px;
-                padding: 6px 14px;
+                padding: 6px 4px;
                 border-radius: 999px;
                 border: 1px solid var(--border-warm);
                 background: var(--surface-warm);
                 color: var(--muted-warm);
-                font-size: 13px;
+                font-size: 12px;
                 font-weight: 600;
                 line-height: 1;
                 white-space: nowrap;
@@ -3928,15 +3921,6 @@
             color: #a16207;
         }
 
-        .summary-pill.is-bad {
-            border-color: #f3c9c4;
-            background: #fdf1ef;
-        }
-
-        .summary-pill.is-bad strong {
-            color: #b91c1c;
-        }
-
         /* Kartu menu */
         .menu-card {
             transition: transform .15s ease, box-shadow .15s ease;
@@ -3971,10 +3955,10 @@
         }
 
         .menu-thumb .menu-status {
-            position: absolute;
             top: 8px;
             right: 8px;
-            background: rgba(255, 255, 255, .94);
+            left: auto;
+            background: rgba(255, 253, 247, .94);
         }
 
         .menu-thumb .menu-status.status-ready {
@@ -3983,6 +3967,183 @@
 
         .menu-thumb .menu-status.status-completed {
             color: #6b7280;
+        }
+
+        /* Kartu staff */
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 14px;
+        }
+
+        .staff-card {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--surface);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
+        }
+
+        .staff-card.is-inactive {
+            border-style: dashed;
+            background: #fdfaf2;
+        }
+
+        .staff-card-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .staff-avatar {
+            display: grid;
+            flex: 0 0 auto;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--brand-brown);
+            color: #f9f4e6;
+            font-family: var(--font-serif);
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: .02em;
+            place-items: center;
+        }
+
+        .staff-identity {
+            min-width: 0;
+        }
+
+        .staff-identity h2 {
+            margin: 0;
+            overflow: hidden;
+            font-size: 1rem;
+            line-height: 1.3;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .staff-identity p {
+            margin: 2px 0 0;
+            overflow: hidden;
+            color: var(--muted);
+            font-size: 12.5px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .staff-card-head .status {
+            flex: 0 0 auto;
+            margin-left: auto;
+        }
+
+        .staff-meta {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px 12px;
+            margin: 0;
+            padding-top: 12px;
+            border-top: 1px dashed var(--border);
+        }
+
+        .staff-meta dt {
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+        }
+
+        .staff-meta dd {
+            margin: 2px 0 0;
+            overflow-wrap: anywhere;
+            font-size: 13px;
+        }
+
+        .staff-actions {
+            display: flex;
+            gap: 6px;
+            margin-top: auto;
+        }
+
+        .staff-actions .btn {
+            flex: 1 1 0;
+            justify-content: center;
+        }
+
+        .staff-actions form {
+            display: flex;
+            flex: 1 1 0;
+            margin: 0;
+        }
+
+        .staff-actions form .btn {
+            width: 100%;
+        }
+
+        .staff-reset {
+            padding-top: 10px;
+            border-top: 1px dashed var(--border);
+        }
+
+        .staff-reset summary {
+            color: var(--muted);
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .staff-reset summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .staff-reset summary::before {
+            content: "+";
+            margin-right: 6px;
+            color: var(--brand);
+            font-weight: 700;
+        }
+
+        .staff-reset[open] summary::before {
+            content: "\2212";
+        }
+
+        .staff-reset form {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .staff-reset input {
+            flex: 1 1 auto;
+            min-width: 0;
+            margin: 0;
+        }
+
+        .staff-pending {
+            display: flex;
+            gap: 6px;
+            margin-top: auto;
+        }
+
+        .staff-pending select {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .staff-pending .btn {
+            flex: 0 0 auto;
+        }
+
+        @media (max-width: 520px) {
+            .staff-meta {
+                grid-template-columns: minmax(0, 1fr);
+            }
         }
 
         /* ---------- Styling Modern Stok (Owner & Staff) ---------- */

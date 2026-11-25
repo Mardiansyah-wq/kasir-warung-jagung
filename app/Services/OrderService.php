@@ -13,6 +13,7 @@ use App\Models\OrderItem;
 use App\Models\Payment;
 use App\Models\StockMovement;
 use App\Models\User;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -94,7 +95,9 @@ class OrderService
 
                     $existing->update([
                         'quantity' => $newQuantity,
-                        'line_total' => ((float) $existing->unit_price + (float) $existing->topping_price) * $newQuantity,
+                        'unit_price' => $unitPrice,
+                        'topping_price' => $toppingPrice,
+                        'line_total' => ($unitPrice + $toppingPrice) * $newQuantity,
                     ]);
                 } else {
                     $order->items()->create([
@@ -540,19 +543,7 @@ class OrderService
             $branch = Branch::query()->findOrFail($branchId);
             $variant = MenuVariant::query()->with('menu')->findOrFail($variantId);
 
-            $stock = BranchStock::query()
-                ->where('branch_id', $branchId)
-                ->where('menu_variant_id', $variantId)
-                ->lockForUpdate()
-                ->first();
-
-            if (! $stock) {
-                $stock = BranchStock::create([
-                    'branch_id' => $branchId,
-                    'menu_variant_id' => $variantId,
-                    'quantity' => 0,
-                ]);
-            }
+            $stock = $this->lockOrCreateStock($branchId, $variantId);
 
             $before = (int) $stock->quantity;
             $after = match ($mode) {
@@ -714,19 +705,7 @@ class OrderService
 
     private function returnStock(Order $order, User $user, int $variantId, int $quantity, string $note): void
     {
-        $stock = BranchStock::query()
-            ->where('branch_id', $order->branch_id)
-            ->where('menu_variant_id', $variantId)
-            ->lockForUpdate()
-            ->first();
-
-        if (! $stock) {
-            $stock = BranchStock::create([
-                'branch_id' => $order->branch_id,
-                'menu_variant_id' => $variantId,
-                'quantity' => 0,
-            ]);
-        }
+        $stock = $this->lockOrCreateStock((int) $order->branch_id, $variantId);
 
         $stock->increment('quantity', $quantity);
 
@@ -739,6 +718,33 @@ class OrderService
             'note' => $note,
             'occurred_at' => now(),
         ]);
+    }
+
+    private function lockOrCreateStock(int $branchId, int $variantId): BranchStock
+    {
+        $stock = BranchStock::query()
+            ->where('branch_id', $branchId)
+            ->where('menu_variant_id', $variantId)
+            ->lockForUpdate()
+            ->first();
+
+        if ($stock) {
+            return $stock;
+        }
+
+        try {
+            return BranchStock::create([
+                'branch_id' => $branchId,
+                'menu_variant_id' => $variantId,
+                'quantity' => 0,
+            ]);
+        } catch (UniqueConstraintViolationException) {
+            return BranchStock::query()
+                ->where('branch_id', $branchId)
+                ->where('menu_variant_id', $variantId)
+                ->lockForUpdate()
+                ->firstOrFail();
+        }
     }
 
     private function ensureStaffBranch(User $user): void

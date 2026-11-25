@@ -27,6 +27,12 @@ class OrderController extends Controller
 
         $search = trim($request->string('search')->toString());
 
+        $filters = $request->validate([
+            'date' => ['nullable', 'date_format:Y-m-d'],
+        ]);
+
+        $date = $filters['date'] ?? null;
+
         $orders = Order::query()
             ->where('branch_id', $user->branch_id)
             ->when($status, fn ($query) => $query->where('status', $status))
@@ -40,7 +46,7 @@ class OrderController extends Controller
                     }
                 });
             })
-            ->when($request->filled('date'), fn ($query) => $query->whereDate('created_at', $request->date('date')))
+            ->when($date, fn ($query) => $query->whereDate('created_at', $date))
             ->with(['items', 'payments', 'creator'])
             ->withSum(['payments as paid_amount' => fn ($query) => $query->where('status', Payment::STATUS_PAID)], 'amount')
             ->withCount('items')
@@ -52,7 +58,7 @@ class OrderController extends Controller
             'orders' => $orders,
             'status' => $status,
             'search' => $search,
-            'date' => $request->string('date')->toString(),
+            'date' => $date ?? '',
         ]);
     }
 
