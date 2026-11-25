@@ -51,9 +51,9 @@ class AuthTest extends TestCase
             ->assertOk()
             ->assertSee('Masuk ke akun')
             ->assertSee('Masukkan email', false)
-            ->assertSee('Hubungi owner')
             ->assertSee('Khusus pengelola')
             ->assertSee('Panel pengelola')
+            ->assertDontSee('Butuh bantuan?')
             ->assertDontSee('Akses pegawai')
             ->assertDontSee('Masukkan email pegawai')
             ->assertDontSee('Hubungi administrator');
@@ -65,7 +65,9 @@ class AuthTest extends TestCase
             ->assertOk()
             ->assertSee('Lupa kata sandi?')
             ->assertSee('data-dialog-open="lupa-sandi"', false)
-            ->assertSee('Hubungi owner warung untuk reset password');
+            ->assertSee('Hubungi owner warung untuk mengganti kata sandi')
+            ->assertSee('memilih <strong>Ubah</strong>', false)
+            ->assertDontSee('tombol <strong>Reset password</strong>', false);
     }
 
     public function test_owner_is_redirected_to_owner_dashboard(): void

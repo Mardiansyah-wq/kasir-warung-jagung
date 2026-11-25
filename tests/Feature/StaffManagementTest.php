@@ -26,7 +26,8 @@ class StaffManagementTest extends TestCase
             ->assertSee('Staff Aktif')
             ->assertSee('Staff Pending')
             ->assertSee('Menunggu')
-            ->assertSee($branch->name);
+            ->assertSee($branch->name)
+            ->assertDontSee('Reset password');
     }
 
     public function test_owner_can_approve_pending_staff_with_branch(): void

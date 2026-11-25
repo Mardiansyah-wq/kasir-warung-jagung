@@ -11,11 +11,6 @@
         @include('partials.auth-aside')
 
         <section class="auth-main">
-            <p class="auth-help">
-                Butuh bantuan?
-                <button type="button" data-dialog-open="lupa-sandi">Hubungi owner</button>
-            </p>
-
             <div class="auth-form-box">
                 <p class="auth-eyebrow auth-eyebrow-red">Masuk ke akun</p>
                 <h1 class="auth-title">Selamat datang kembali</h1>
@@ -85,8 +80,8 @@
     <dialog id="lupa-sandi" class="auth-dialog" aria-labelledby="lupa-sandi-title">
         <h2 id="lupa-sandi-title">Lupa kata sandi?</h2>
         <p>
-            Hubungi owner warung untuk reset password. Owner bisa mengganti password staff lewat
-            menu <strong>Staff</strong>, lalu tombol <strong>Reset password</strong>.
+            Hubungi owner warung untuk mengganti kata sandi. Owner bisa membuka menu <strong>Staff</strong>,
+            memilih <strong>Ubah</strong> pada akun Anda, lalu mengisi kolom kata sandi baru.
         </p>
 
         <form method="dialog" class="form-actions">

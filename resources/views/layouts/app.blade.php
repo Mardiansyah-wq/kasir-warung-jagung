@@ -1252,30 +1252,6 @@
             background: var(--bg-warm);
         }
 
-        .auth-help {
-            align-self: stretch;
-            margin: 0;
-            font-size: 13px;
-            color: #7a6a5c;
-        }
-
-        .auth-help a,
-        .auth-help button {
-            padding: 0;
-            border: 0;
-            background: transparent;
-            color: var(--brand-red);
-            font: inherit;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .auth-help a:hover,
-        .auth-help button:hover {
-            text-decoration: underline;
-        }
-
         .auth-form-box {
             width: 100%;
             max-width: 472px;
@@ -4160,46 +4136,6 @@
             width: 100%;
         }
 
-        .staff-reset {
-            padding-top: 10px;
-            border-top: 1px dashed var(--border);
-        }
-
-        .staff-reset summary {
-            color: var(--muted);
-            font-size: 12.5px;
-            font-weight: 600;
-            cursor: pointer;
-            list-style: none;
-        }
-
-        .staff-reset summary::-webkit-details-marker {
-            display: none;
-        }
-
-        .staff-reset summary::before {
-            content: "+";
-            margin-right: 6px;
-            color: var(--brand);
-            font-weight: 700;
-        }
-
-        .staff-reset[open] summary::before {
-            content: "\2212";
-        }
-
-        .staff-reset form {
-            display: flex;
-            gap: 6px;
-            margin-top: 8px;
-        }
-
-        .staff-reset input {
-            flex: 1 1 auto;
-            min-width: 0;
-            margin: 0;
-        }
-
         .staff-pending {
             display: flex;
             gap: 6px;
@@ -4877,46 +4813,6 @@
 
         .staff-actions form .btn {
             width: 100%;
-        }
-
-        .staff-reset {
-            padding-top: 10px;
-            border-top: 1px dashed var(--border);
-        }
-
-        .staff-reset summary {
-            color: var(--muted);
-            font-size: 12.5px;
-            font-weight: 600;
-            cursor: pointer;
-            list-style: none;
-        }
-
-        .staff-reset summary::-webkit-details-marker {
-            display: none;
-        }
-
-        .staff-reset summary::before {
-            content: "+";
-            margin-right: 6px;
-            color: var(--brand);
-            font-weight: 700;
-        }
-
-        .staff-reset[open] summary::before {
-            content: "\2212";
-        }
-
-        .staff-reset form {
-            display: flex;
-            gap: 6px;
-            margin-top: 8px;
-        }
-
-        .staff-reset input {
-            flex: 1 1 auto;
-            min-width: 0;
-            margin: 0;
         }
 
         .staff-pending {

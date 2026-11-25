@@ -7,8 +7,7 @@
 @push('styles')
     <style>
         body.page-owner-staff .staff-identity h2,
-        body.page-owner-staff .staff-identity p,
-        body.page-owner-staff .staff-reset form {
+        body.page-owner-staff .staff-identity p {
             overflow-wrap: anywhere;
         }
 
@@ -38,7 +37,7 @@
     <div class="page-head">
         <div>
             <h1>Manajemen Staff</h1>
-            <p class="muted">Setujui pendaftar baru, atur cabang, dan reset password staff.</p>
+            <p class="muted">Setujui pendaftar baru, atur cabang, dan kelola akun staff.</p>
         </div>
         <a href="{{ route('owner.staff.create') }}" class="btn">+ Tambah Staff</a>
     </div>
@@ -130,23 +129,6 @@
                                 </button>
                             </form>
                         </div>
-
-                        <details class="staff-reset">
-                            <summary>Reset password</summary>
-                            <form method="POST" action="{{ route('owner.staff.reset-password', $user) }}">
-                                @csrf
-                                <input
-                                    type="password"
-                                    name="password"
-                                    minlength="8"
-                                    maxlength="255"
-                                    required
-                                    placeholder="Password baru (min. 8 karakter)"
-                                    aria-label="Password baru untuk {{ $user->name }}"
-                                >
-                                <button type="submit" class="btn btn-sm">Simpan</button>
-                            </form>
-                        </details>
                     @endif
                 </article>
             @endforeach
