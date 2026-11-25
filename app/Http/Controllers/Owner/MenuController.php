@@ -74,6 +74,7 @@ class MenuController extends Controller
                 ]);
 
                 $menu->variants()->create([
+                    'type' => $data['type'] ?? null,
                     'variant_name' => $data['variant_name'],
                     'selling_price' => $data['selling_price'],
                     'is_active' => true,

@@ -66,7 +66,7 @@
             <div>
                 <h2>Varian Menu</h2>
                 <p class="muted">
-                    Atur jenis penyajian (misal: <strong>Utuh</strong> atau <strong>Serut</strong>) dan variasi rasa (misal: <strong>Pedas Manis</strong>, <strong>Keju</strong>).
+                    Bedakan <strong>jenis</strong> (misal: Utuh, Serut, Pisang Raja, Es) dan <strong>rasa</strong> (misal: Pedas Manis, Original, Keju).
                 </p>
             </div>
             <span class="badge">{{ $menu->variants->count() }} Varian</span>
@@ -115,26 +115,26 @@
                             @method('PUT')
 
                             <div class="variant-field-group">
-                                <label class="variant-field-label" for="vtype-{{ $variant->id }}">Jenis / Tipe</label>
+                                <label class="variant-field-label" for="vtype-{{ $variant->id }}">Jenis / Penyajian</label>
                                 <input
                                     id="vtype-{{ $variant->id }}"
                                     type="text"
                                     name="type"
                                     value="{{ $variant->type }}"
-                                    placeholder="Contoh: Utuh, Serut"
+                                    placeholder="Misal: Utuh, Serut, Pisang Raja"
                                     aria-label="Jenis varian"
                                     maxlength="50"
                                 >
                             </div>
 
                             <div class="variant-field-group">
-                                <label class="variant-field-label" for="vname-{{ $variant->id }}">Nama Varian / Rasa</label>
+                                <label class="variant-field-label" for="vname-{{ $variant->id }}">Rasa / Varian</label>
                                 <input
                                     id="vname-{{ $variant->id }}"
                                     type="text"
                                     name="variant_name"
                                     value="{{ $variant->variant_name }}"
-                                    placeholder="Contoh: Pedas Manis, Keju"
+                                    placeholder="Misal: Original, Pedas Manis, Keju"
                                     aria-label="Nama varian"
                                     maxlength="100"
                                     required
@@ -188,7 +188,8 @@
         <div class="form-section" style="margin-top: 24px">
             <h2>Tambah Varian Baru</h2>
             <p class="muted">
-                Untuk Jagung Bakar, Anda bisa memilih jenis <strong>Utuh</strong> atau <strong>Serut</strong>, lalu isi rasa yang diinginkan.
+                Isi <strong>jenis</strong> kalau menu punya pilihan seperti Utuh/Serut, Pisang Raja/Kepok, atau Es/Panas.
+                Isi <strong>rasa</strong> dengan rasa atau pilihan yang dipesan, misalnya Original atau Pedas Manis.
             </p>
 
             @php
@@ -196,6 +197,9 @@
                 $isCorn = str_contains($menuLower, 'jagung');
                 $isDrink = $menu->category === \App\Models\Menu::CATEGORY_MINUMAN;
                 $isBanana = str_contains($menuLower, 'pisang');
+                $previewDefault = $isCorn
+                    ? 'Utuh · Pedas Manis'
+                    : ($isBanana ? 'Pisang Raja · Original' : 'Nama Varian');
             @endphp
 
             <form
@@ -206,12 +210,12 @@
             >
                 @csrf
                 <div class="variant-field-group">
-                    <label class="variant-field-label" for="new_variant_type">Jenis Penyajian (Opsional)</label>
+                    <label class="variant-field-label" for="new_variant_type">Jenis / Penyajian (opsional)</label>
                     <input
                         id="new_variant_type"
                         type="text"
                         name="type"
-                        placeholder="{{ $isCorn ? 'Misal: Utuh atau Serut' : ($isDrink ? 'Misal: Es atau Panas' : 'Misal: Reguler') }}"
+                        placeholder="{{ $isCorn ? 'Misal: Utuh atau Serut' : ($isBanana ? 'Misal: Pisang Raja atau Pisang Kepok' : ($isDrink ? 'Misal: Es atau Panas' : 'Misal: Reguler')) }}"
                         aria-label="Jenis penyajian baru"
                         maxlength="50"
                         autocomplete="off"
@@ -235,12 +239,12 @@
                 </div>
 
                 <div class="variant-field-group">
-                    <label class="variant-field-label" for="new_variant_name">Nama Varian / Rasa (Wajib)</label>
+                    <label class="variant-field-label" for="new_variant_name">Rasa / Varian (wajib)</label>
                     <input
                         id="new_variant_name"
                         type="text"
                         name="variant_name"
-                        placeholder="Contoh: Pedas Manis, Keju, Original"
+                        placeholder="Misal: Original, Pedas Manis, Keju"
                         aria-label="Nama varian baru"
                         maxlength="100"
                         required
@@ -269,7 +273,7 @@
 
             <div class="live-preview-box" id="newVariantPreview">
                 <span>Pratinjau nama di Kasir & Struk:</span>
-                <strong id="previewVariantName">{{ $isCorn ? 'Utuh · Pedas Manis' : 'Nama Varian' }}</strong>
+                <strong id="previewVariantName">{{ $previewDefault }}</strong>
             </div>
         </div>
     </div>

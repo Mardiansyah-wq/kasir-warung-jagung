@@ -22,7 +22,7 @@
     <div class="page-head">
         <div>
             <h1>Tambah Menu</h1>
-            <p class="muted">Menu baru langsung punya satu varian.</p>
+            <p class="muted">Isi menu dasarnya, lalu tentukan satu varian pertama.</p>
         </div>
         <a href="{{ route('owner.menus.index') }}" class="btn btn-ghost">Kembali</a>
     </div>
@@ -42,20 +42,39 @@
 
         <div class="form-section">
             <h2>Varian Pertama</h2>
-            <p class="muted">Varian bisa ditambah lagi setelah menu disimpan.</p>
+            <p class="muted">Varian adalah pilihan yang dipilih pembeli di kasir. Bisa ditambah lagi setelah menu disimpan.</p>
 
             <div class="grid-2">
                 <div class="field">
-                    <label for="variant_name">Nama Varian</label>
+                    <label for="type">Jenis / Penyajian (opsional)</label>
+                    <input
+                        id="type"
+                        type="text"
+                        name="type"
+                        value="{{ old('type') }}"
+                        placeholder="Misal: Utuh, Serut, Pisang Raja, Es"
+                        maxlength="50"
+                        aria-describedby="type-hint"
+                        autocomplete="off"
+                    >
+                    <span class="hint" id="type-hint">
+                        Contoh: Jagung → Utuh atau Serut. Pisang → Pisang Raja atau Pisang Kepok.
+                    </span>
+                </div>
+
+                <div class="field">
+                    <label for="variant_name">Rasa / Varian (wajib)</label>
                     <input
                         id="variant_name"
                         type="text"
                         name="variant_name"
                         value="{{ old('variant_name') }}"
-                        placeholder="Contoh: Serut, Utuh, Pisang Raja"
+                        placeholder="Misal: Original, Pedas Manis, Keju"
                         maxlength="100"
+                        aria-describedby="variant-hint"
                         required
                     >
+                    <span class="hint" id="variant-hint">Rasa atau pilihan yang dipesan pembeli.</span>
                 </div>
 
                 <div class="field">
@@ -74,7 +93,7 @@
             </div>
 
             <p class="hint">
-                Contoh: Jagung → Serut / Utuh. Pisang → Pisang Raja / Pisang Kepok.
+                Nama di kasir: <strong>Jenis · Rasa</strong> kalau jenis diisi. Kalau kosong, cukup rasa saja.
             </p>
         </div>
 

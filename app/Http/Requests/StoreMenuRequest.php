@@ -24,6 +24,7 @@ class StoreMenuRequest extends FormRequest
             'description' => ['nullable', 'string', 'max:2000'],
             'is_active' => ['sometimes', 'boolean'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048', 'dimensions:max_width=6000,max_height=6000'],
+            'type' => ['nullable', 'string', 'max:50'],
             'variant_name' => ['required', 'string', 'max:100'],
             'selling_price' => ['required', 'numeric', 'min:0', 'max:9999999999'],
         ];
@@ -44,6 +45,7 @@ class StoreMenuRequest extends FormRequest
             'image.mimes' => 'Format gambar harus JPG, PNG, atau WebP.',
             'image.max' => 'Ukuran gambar maksimal 2MB.',
             'image.dimensions' => 'Resolusi gambar maksimal 6000 x 6000 piksel.',
+            'type.max' => 'Jenis penyajian maksimal 50 karakter.',
             'variant_name.required' => 'Nama varian pertama wajib diisi.',
             'variant_name.max' => 'Nama varian maksimal 100 karakter.',
             'selling_price.required' => 'Harga wajib diisi.',

@@ -53,9 +53,42 @@ class MenuManagementTest extends TestCase
 
         $this->assertDatabaseHas('menu_variants', [
             'menu_id' => $menu->id,
+            'type' => null,
             'variant_name' => 'Serut',
             'selling_price' => 10000,
             'is_active' => 1,
+        ]);
+    }
+
+    public function test_owner_can_create_menu_with_jenis_and_rasa_for_pisang(): void
+    {
+        $owner = User::factory()->owner()->create();
+
+        $this->actingAs($owner)
+            ->get(route('owner.menus.create'))
+            ->assertOk()
+            ->assertSee('Jenis / Penyajian (opsional)')
+            ->assertSee('Rasa / Varian (wajib)')
+            ->assertSee('Pisang Raja');
+
+        $response = $this->actingAs($owner)->post(route('owner.menus.store'), [
+            'name' => 'Pisang Bakar',
+            'category' => 'makanan',
+            'is_active' => '1',
+            'type' => 'Pisang Raja',
+            'variant_name' => 'Original',
+            'selling_price' => 13000,
+        ]);
+
+        $menu = Menu::where('name', 'Pisang Bakar')->firstOrFail();
+
+        $response->assertRedirect(route('owner.menus.edit', $menu));
+
+        $this->assertDatabaseHas('menu_variants', [
+            'menu_id' => $menu->id,
+            'type' => 'Pisang Raja',
+            'variant_name' => 'Original',
+            'selling_price' => 13000,
         ]);
     }
 
@@ -135,10 +168,11 @@ class MenuManagementTest extends TestCase
             ->post(route('owner.menus.store'), [
                 'name' => 'Menu Salah',
                 'category' => 'lauk',
+                'type' => str_repeat('a', 51),
                 'variant_name' => 'Reguler',
                 'selling_price' => -1,
             ])
-            ->assertSessionHasErrors(['category', 'selling_price']);
+            ->assertSessionHasErrors(['category', 'type', 'selling_price']);
     }
 
     public function test_staff_cannot_manage_menus(): void
