@@ -36,7 +36,7 @@ class WeeklyReportTest extends TestCase
             ->assertSee('Laporan Mingguan')
             ->assertSee('9 - 15 November 2026')
             ->assertSee('Rp 50.000')
-            ->assertSee('2 transaksi dibayar')
+            ->assertSee('2 pesanan dibayar')
             ->assertSee('Rekap Harian')
             ->assertSee($branch->name)
             ->assertSee('Tunai')

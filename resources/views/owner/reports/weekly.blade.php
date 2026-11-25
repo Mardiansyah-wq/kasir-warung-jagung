@@ -85,7 +85,7 @@
         <div class="card stat">
             <span class="stat-label">Uang Masuk</span>
             <strong class="stat-value">Rp {{ number_format($report['summary']['revenue'], 0, ',', '.') }}</strong>
-            <span class="muted">{{ $report['summary']['paid_orders'] }} transaksi dibayar</span>
+            <span class="muted">{{ $report['summary']['paid_orders'] }} pesanan dibayar</span>
         </div>
         <div class="card stat">
             <span class="stat-label">Nilai Pesanan</span>

@@ -36,7 +36,7 @@ class DailyReportTest extends TestCase
             ->assertSee('Laporan Harian')
             ->assertSee('Uang Masuk')
             ->assertSee('Rp 40.000')
-            ->assertSee('2 transaksi dibayar')
+            ->assertSee('2 pesanan dibayar')
             ->assertSee($branch->name)
             ->assertSee('Tunai')
             ->assertSee('QRIS');

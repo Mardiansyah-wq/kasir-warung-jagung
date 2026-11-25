@@ -852,9 +852,9 @@
         $ordersDelta = $cmp['orders_delta'];
 
         $chartSub = match ($range['preset']) {
-            'today' => 'Pendapatan hari ini',
-            'month' => 'Pendapatan harian bulan ini',
-            default => 'Pendapatan harian selama 7 hari terakhir',
+            'today' => 'Uang masuk hari ini',
+            'month' => 'Uang masuk harian bulan ini',
+            default => 'Uang masuk harian selama 7 hari terakhir',
         };
 
         $favSub = match ($range['preset']) {
@@ -931,7 +931,7 @@
     <div class="dash-stats">
         <article class="dash-stat is-gold">
             <span class="dash-stat-icon">@include('partials.nav-icon', ['name' => 'wallet'])</span>
-            <span class="dash-stat-label">Total pendapatan</span>
+            <span class="dash-stat-label">Uang Masuk</span>
             <strong class="dash-stat-value">{{ $rupiah($main['revenue']) }}</strong>
             <span class="dash-stat-note">
                 @if ($revenueDelta === null)
@@ -945,10 +945,10 @@
 
         <article class="dash-stat">
             <span class="dash-stat-icon">@include('partials.nav-icon', ['name' => 'receipt'])</span>
-            <span class="dash-stat-label">Total transaksi</span>
+            <span class="dash-stat-label">Total Pesanan</span>
             <strong class="dash-stat-value">{{ number_format($main['orders'], 0, ',', '.') }}</strong>
             <span class="dash-stat-note">
-                <span class="{{ $ordersDelta < 0 ? 'dash-down' : 'dash-up' }}">{{ $arrow((float) $ordersDelta) }} {{ $ordersDelta > 0 ? '+' : ($ordersDelta < 0 ? '−' : '±') }}{{ abs($ordersDelta) }} transaksi</span>
+                <span class="{{ $ordersDelta < 0 ? 'dash-down' : 'dash-up' }}">{{ $arrow((float) $ordersDelta) }} {{ $ordersDelta > 0 ? '+' : ($ordersDelta < 0 ? '−' : '±') }}{{ abs($ordersDelta) }} pesanan</span>
                 <span>{{ $cmp['label'] }}</span>
             </span>
         </article>
@@ -962,7 +962,7 @@
 
         <article class="dash-stat">
             <span class="dash-stat-icon">@include('partials.nav-icon', ['name' => 'trend'])</span>
-            <span class="dash-stat-label">Rata-rata transaksi</span>
+            <span class="dash-stat-label">Rata-rata / Pesanan Dibayar</span>
             <strong class="dash-stat-value">{{ $rupiah($main['average']) }}</strong>
             <span class="dash-stat-note">
                 @if ($cmp['average_delta_percent'] === null)
@@ -979,7 +979,7 @@
         <section class="dash-card">
         <header class="dash-card-head">
             <div>
-                <h2 class="dash-card-title">Tren penjualan</h2>
+                <h2 class="dash-card-title">Tren Uang Masuk</h2>
                 <p class="dash-card-sub">{{ $chartSub }}</p>
             </div>
 
@@ -1002,7 +1002,7 @@
             </div>
 
             <div class="dash-plot-shell">
-                <div class="dash-bars" style="--bars: {{ count($days) }}" role="img" aria-label="Grafik pendapatan harian">
+                <div class="dash-bars" style="--bars: {{ count($days) }}" role="img" aria-label="Grafik uang masuk harian">
                     <div class="dash-grid" aria-hidden="true">
                         @foreach ($ticks as $tick)
                             <span></span>

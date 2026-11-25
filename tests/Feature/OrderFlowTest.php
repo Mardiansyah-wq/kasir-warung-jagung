@@ -758,6 +758,11 @@ class OrderFlowTest extends TestCase
             ->assertSee('Budi')
             ->assertSee('Siti')
             ->assertSee($paidOrder->order_code)
+            ->assertSee('Uang Masuk Hari Ini')
+            ->assertSee('Jumlah Pembayaran')
+            ->assertSee('1 kali')
+            ->assertSee('tidak ikut filter')
+            ->assertSee('Lihat struk')
             ->assertViewHas('todaySales', 10000.0)
             ->assertViewHas('todayCount', 1);
 
@@ -773,6 +778,9 @@ class OrderFlowTest extends TestCase
         $this->actingAs($owner)
             ->get(route('owner.dashboard'))
             ->assertOk()
+            ->assertSee('Uang Masuk')
+            ->assertSee('Total Pesanan')
+            ->assertSee('Rata-rata / Pesanan Dibayar')
             ->assertViewHas('summary', fn (array $summary) => $summary['summary']['revenue'] === 10000.0);
 
         $this->actingAs($owner)

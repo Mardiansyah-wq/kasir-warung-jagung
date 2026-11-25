@@ -16,6 +16,20 @@
             gap: 4px;
         }
 
+        body.page-owner-orders .orders-summary-hint {
+            margin: -6px 0 16px;
+            font-size: 12.5px;
+        }
+
+        body.page-owner-orders .orders-report-link {
+            display: inline-flex;
+            min-height: 44px;
+            align-items: center;
+            color: var(--brand);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
         @media (max-width: 1099px) {
             body.page-owner-orders .order-card {
                 border-left: 4px solid var(--border-warm);
@@ -43,16 +57,20 @@
 
     <div class="grid stats">
         <div class="card stat">
-            <span class="stat-label">Pembayaran Hari Ini</span>
+            <span class="stat-label">Uang Masuk Hari Ini</span>
             <strong class="stat-value">Rp {{ number_format($todaySales, 0, ',', '.') }}</strong>
-            <span class="muted">Uang masuk (bukan total pesanan)</span>
+            <span class="muted">Pembayaran diterima, bukan total tagihan</span>
         </div>
         <div class="card stat">
-            <span class="stat-label">Transaksi Pembayaran</span>
-            <strong class="stat-value">{{ $todayCount }}</strong>
-            <span class="muted">Semua cabang</span>
+            <span class="stat-label">Jumlah Pembayaran</span>
+            <strong class="stat-value">{{ $todayCount }} kali</strong>
+            <span class="muted">Hari ini · semua cabang (tidak ikut filter)</span>
         </div>
     </div>
+
+    <p class="muted orders-summary-hint">
+        Ringkasan hari ini. Detail: <a href="{{ route('owner.reports.index') }}" class="orders-report-link">laporan harian →</a> atau struk pesanan.
+    </p>
 
     <form method="GET" action="{{ route('owner.orders.index') }}" class="filter-bar">
         @if ($branches->count() > 1)
@@ -137,7 +155,7 @@
                     </div>
 
                     <div class="order-card-actions">
-                        <a href="{{ route('owner.orders.show', $order) }}" class="btn btn-sm btn-ghost">Lihat</a>
+                        <a href="{{ route('owner.orders.show', $order) }}" class="btn btn-sm btn-ghost">Lihat struk</a>
                     </div>
                 </article>
             @endforeach
@@ -193,7 +211,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('owner.orders.show', $order) }}" class="btn btn-sm btn-ghost">Lihat</a>
+                                    <a href="{{ route('owner.orders.show', $order) }}" class="btn btn-sm btn-ghost">Lihat struk</a>
                                 </td>
                             </tr>
                         @endforeach
