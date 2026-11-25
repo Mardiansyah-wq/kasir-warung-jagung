@@ -891,6 +891,41 @@
             text-transform: uppercase;
         }
 
+        .head-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .role-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: var(--surface);
+            color: var(--brand-brown);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .02em;
+            white-space: nowrap;
+        }
+
+        .role-chip-owner {
+            border-color: #ead7a6;
+            background: #fdf6e6;
+        }
+
+        .role-chip-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--brand-amber);
+            box-shadow: 0 0 0 3px rgba(224, 183, 71, .18);
+        }
+
         .quick-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -2093,8 +2128,15 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
             gap: 8px;
             margin-bottom: 8px;
+        }
+
+        .activity-card-head .status {
+            max-width: 100%;
+            white-space: normal;
+            overflow-wrap: anywhere;
         }
 
         .activity-card-time {

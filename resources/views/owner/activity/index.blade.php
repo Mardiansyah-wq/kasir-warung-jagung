@@ -8,9 +8,12 @@
             <h1>Log Aktivitas</h1>
             <p class="muted">Riwayat perubahan menu, varian, stok, dan diskon oleh owner maupun staff.</p>
         </div>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap">
+        <div class="head-actions">
             <a href="{{ route('owner.stock.index') }}" class="btn btn-ghost">Kelola Stok</a>
-            <span class="badge">Owner</span>
+            <span class="role-chip role-chip-owner">
+                <span class="role-chip-dot" aria-hidden="true"></span>
+                Owner
+            </span>
         </div>
     </div>
 
