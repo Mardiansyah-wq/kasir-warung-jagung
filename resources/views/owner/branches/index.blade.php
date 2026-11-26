@@ -17,6 +17,10 @@
         body.page-owner-branches .table-wrap td {
             overflow-wrap: anywhere;
         }
+
+        body.page-owner-branches .data tbody tr:hover {
+            background: #fffaf0;
+        }
     </style>
 @endpush
 

@@ -4996,6 +4996,59 @@
             }
         }
 
+        /* Warm depth: subtle layering without changing the palette or layout. */
+        body {
+            background:
+                radial-gradient(circle at 8% 0, rgba(224, 183, 71, .10), transparent 28rem),
+                radial-gradient(circle at 100% 100%, rgba(180, 48, 32, .055), transparent 32rem),
+                var(--bg);
+        }
+
+        .card,
+        .staff-card {
+            border-color: rgba(87, 60, 43, .17);
+            box-shadow: 0 2px 5px rgba(54, 37, 30, .055), 0 14px 30px rgba(54, 37, 30, .035);
+        }
+
+        .card {
+            background-image: linear-gradient(180deg, rgba(255, 255, 255, .72), rgba(255, 255, 255, 0) 72px);
+        }
+
+        .stats .card {
+            border-top: 3px solid rgba(224, 183, 71, .6);
+        }
+
+        .form-section h2 {
+            padding-left: 10px;
+            border-left: 3px solid rgba(224, 183, 71, .7);
+        }
+
+        .btn:not(.btn-ghost) {
+            box-shadow: 0 2px 0 rgba(150, 40, 26, .32), 0 8px 16px rgba(150, 40, 26, .12);
+        }
+
+        .btn:not(.btn-ghost):active {
+            box-shadow: 0 1px 0 rgba(150, 40, 26, .32);
+            transform: translateY(1px);
+        }
+
+        .status {
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6);
+        }
+
+        .flash,
+        .errors {
+            border-left-width: 4px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .65), 0 4px 12px rgba(54, 37, 30, .05);
+        }
+
+        table.data thead th {
+            background: #f7efe0;
+            border-bottom-color: #d8c6ad;
+            color: var(--brand-brown);
+            font-weight: 700;
+        }
+
         @media print {
             .sidebar,
             .topbar,
@@ -5023,6 +5076,12 @@
 
             body {
                 background: #fff !important;
+                color: #000 !important;
+            }
+
+            table.data thead th {
+                background: #fff !important;
+                border-bottom-color: #000 !important;
                 color: #000 !important;
             }
 

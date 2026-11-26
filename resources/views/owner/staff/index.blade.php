@@ -15,6 +15,20 @@
             row-gap: 8px;
         }
 
+        body.page-owner-staff .staff-card {
+            background-image: linear-gradient(180deg, rgba(224, 183, 71, .10), transparent 64px);
+        }
+
+        body.page-owner-staff .staff-card.is-inactive {
+            border-color: #d7c09a;
+            background-color: #fdf8ed;
+        }
+
+        body.page-owner-staff .staff-card-head {
+            padding-bottom: 10px;
+            border-bottom: 1px dashed var(--border);
+        }
+
         @media (max-width: 639px) {
             body.page-owner-staff .staff-grid {
                 grid-template-columns: minmax(0, 1fr);
