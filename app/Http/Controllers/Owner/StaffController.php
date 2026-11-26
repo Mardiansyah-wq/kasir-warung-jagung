@@ -125,13 +125,19 @@ class StaffController extends Controller
             return redirect()->route('owner.staff.index')->with('success', '✅ Staff berhasil dinonaktifkan.');
         }
 
-        $data = $request->validate([
-            'branch_id' => ['required', Rule::exists('branches', 'id')->where('is_active', true)],
-        ]);
+        $branchId = $user->branch_id;
+
+        if ($branchId === null || ! Branch::query()->whereKey($branchId)->where('is_active', true)->exists()) {
+            $data = $request->validate([
+                'branch_id' => ['required', Rule::exists('branches', 'id')->where('is_active', true)],
+            ]);
+
+            $branchId = $data['branch_id'];
+        }
 
         $user->update([
             'is_active' => true,
-            'branch_id' => $data['branch_id'],
+            'branch_id' => $branchId,
         ]);
 
         return redirect()->route('owner.staff.index')->with('success', '✅ Staff berhasil diaktifkan dan diassign ke cabang.');

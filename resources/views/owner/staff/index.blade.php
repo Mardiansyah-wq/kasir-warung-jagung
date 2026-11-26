@@ -56,6 +56,7 @@
                 @php
                     $initial = mb_strtoupper(mb_substr($user->name, 0, 2));
                     $pending = ! $user->is_active && $user->branch_id === null;
+                    $needsBranch = ! $user->is_active && (! $user->branch || ! $user->branch->is_active);
                 @endphp
 
                 <article class="staff-card {{ $user->is_active ? '' : 'is-inactive' }}">
@@ -94,7 +95,7 @@
                         </div>
                     </dl>
 
-                    @if ($pending)
+                    @if ($needsBranch)
                         <form
                             method="POST"
                             action="{{ route('owner.staff.toggle', $user) }}"
@@ -110,12 +111,12 @@
                             >
                                 <option value="">Pilih cabang...</option>
                                 @foreach ($branches as $branch)
-                                    <option value="{{ $branch->id }}" {{ old('branch_id') == $branch->id ? 'selected' : '' }}>
+                                    <option value="{{ $branch->id }}" {{ old('branch_id', $user->branch_id) == $branch->id ? 'selected' : '' }}>
                                         {{ $branch->name }}
                                     </option>
                                 @endforeach
                             </select>
-                            <button type="submit" class="btn btn-sm">Setujui</button>
+                            <button type="submit" class="btn btn-sm">{{ $pending ? 'Setujui' : 'Aktifkan' }}</button>
                         </form>
                     @else
                         <div class="staff-actions">

@@ -63,6 +63,53 @@ class StaffManagementTest extends TestCase
         $this->assertFalse($pending->refresh()->is_active);
     }
 
+    public function test_owner_can_reactivate_inactive_staff_who_already_has_a_branch(): void
+    {
+        $owner = User::factory()->owner()->create();
+        $branch = Branch::create(['name' => 'Cabang 2', 'is_active' => true]);
+
+        $staff = User::factory()->forBranch($branch)->inactive()->create([
+            'name' => 'Ariel',
+            'email' => 'ariel@example.test',
+        ]);
+
+        $this->actingAs($owner)
+            ->patch(route('owner.staff.toggle', $staff))
+            ->assertRedirect(route('owner.staff.index'))
+            ->assertSessionHas('success')
+            ->assertSessionHasNoErrors();
+
+        $staff->refresh();
+
+        $this->assertTrue($staff->is_active);
+        $this->assertSame($branch->id, $staff->branch_id);
+    }
+
+    public function test_reactivating_staff_on_an_inactive_branch_requires_a_new_branch(): void
+    {
+        $owner = User::factory()->owner()->create();
+        $oldBranch = Branch::create(['name' => 'Cabang Lama', 'is_active' => false]);
+        $newBranch = Branch::create(['name' => 'Cabang Baru', 'is_active' => true]);
+
+        $staff = User::factory()->forBranch($oldBranch)->inactive()->create();
+
+        $this->actingAs($owner)
+            ->patch(route('owner.staff.toggle', $staff))
+            ->assertSessionHasErrors('branch_id');
+
+        $this->assertFalse($staff->refresh()->is_active);
+
+        $this->actingAs($owner)
+            ->patch(route('owner.staff.toggle', $staff), ['branch_id' => $newBranch->id])
+            ->assertRedirect(route('owner.staff.index'))
+            ->assertSessionHas('success');
+
+        $staff->refresh();
+
+        $this->assertTrue($staff->is_active);
+        $this->assertSame($newBranch->id, $staff->branch_id);
+    }
+
     public function test_owner_can_deactivate_active_staff(): void
     {
         $owner = User::factory()->owner()->create();
