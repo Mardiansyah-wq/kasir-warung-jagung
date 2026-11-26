@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Branch;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class StaffManagementTest extends TestCase
@@ -171,6 +172,70 @@ class StaffManagementTest extends TestCase
             'role' => User::ROLE_STAFF,
             'is_active' => true,
         ]);
+    }
+
+    public function test_staff_lifecycle_is_managed_entirely_from_the_ui(): void
+    {
+        $owner = User::factory()->owner()->create();
+        $branch = Branch::create(['name' => 'Cabang 2', 'is_active' => true]);
+
+        $this->actingAs($owner)
+            ->post(route('owner.staff.store'), [
+                'name' => 'Kasir Baru',
+                'email' => 'kasir-baru@example.test',
+                'phone' => '081234567890',
+                'address' => 'Jl. Contoh 1',
+                'password' => 'rahasia123',
+                'branch_id' => $branch->id,
+            ])
+            ->assertRedirect(route('owner.staff.index'))
+            ->assertSessionHas('success');
+
+        $staff = User::where('email', 'kasir-baru@example.test')->firstOrFail();
+
+        $this->assertTrue($staff->is_active);
+        $this->assertSame($branch->id, $staff->branch_id);
+        $this->assertNotSame('rahasia123', $staff->password_hash);
+        $this->assertTrue(Hash::check('rahasia123', $staff->password_hash));
+
+        $this->post(route('logout'));
+
+        $this->post(route('login'), [
+            'email' => 'kasir-baru@example.test',
+            'password' => 'rahasia123',
+        ])->assertRedirect(route('staff.dashboard'));
+
+        $this->assertAuthenticatedAs($staff);
+
+        $this->post(route('logout'));
+
+        $this->actingAs($owner)
+            ->patch(route('owner.staff.toggle', $staff))
+            ->assertSessionHas('success');
+
+        $this->assertFalse($staff->refresh()->is_active);
+
+        $this->post(route('logout'));
+
+        $this->post(route('login'), [
+            'email' => 'kasir-baru@example.test',
+            'password' => 'rahasia123',
+        ])->assertSessionHasErrors('email');
+
+        $this->assertGuest();
+
+        $this->actingAs($owner)
+            ->patch(route('owner.staff.toggle', $staff))
+            ->assertSessionHas('success');
+
+        $this->post(route('logout'));
+
+        $this->post(route('login'), [
+            'email' => 'kasir-baru@example.test',
+            'password' => 'rahasia123',
+        ])->assertRedirect(route('staff.dashboard'));
+
+        $this->assertAuthenticatedAs($staff->refresh());
     }
 
     public function test_owner_can_reset_staff_password(): void
