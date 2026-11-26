@@ -110,6 +110,31 @@ class StaffManagementTest extends TestCase
         $this->assertSame($newBranch->id, $staff->branch_id);
     }
 
+    public function test_activated_staff_can_log_in_with_the_existing_password(): void
+    {
+        $owner = User::factory()->owner()->create();
+        $branch = Branch::create(['name' => 'Cabang 2', 'is_active' => true]);
+
+        $staff = User::factory()->forBranch($branch)->inactive()->create([
+            'email' => 'ariel@example.test',
+            'password_hash' => 'rahasia123',
+        ]);
+
+        $this->actingAs($owner)
+            ->patch(route('owner.staff.toggle', $staff))
+            ->assertRedirect(route('owner.staff.index'))
+            ->assertSessionHas('success');
+
+        $this->post(route('logout'));
+
+        $this->post(route('login'), [
+            'email' => 'ariel@example.test',
+            'password' => 'rahasia123',
+        ])->assertRedirect(route('staff.dashboard'));
+
+        $this->assertAuthenticatedAs($staff->refresh());
+    }
+
     public function test_owner_can_deactivate_active_staff(): void
     {
         $owner = User::factory()->owner()->create();
