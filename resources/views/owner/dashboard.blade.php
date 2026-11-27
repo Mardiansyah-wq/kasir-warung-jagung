@@ -38,6 +38,7 @@
 
         .dash-download {
             display: inline-flex;
+            min-height: 44px;
             align-items: center;
             gap: 9px;
             padding: 11px 18px;

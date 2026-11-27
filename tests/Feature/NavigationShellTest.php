@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Branch;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class NavigationShellTest extends TestCase
@@ -27,7 +28,22 @@ class NavigationShellTest extends TestCase
             ->assertSee('Ardi Pratama')
             ->assertSee('Owner')
             ->assertSee('Kedai tutup')
-            ->assertSee('>Profil</a>', false);
+            ->assertSee('<span>Profil</span>', false)
+            ->assertSee('class="mobile-avatar"', false);
+    }
+
+    public function test_mobile_profile_shortcut_shows_the_uploaded_photo(): void
+    {
+        Storage::fake('local');
+
+        Storage::disk('local')->put('avatars/mobile.jpg', 'fake-image-content');
+        $owner = User::factory()->owner()->create(['photo_path' => 'avatars/mobile.jpg']);
+
+        $this->actingAs($owner)
+            ->get('/owner/dashboard')
+            ->assertOk()
+            ->assertSee('src="'.$owner->avatarUrl().'"', false)
+            ->assertSee('class="mobile-avatar"', false);
     }
 
     public function test_staff_shell_shows_staff_navigation_only(): void
@@ -44,7 +60,7 @@ class NavigationShellTest extends TestCase
             ->assertSee('Pusat bantuan')
             ->assertDontSee('Kelola Akun Pegawai')
             ->assertSee('Staff')
-            ->assertSee('>Profil</a>', false);
+            ->assertSee('<span>Profil</span>', false);
     }
 
     public function test_guest_pages_have_no_shell(): void

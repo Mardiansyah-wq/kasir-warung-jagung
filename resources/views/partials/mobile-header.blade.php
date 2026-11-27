@@ -74,7 +74,16 @@
                 <a
                     href="{{ route('account.index') }}"
                     class="mobile-account-link {{ request()->routeIs('account.*') ? 'active' : '' }}"
-                >Profil</a>
+                >
+                    <span class="mobile-avatar" aria-hidden="true">
+                        @if ($user->avatarUrl())
+                            <img src="{{ $user->avatarUrl() }}" alt="">
+                        @else
+                            @include('partials.nav-icon', ['name' => 'user'])
+                        @endif
+                    </span>
+                    <span>Profil</span>
+                </a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="mobile-logout" aria-label="Keluar dari akun" title="Keluar">

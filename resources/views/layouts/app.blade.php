@@ -607,7 +607,10 @@
             }
 
             .mobile-account-link {
-                padding: 5px 11px;
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+                padding: 5px 11px 5px 5px;
                 border-radius: 999px;
                 background: rgba(244, 239, 226, .12);
                 color: #f3e8d6;
@@ -619,6 +622,31 @@
             .mobile-account-link.active {
                 background: var(--brand-amber);
                 color: var(--brand-brown);
+            }
+
+            .mobile-avatar {
+                display: grid;
+                flex: 0 0 auto;
+                width: 28px;
+                height: 28px;
+                overflow: hidden;
+                border: 1px solid rgba(255, 249, 239, .35);
+                border-radius: 50%;
+                background: #f2e6c4;
+                color: #5a4020;
+                place-items: center;
+            }
+
+            .mobile-avatar img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .mobile-avatar .nav-icon {
+                width: 19px;
+                height: 19px;
+                stroke-width: 1.5;
             }
 
             .mobile-logout {
