@@ -460,6 +460,15 @@ class OrderService
                 ]);
             }
 
+            if (
+                in_array($status, [Order::STATUS_PROCESSING, Order::STATUS_READY], true)
+                && $order->items()->doesntExist()
+            ) {
+                throw ValidationException::withMessages([
+                    'status' => 'Pesanan masih kosong. Tambahkan menu terlebih dahulu.',
+                ]);
+            }
+
             if ($status === Order::STATUS_COMPLETED && ! $order->isFullyPaid()) {
                 throw ValidationException::withMessages([
                     'status' => 'Pesanan belum lunas, sisa Rp '.number_format($order->balanceDue(), 0, ',', '.').'.',

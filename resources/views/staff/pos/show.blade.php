@@ -435,32 +435,34 @@
 
                     @if ($order->isActive())
                         <div class="cart-controls" style="margin-top: 14px">
-                            @if ($order->isOpen())
-                                <form method="POST" action="{{ route('staff.orders.status', $order) }}">
-                                    @csrf
-                                    @method('PATCH')
-                                    <input type="hidden" name="status" value="processing">
-                                    <button type="submit" class="btn btn-sm">Mulai Masak</button>
-                                </form>
-                            @elseif ($order->isProcessing())
-                                <form method="POST" action="{{ route('staff.orders.status', $order) }}">
-                                    @csrf
-                                    @method('PATCH')
-                                    <input type="hidden" name="status" value="ready">
-                                    <button type="submit" class="btn btn-sm">Tandai Siap</button>
-                                </form>
-                            @endif
-
-                            @if ($order->isReady())
-                                @if ($order->canComplete())
+                            @if ($order->items->isNotEmpty())
+                                @if ($order->isOpen())
                                     <form method="POST" action="{{ route('staff.orders.status', $order) }}">
                                         @csrf
                                         @method('PATCH')
-                                        <input type="hidden" name="status" value="completed">
-                                        <button type="submit" class="btn btn-sm">Selesaikan Pesanan</button>
+                                        <input type="hidden" name="status" value="processing">
+                                        <button type="submit" class="btn btn-sm">Mulai Masak</button>
                                     </form>
-                                @else
-                                    <button type="button" class="btn btn-sm btn-ghost" disabled>Belum lunas</button>
+                                @elseif ($order->isProcessing())
+                                    <form method="POST" action="{{ route('staff.orders.status', $order) }}">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="status" value="ready">
+                                        <button type="submit" class="btn btn-sm">Tandai Siap</button>
+                                    </form>
+                                @endif
+
+                                @if ($order->isReady())
+                                    @if ($order->canComplete())
+                                        <form method="POST" action="{{ route('staff.orders.status', $order) }}">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="status" value="completed">
+                                            <button type="submit" class="btn btn-sm">Selesaikan Pesanan</button>
+                                        </form>
+                                    @else
+                                        <button type="button" class="btn btn-sm btn-ghost" disabled>Belum lunas</button>
+                                    @endif
                                 @endif
                             @endif
 

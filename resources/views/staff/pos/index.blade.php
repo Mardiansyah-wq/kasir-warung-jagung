@@ -184,7 +184,7 @@
                                 <a href="{{ route('staff.orders.show', $order) }}" class="btn btn-sm btn-ghost">Struk</a>
                             @endif
 
-                            @if ($order->isOpen() || $order->isProcessing() || $order->isReady())
+                            @if ($order->items->isNotEmpty() && ($order->isOpen() || $order->isProcessing() || $order->isReady()))
                                 <form method="POST" action="{{ route('staff.orders.status', $order) }}">
                                     @csrf
                                     @method('PATCH')

@@ -420,6 +420,31 @@ class OrderFlowTest extends TestCase
         $this->assertNull($order->fresh()->completed_at);
     }
 
+    public function test_empty_order_cannot_start_cooking_even_when_stock_is_zero(): void
+    {
+        [$branch, $staff] = $this->makeStaff('Cabang 2');
+        $this->makeMenu($branch, 'Jagung Bakar', Menu::CATEGORY_MAKANAN, 10000, 0);
+
+        $order = $this->createOrder($staff, 'Pelanggan Tanpa Stok');
+
+        $this->actingAs($staff)
+            ->from(route('staff.pos.index'))
+            ->patch(route('staff.orders.status', $order), ['status' => Order::STATUS_PROCESSING])
+            ->assertSessionHasErrors('status');
+
+        $this->assertSame(Order::STATUS_OPEN, $order->fresh()->status);
+
+        $this->actingAs($staff)
+            ->get(route('staff.pos.index'))
+            ->assertOk()
+            ->assertDontSee('Mulai Masak');
+
+        $this->actingAs($staff)
+            ->get(route('staff.pos.show', $order))
+            ->assertOk()
+            ->assertDontSee('Mulai Masak');
+    }
+
     public function test_status_flow_and_completion_lock_the_order(): void
     {
         [$branch, $staff] = $this->makeStaff();
