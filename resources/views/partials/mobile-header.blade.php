@@ -74,7 +74,7 @@
                 <a
                     href="{{ route('account.index') }}"
                     class="mobile-account-link {{ request()->routeIs('account.*') ? 'active' : '' }}"
-                >Akun</a>
+                >Profil</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="mobile-logout" aria-label="Keluar dari akun" title="Keluar">

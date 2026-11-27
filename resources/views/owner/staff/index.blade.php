@@ -29,6 +29,32 @@
             border-bottom: 1px dashed var(--border);
         }
 
+        body.page-owner-staff .btn-activate,
+        body.page-owner-staff .btn-deactivate {
+            line-height: 1.25;
+            text-align: center;
+        }
+
+        body.page-owner-staff .btn-activate {
+            border-color: #b7d8c0;
+            background: #edf7ef;
+            color: #1e7039;
+        }
+
+        body.page-owner-staff .btn-activate:hover {
+            background: #dff0e3;
+        }
+
+        body.page-owner-staff .btn-deactivate {
+            border-color: #f0c9c3;
+            background: #fdf3f2;
+            color: #b43020;
+        }
+
+        body.page-owner-staff .btn-deactivate:hover {
+            background: #fbe8e5;
+        }
+
         @media (max-width: 639px) {
             body.page-owner-staff .staff-grid {
                 grid-template-columns: minmax(0, 1fr);
@@ -130,7 +156,9 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <button type="submit" class="btn btn-sm">{{ $pending ? 'Setujui' : 'Aktifkan' }}</button>
+                            <button type="submit" class="btn btn-sm btn-activate">
+                                {{ $pending ? 'Setujui & aktifkan' : 'Aktifkan akses' }}
+                            </button>
                         </form>
                     @else
                         <div class="staff-actions">
@@ -139,8 +167,11 @@
                             <form method="POST" action="{{ route('owner.staff.toggle', $user) }}">
                                 @csrf
                                 @method('PATCH')
-                                <button type="submit" class="btn btn-sm btn-ghost">
-                                    {{ $user->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
+                                <button
+                                    type="submit"
+                                    class="btn btn-sm {{ $user->is_active ? 'btn-deactivate' : 'btn-activate' }}"
+                                >
+                                    {{ $user->is_active ? 'Nonaktifkan akses' : 'Aktifkan akses' }}
                                 </button>
                             </form>
                         </div>

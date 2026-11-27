@@ -26,7 +26,8 @@ class NavigationShellTest extends TestCase
             ->assertSee('aria-current="page"', false)
             ->assertSee('Ardi Pratama')
             ->assertSee('Owner')
-            ->assertSee('Kedai tutup');
+            ->assertSee('Kedai tutup')
+            ->assertSee('>Profil</a>', false);
     }
 
     public function test_staff_shell_shows_staff_navigation_only(): void
@@ -42,7 +43,8 @@ class NavigationShellTest extends TestCase
             ->assertSee('Kedai buka')
             ->assertSee('Pusat bantuan')
             ->assertDontSee('Kelola Akun Pegawai')
-            ->assertSee('Staff');
+            ->assertSee('Staff')
+            ->assertSee('>Profil</a>', false);
     }
 
     public function test_guest_pages_have_no_shell(): void

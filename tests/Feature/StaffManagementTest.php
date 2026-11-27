@@ -28,6 +28,8 @@ class StaffManagementTest extends TestCase
             ->assertSee('Staff Pending')
             ->assertSee('Menunggu')
             ->assertSee($branch->name)
+            ->assertSee('Setujui &amp; aktifkan', false)
+            ->assertSee('Nonaktifkan akses')
             ->assertDontSee('Reset password');
     }
 
