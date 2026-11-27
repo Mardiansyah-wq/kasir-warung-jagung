@@ -68,7 +68,9 @@
             @if ($user->avatarUrl())
                 <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="sidebar-avatar-img">
             @else
-                <span class="sidebar-avatar" aria-hidden="true">{{ $user->initials() }}</span>
+                <span class="sidebar-avatar" aria-hidden="true">
+                    @include('partials.nav-icon', ['name' => 'user'])
+                </span>
             @endif
             <span class="sidebar-user-text">
                 <span class="sidebar-user-name">{{ $user->name }}</span>

@@ -22,7 +22,8 @@ class AccountTest extends TestCase
             ->assertOk()
             ->assertSee('Akun Saya')
             ->assertSee('Pemilik Warung')
-            ->assertSee('Ganti Password');
+            ->assertSee('Ganti Password')
+            ->assertSee('class="pa-avatar-person"', false);
     }
 
     public function test_staff_can_open_the_account_page(): void

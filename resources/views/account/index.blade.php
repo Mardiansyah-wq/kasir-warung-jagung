@@ -68,11 +68,19 @@
             object-fit: cover;
         }
 
-        .pa-initials {
-            color: #5a4020;
-            font-family: var(--font-serif);
-            font-size: 25px;
-            font-weight: 700;
+        .pa-avatar-person {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            color: #8a6636;
+        }
+
+        .pa-avatar-person .nav-icon {
+            width: 42px;
+            height: 42px;
+            stroke-width: 1.4;
         }
 
         .pa-identity {
@@ -320,9 +328,13 @@
             <div class="pa-avatar">
                 @if ($user->avatarUrl())
                     <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" id="avatar-preview">
-                    <span class="pa-initials pa-hidden" id="avatar-initials">{{ $user->initials() }}</span>
+                    <span class="pa-avatar-person pa-hidden" id="avatar-initials" aria-hidden="true">
+                        @include('partials.nav-icon', ['name' => 'user'])
+                    </span>
                 @else
-                    <span class="pa-initials" id="avatar-initials">{{ $user->initials() }}</span>
+                    <span class="pa-avatar-person" id="avatar-initials" aria-hidden="true">
+                        @include('partials.nav-icon', ['name' => 'user'])
+                    </span>
                     <img alt="" id="avatar-preview" class="pa-hidden">
                 @endif
             </div>
@@ -480,7 +492,7 @@
     <script>
         const photoInput = document.getElementById('photo');
         const previewImg = document.getElementById('avatar-preview');
-        const initialsSpan = document.getElementById('avatar-initials');
+        const defaultAvatar = document.getElementById('avatar-initials');
         const photoName = document.getElementById('photo-name');
         const removePhoto = document.querySelector('input[name="remove_photo"]');
 
@@ -492,8 +504,8 @@
                     previewImg.removeAttribute('src');
                     previewImg.classList.add('pa-hidden');
 
-                    if (initialsSpan) {
-                        initialsSpan.classList.remove('pa-hidden');
+                    if (defaultAvatar) {
+                        defaultAvatar.classList.remove('pa-hidden');
                     }
 
                     if (photoName) {
@@ -512,8 +524,8 @@
                     previewImg.src = event.target.result;
                     previewImg.classList.remove('pa-hidden');
 
-                    if (initialsSpan) {
-                        initialsSpan.classList.add('pa-hidden');
+                    if (defaultAvatar) {
+                        defaultAvatar.classList.add('pa-hidden');
                     }
                 };
                 reader.readAsDataURL(file);
@@ -524,7 +536,7 @@
             });
         }
 
-        if (removePhoto && previewImg && initialsSpan) {
+        if (removePhoto && previewImg && defaultAvatar) {
             removePhoto.addEventListener('change', function () {
                 if (!this.checked) {
                     return;
@@ -535,7 +547,7 @@
                 }
 
                 previewImg.classList.add('pa-hidden');
-                initialsSpan.classList.remove('pa-hidden');
+                defaultAvatar.classList.remove('pa-hidden');
 
                 if (photoName) {
                     photoName.textContent = 'Belum ada foto baru dipilih.';

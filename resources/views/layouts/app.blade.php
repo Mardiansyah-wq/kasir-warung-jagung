@@ -249,6 +249,12 @@
             place-items: center;
         }
 
+        .sidebar-avatar .nav-icon {
+            width: 24px;
+            height: 24px;
+            stroke-width: 1.5;
+        }
+
         .sidebar-avatar-img {
             flex: 0 0 auto;
             width: 34px;
