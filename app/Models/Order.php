@@ -211,15 +211,20 @@ class Order extends Model
         };
     }
 
-    public function statusLabel(): string
+    public static function statusLabelFor(string $status): string
     {
-        return match ($this->status) {
+        return match ($status) {
             self::STATUS_PROCESSING => 'Diproses',
             self::STATUS_READY => 'Siap',
             self::STATUS_COMPLETED => 'Selesai',
             self::STATUS_CANCELLED => 'Batal',
             default => 'Aktif',
         };
+    }
+
+    public function statusLabel(): string
+    {
+        return self::statusLabelFor($this->status);
     }
 
     public function orderTypeLabel(): string

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
 use App\Models\Branch;
+use App\Models\MenuVariant;
 use App\Models\Order;
 use App\Models\Payment;
 use Illuminate\Http\Request;
@@ -67,10 +68,34 @@ class OrderController extends Controller
 
     public function show(Order $order): View
     {
-        $order->load(['items.variant.menu', 'payments.receiver', 'creator', 'branch']);
+        $order->load([
+            'items.variant.menu',
+            'payments.receiver',
+            'creator',
+            'branch',
+            'editLogs' => fn ($query) => $query->oldest('id')->with('user'),
+        ]);
+
+        $variantIds = $order->editLogs
+            ->flatMap(fn ($log) => [
+                $log->before_data['menu_variant_id'] ?? null,
+                $log->after_data['menu_variant_id'] ?? null,
+            ])
+            ->filter()
+            ->unique()
+            ->all();
+
+        $variantLabels = MenuVariant::query()
+            ->with('menu')
+            ->whereIn('id', $variantIds)
+            ->get()
+            ->mapWithKeys(fn (MenuVariant $variant) => [
+                $variant->id => ($variant->menu?->name ?? 'Menu').' · '.$variant->displayName(),
+            ]);
 
         return view('owner.orders.show', [
             'order' => $order,
+            'variantLabels' => $variantLabels,
         ]);
     }
 }

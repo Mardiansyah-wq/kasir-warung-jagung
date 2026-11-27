@@ -46,13 +46,18 @@ class Payment extends Model
         return $this->belongsTo(User::class, 'received_by');
     }
 
-    public function methodLabel(): string
+    public static function methodLabelFor(string $method): string
     {
-        return match ($this->payment_method) {
+        return match ($method) {
             'cash' => 'Tunai',
             'qris' => 'QRIS',
             'transfer' => 'Transfer',
             default => 'Lainnya',
         };
+    }
+
+    public function methodLabel(): string
+    {
+        return self::methodLabelFor($this->payment_method);
     }
 }
